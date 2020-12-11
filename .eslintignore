@@ -1,0 +1,4 @@
+distribution/build
+node_modules
+test/web-ext-profile
+!.*.js

@@ -1,0 +1,15 @@
+{
+	"extends": [ "plugin:@wordpress/eslint-plugin/recommended" ],
+	"globals": {
+		"browser": true
+	},
+	"overrides": [
+		{
+			"files": [ "webpack.config.js" ],
+			"extends": [ "plugin:@wordpress/eslint-plugin/es5" ],
+			"globals": {
+				"__dirname": true
+			}
+		}
+	]
+}
