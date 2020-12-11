@@ -1,10 +1,14 @@
 # Contributing Guidelines
 
-Welcome to WordPress' Free (as in Freedom) project! We hope you join us in helping folks free their content from CMSes that try to lock them in; all are welcome here.
+Welcome to WordPress' *Free (as in Freedom)* project! We hope you join us in helping folks free their content from CMSes that try to lock them in; all are welcome here.
 
-## How can I contribute?
+## Building and Testing
 
+*Free (as in Freedom)* is built using the current [Node](https://nodejs.org/en/) LTS version, and the latest version of [NPM](https://www.npmjs.com/). The easiest way to install these is with [NVM](https://github.com/nvm-sh/nvm).
 
+Running `npm run watch` will build the extension, and automatically rebuild it when changes are made.
+
+`npm run start:firefox` will open a new Firefox window with a fresh profile, install the extension, and automatically reload it when it rebuilds. `npm run start:chrome` will do the same in Chrome.
 
 ## Guidelines
 
