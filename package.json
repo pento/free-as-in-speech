@@ -33,6 +33,7 @@
 	},
 	"dependencies": {
 		"@wordpress/wxr": "file:packages/wxr",
+		"file-saver": "2.0.5",
 		"webextension-polyfill": "0.7.0"
 	},
 	"devDependencies": {
@@ -81,7 +82,11 @@
 		"run": {
 			"keepProfileChanges": true,
 			"firefoxProfile": "./test/web-ext-profile",
-			"chromiumProfile": "./test/web-ext-profile"
+			"chromiumProfile": "./test/web-ext-profile",
+			"startUrl": [
+				"https://www.wix.com"
+			],
+			"browserConsole": true
 		}
 	}
 }

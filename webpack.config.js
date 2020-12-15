@@ -10,6 +10,7 @@ module.exports = {
 	stats: 'errors-only',
 	entry: {
 		background: './source/background',
+		content: './source/content',
 		'@wordpress/wxr': './packages/wxr',
 	},
 	output: {
