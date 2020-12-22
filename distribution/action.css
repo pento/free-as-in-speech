@@ -5,3 +5,7 @@ body {
 body:not( .generic-site ) #intro-content {
 	display: none;
 }
+
+body:not( .wix-site ) #wix-content {
+	display: none;
+}
