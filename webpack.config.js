@@ -11,6 +11,7 @@ module.exports = {
 	entry: {
 		background: './source/background',
 		content: './source/content',
+		popup: './source/popup',
 		'@wordpress/wxr': './packages/wxr',
 	},
 	output: {

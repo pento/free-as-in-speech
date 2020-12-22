@@ -15,16 +15,16 @@
 		"128": "icon.png"
 	},
 	"permissions": [
-		"pageAction",
+		"activeTab",
+		"browserAction",
 		"https://www.wix.com/*"
 	],
-	"page_action": {
+	"browser_action": {
 		"default_icon": "icon.png",
-		"default_title": "Free your content!",
-		"show_matches": [ "https://www.wix.com/dashboard/*" ]
+		"default_popup": "action.html",
+		"default_title": "Free your content!"
 	},
 	"background": {
-		"persistent": false,
 		"scripts": [
 			"build/browser-polyfill.min.js",
 			"build/background.js"

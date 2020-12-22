@@ -1,10 +1,6 @@
 window.addEventListener( 'message', ( e ) => {
-	switch ( e.data.message ) {
-		case 'intercepted_fetch':
-			// eslint-disable-next-line no-console
-			console.log(
-				'Received blog request data, relaying to the background script.'
-			);
+	switch ( e.data.type ) {
+		case 'save_wix_config':
 			browser.runtime.sendMessage( e.data );
 			break;
 	}
@@ -12,29 +8,34 @@ window.addEventListener( 'message', ( e ) => {
 
 const code = `
 ( () => {
-	const { fetch: originalFetch } = window;
-	let sent = false;
-	window.fetch = async ( ...arguments ) => {
-		if ( ! sent && arguments[0].startsWith( '/_api/communities-blog-node-api/_api/posts' ) ) {
-			console.log( 'Found a blog request, relaying data to the extension.' );
+	let tries = 0;
 
+	const intervalId = setInterval( () => {
+		// If the state didn't become available in the first 500ms, it probably isn't there.
+		// Kill this timer, since it would otherwise be a bit of a performance drag.
+		if ( tries > 100 ) {
+			clearInterval( intervalId );
+			return;
+		}
+
+		tries++;
+
+		if ( window && window.__INITIAL_STATE__ ) {
 			window.postMessage( {
-				message: 'intercepted_fetch',
-				data: {
-					app: 'communities-blog-app',
-					instance: arguments[1].headers.instance,
-				},
+				type: 'save_wix_config',
+				data: window.__INITIAL_STATE__,
 			}, '*' );
 
-			sent = true;
+			clearInterval( intervalId )
 		}
-		const response = await originalFetch( ...arguments );
-
-		return response;
-	};
+	}, 5 );
 } )();
 `;
 
+// Add this script to the DOM, so it's executed in the context of the real page.
 const script = document.createElement( 'script' );
 script.textContent = code;
 document.documentElement.appendChild( script );
+
+// Remove the script from the DOM once we're done with it.
+setTimeout( () => document.documentElement.removeChild( script ), 500 );
