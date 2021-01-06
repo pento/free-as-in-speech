@@ -15,13 +15,10 @@ import { extractors } from './extractors';
 
 /**
  * Loop through all of the defined extractors, and run them over the content.
+ *
+ * @param {Object} config The Wix config data.
  */
-export const startExport = async () => {
-	// Get the config that's stored in the background.js process.
-	const config = await browser.runtime.sendMessage( {
-		type: 'get_wix_config',
-	} );
-
+export const startExport = async ( config ) => {
 	const wxr = new WXR();
 
 	extractors.forEach( async ( extractor ) => {
