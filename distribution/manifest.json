@@ -23,10 +23,6 @@
 		"default_icon": "icon.png",
 		"show_matches": [ "https://www.wix.com/dashboard/*" ]
 	},
-	"options_ui": {
-		"chrome_style": true,
-		"page": "options.html"
-	},
 	"background": {
 		"persistent": false,
 		"scripts": [
