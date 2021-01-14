@@ -1,4 +1,5 @@
 distribution/build
+build-module
 node_modules
 test/web-ext-profile
 !.*.js

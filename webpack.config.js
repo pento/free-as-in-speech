@@ -1,5 +1,7 @@
+/**
+ * External dependencies
+ */
 const path = require( 'path' );
-const SizePlugin = require( 'size-plugin' );
 const CopyWebpackPlugin = require( 'copy-webpack-plugin' );
 const TerserPlugin = require( 'terser-webpack-plugin' );
 
@@ -8,6 +10,7 @@ module.exports = {
 	stats: 'errors-only',
 	entry: {
 		background: './source/background',
+		'@wordpress/wxr': './packages/wxr',
 	},
 	output: {
 		path: path.join( __dirname, 'distribution/build' ),
@@ -23,9 +26,6 @@ module.exports = {
 		],
 	},
 	plugins: [
-		new SizePlugin( {
-			writeFile: false,
-		} ),
 		new CopyWebpackPlugin( {
 			patterns: [
 				{

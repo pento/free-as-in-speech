@@ -1,4 +1,6 @@
-### GNU GENERAL PUBLIC LICENSE
+# License
+
+## GNU GENERAL PUBLIC LICENSE
 
 Version 2, June 1991
 
@@ -268,7 +270,7 @@ the two goals of preserving the free status of all derivatives of our
 free software and of promoting the sharing and reuse of software
 generally.
 
-**NO WARRANTY**
+#### NO WARRANTY
 
 **11.** BECAUSE THE PROGRAM IS LICENSED FREE OF CHARGE, THERE IS NO
 WARRANTY FOR THE PROGRAM, TO THE EXTENT PERMITTED BY APPLICABLE LAW.
