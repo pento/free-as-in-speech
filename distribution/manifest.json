@@ -16,7 +16,6 @@
 	},
 	"permissions": [
 		"activeTab",
-		"browserAction",
 		"https://www.wix.com/*"
 	],
 	"browser_action": {
