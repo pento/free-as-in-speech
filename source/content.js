@@ -1,9 +1,26 @@
+/**
+ * External dependencies
+ */
+import { saveAs } from 'file-saver';
+
 // Listen for the message to save the config.
 window.addEventListener( 'message', ( e ) => {
 	switch ( e.data.type ) {
 		case 'save_wix_config':
 			browser.runtime.sendMessage( e.data );
 			break;
+	}
+} );
+
+// Listen for the message to create the download.
+browser.runtime.onMessage.addListener( ( message ) => {
+	switch ( message.type ) {
+		case 'generate_download':
+			const exportFile = new Blob( [ message.data ], {
+				type: 'text/xml',
+			} );
+
+			saveAs( exportFile, 'wix-export.wxr' );
 	}
 } );
 

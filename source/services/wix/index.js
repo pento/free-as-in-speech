@@ -1,9 +1,4 @@
 /**
- * External dependencies
- */
-import { saveAs } from 'file-saver';
-
-/**
  * WordPress dependencies
  */
 import WXR from '@wordpress/wxr';
@@ -21,10 +16,12 @@ import { extractors } from './extractors';
 export const startExport = async ( config ) => {
 	const wxr = new WXR();
 
-	extractors.forEach( async ( extractor ) => {
-		// Grab the config data for this extractor.
-		const extractorConfig = Object.values( config.embeddedServices ).reduce(
-			( found, appConfig ) => {
+	await Promise.all(
+		extractors.map( async ( extractor ) => {
+			// Grab the config data for this extractor.
+			const extractorConfig = Object.values(
+				config.embeddedServices
+			).reduce( ( found, appConfig ) => {
 				if ( found ) {
 					return found;
 				}
@@ -34,20 +31,15 @@ export const startExport = async ( config ) => {
 				}
 
 				return false;
-			},
-			false
-		);
+			}, false );
 
-		// Run the extractor.
-		const extractedData = await extractor.extract( extractorConfig );
+			// Run the extractor.
+			const extractedData = await extractor.extract( extractorConfig );
 
-		// Convert the extracted data to WXR.
-		await extractor.save( extractedData, wxr );
+			// Convert the extracted data to WXR.
+			await extractor.save( extractedData, wxr );
+		} )
+	);
 
-		const exportFile = new Blob( [ wxr.export() ], {
-			type: 'text/xml',
-		} );
-
-		saveAs( exportFile, 'wix-export.wxr' );
-	} );
+	return wxr.export();
 };

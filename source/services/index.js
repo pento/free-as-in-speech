@@ -8,6 +8,6 @@ import { startExport as startWixExport } from './wix';
  */
 export const startExport = ( service, config ) => {
 	if ( service === 'wix' ) {
-		startWixExport( config );
+		return startWixExport( config );
 	}
 };
