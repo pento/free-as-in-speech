@@ -42,7 +42,7 @@ export const startExport = async ( config ) => {
 		const extractedData = await extractor.extract( extractorConfig );
 
 		// Convert the extracted data to WXR.
-		extractor.save( extractedData, wxr );
+		await extractor.save( extractedData, wxr );
 
 		const exportFile = new Blob( [ wxr.export() ], {
 			type: 'text/xml',

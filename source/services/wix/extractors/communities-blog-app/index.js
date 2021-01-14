@@ -9,15 +9,34 @@ export const settings = {
 	 *
 	 * @param {Object} config The app-specific config extracted from the Wix page.
 	 */
-	extract: ( config ) => {
-		return window
-			.fetch(
-				'https://www.wix.com/_api/communities-blog-node-api/_api/posts?offset=0&size=10&fieldsets=categories,owner,likes,content,subscriptions,tags',
-				{ headers: { instance: config.instance } }
+	extract: async ( config ) => {
+		const statuses = [ 'published', 'unpublished', 'scheduled' ];
+
+		const posts = await Promise.all(
+			statuses.map( ( status ) =>
+				window
+					.fetch(
+						`https://www.wix.com/_api/communities-blog-node-api/_api/posts?offset=0&size=10&fieldsets=categories,owner,likes,content,subscriptions,tags&status=${ status }`,
+						{ headers: { instance: config.instance } }
+					)
+					.then( ( result ) => result.json() )
 			)
-			.then( ( result ) => {
-				return result.json();
-			} );
+		);
+
+		const authors = await window
+			.fetch(
+				'https://www.wix.com/_serverless/assignee-service/assignees',
+				{
+					credentials: 'include',
+					headers: { Authorization: config.instance },
+				}
+			)
+			.then( ( result ) => result.json() );
+
+		return {
+			posts: posts.flat(),
+			authors: authors.assignees,
+		};
 	},
 
 	/**
@@ -26,14 +45,42 @@ export const settings = {
 	 * @param {Object} data The data blob returned by the extract() function.
 	 * @param {Object} wxr The WXR encoder.
 	 */
-	save: ( data, wxr ) => {
-		wxr.addAuthor( {
-			login: 'pento',
-			email: 'gary@pento.net',
-		} );
+	save: async ( data, wxr ) => {
+		const { posts, authors } = data;
+		const addedAuthors = [];
 
-		data.forEach( ( post ) => {
-			const content = post.content.blocks
+		const statusMap = {
+			published: 'publish',
+			unpublished: 'draft',
+			scheduled: 'future',
+		};
+
+		posts.forEach( ( post, postId ) => {
+			const postAuthor = post.owner;
+			// If we haven't already added this author, we need to add them now.
+			if ( ! addedAuthors.includes( postAuthor.siteMemberId ) ) {
+				addedAuthors.push( postAuthor.siteMemberId );
+
+				wxr.addAuthor( {
+					login: postAuthor.slug,
+					display_name: authors.reduce( ( displayName, author ) => {
+						if ( author.userId === postAuthor.siteMemberId ) {
+							return author.displayName;
+						}
+
+						return displayName;
+					}, '' ),
+				} );
+			}
+
+			let postContent;
+			if ( 'unpublished' === post.status ) {
+				postContent = post.draft.content;
+			} else {
+				postContent = post.content;
+			}
+
+			const content = postContent.blocks
 				.map( ( block ) => {
 					switch ( block.type ) {
 						case 'unstyled':
@@ -45,9 +92,16 @@ export const settings = {
 				.join( '\n\n' );
 
 			wxr.addPost( {
+				id: postId,
+				guid: post.id,
+				author: postAuthor.slug,
+				date: post.firstPublishedDate,
 				title: post.title,
-				contentEncoded: content,
-				author: 'pento',
+				content,
+				status: statusMap[ post.status ],
+				sticky: post.isPinned ? 1 : 0,
+				type: 'post',
+				comment_status: post.isCommentsDisabled ? 'closed' : 'open',
 			} );
 		} );
 	},

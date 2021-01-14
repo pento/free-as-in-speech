@@ -21,6 +21,7 @@
 	"main": "build/index.js",
 	"module": "build-module/index.js",
 	"dependencies": {
+		"moment": "2.29.1",
 		"xmlbuilder2": "2.4.0"
 	},
 	"publishConfig": {
