@@ -27,6 +27,7 @@ browser.runtime.onMessage.addListener( ( message ) => {
 const code = `
 ( () => {
 	let tries = 0;
+	let realPostMessage;
 
 	// window.__INITIAL_STATE__ is set when the page is loaded, but is subsequently deleted once
 	// it's been loaded into Wix's redux store. In order to intercept it, we load this script as early
@@ -43,11 +44,21 @@ const code = `
 			return;
 		}
 
+		if ( ! window ) {
+			return;
+		}
+
+		// Grab a copy of window.postMessage as soon as it's available, to ensure we're using
+		// an original version.
+		if ( ! realPostMessage && window.postMessage ) {
+			realPostMessage = window.postMessage;
+		}
+
 		tries++;
 
-		if ( window && window.__INITIAL_STATE__ ) {
+		if ( window.__INITIAL_STATE__ ) {
 			// To communicate back to content.js, use window.postMessage().
-			window.postMessage( {
+			realPostMessage( {
 				type: 'save_wix_config',
 				data: window.__INITIAL_STATE__,
 			}, '*' );
