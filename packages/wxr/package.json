@@ -1,0 +1,29 @@
+{
+	"name": "@wordpress/wxr",
+	"version": "1.0.0",
+	"description": "A package for generating WordPress Export (WXR) files.",
+	"author": "The WordPress Contributors",
+	"license": "GPL-2.0-or-later",
+	"keywords": [
+		"wordpress",
+		"wxr",
+		"export"
+	],
+	"homepage": "https://github.com/pento/free-as-in-speech/",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/pento/free-as-in-speech.git",
+		"directory": "packages/wxr"
+	},
+	"bugs": {
+		"url": "https://github.com/pento/free-as-in-speech/issues"
+	},
+	"main": "build/index.js",
+	"module": "build-module/index.js",
+	"dependencies": {
+		"xmlbuilder2": "2.4.0"
+	},
+	"publishConfig": {
+		"access": "public"
+	}
+}
