@@ -85,12 +85,8 @@ export default class WXR {
 				elements: [ 'language' ],
 			},
 			{
-				key: 'siteUrl',
-				elements: [ 'wp:base_site_url' ],
-			},
-			{
-				key: 'blogUrl',
-				elements: [ 'link', 'wp:base_blog_url' ],
+				key: 'url',
+				elements: [ 'link', 'wp:base_site_url', 'wp:base_blog_url' ],
 			},
 		];
 
