@@ -15,19 +15,28 @@
 		"128": "icon.png"
 	},
 	"permissions": [
-		"pageAction",
-		"storage",
+		"activeTab",
 		"https://www.wix.com/*"
 	],
-	"page_action": {
+	"browser_action": {
 		"default_icon": "icon.png",
-		"show_matches": [ "https://www.wix.com/dashboard/*" ]
+		"default_popup": "action.html",
+		"default_title": "Free your content!"
 	},
 	"background": {
-		"persistent": false,
 		"scripts": [
 			"build/browser-polyfill.min.js",
 			"build/background.js"
 		]
-	}
+	},
+	"content_scripts": [
+		{
+			"matches": [ "https://www.wix.com/dashboard/*" ],
+			"js": [
+				"build/browser-polyfill.min.js",
+				"build/content.js"
+			],
+			"run_at": "document_start"
+		}
+	]
 }

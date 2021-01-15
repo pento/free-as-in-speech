@@ -1,0 +1,15 @@
+body {
+	width: 300px;
+}
+
+body:not(.generic-site) #intro-content {
+	display: none;
+}
+
+body:not(.wix-site) #wix-content {
+	display: none;
+}
+
+body:not(.wix-site-no-config) #wix-no-config {
+	display: none;
+}

@@ -17,30 +17,19 @@
 	"bugs": {
 		"url": "https://github.com/pento/free-as-in-speech/issues"
 	},
-	"xo": {
-		"envs": [
-			"browser"
-		],
-		"globals": [
-			"browser"
-		],
-		"ignores": [
-			"distribution"
-		]
-	},
-	"stylelint": {
-		"extends": "stylelint-config-xo"
-	},
 	"dependencies": {
 		"@wordpress/wxr": "file:packages/wxr",
+		"file-saver": "2.0.5",
 		"webextension-polyfill": "0.7.0"
 	},
 	"devDependencies": {
 		"@babel/core": "7.12.10",
 		"@babel/preset-env": "7.12.11",
 		"@wordpress/eslint-plugin": "7.4.0",
+		"@wordpress/npm-package-json-lint-config": "3.1.0",
 		"@wordpress/prettier-config": "0.4.0",
 		"@wordpress/scripts": "12.6.1",
+		"@wordpress/stylelint-config": "18.0.0",
 		"babel-loader": "8.2.2",
 		"chrome-webstore-upload-cli": "1.2.0",
 		"copy-webpack-plugin": "7.0.0",
@@ -58,11 +47,12 @@
 		"webpack-cli": "4.3.1"
 	},
 	"scripts": {
+		"build": "run-p build:*",
 		"build:packages": "node ./bin/packages/build.js",
 		"build:source": "wp-scripts build",
-		"build": "run-p build:*",
 		"lint": "run-p lint:*",
 		"lint-fix": "run-p 'lint:* -- --fix'",
+		"lint:css": "wp-scripts lint-style **/*.scss **/*.css",
 		"lint:js": "wp-scripts lint-js",
 		"lint:md-js": "wp-scripts lint-md-js",
 		"lint:md-docs": "wp-scripts lint-md-docs",
@@ -81,7 +71,11 @@
 		"run": {
 			"keepProfileChanges": true,
 			"firefoxProfile": "./test/web-ext-profile",
-			"chromiumProfile": "./test/web-ext-profile"
+			"chromiumProfile": "./test/web-ext-profile",
+			"startUrl": [
+				"https://www.wix.com"
+			],
+			"browserConsole": true
 		}
 	}
 }

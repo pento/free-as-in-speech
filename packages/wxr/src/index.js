@@ -1,7 +1,11 @@
 /**
  * External dependencies
  */
+import moment from 'moment';
 import { create } from 'xmlbuilder2';
+
+const DATE_RFC2822 = 'ddd, DD MMM YYYY HH:mm:ss [GMT]';
+const DATE_MYSQL = 'YYYY-MM-DD HH:mm:ss';
 
 /**
  * Main WXR class.
@@ -26,8 +30,9 @@ export default class WXR {
 			} )
 			.ele( 'channel' );
 
-		const now = new Date();
-		this.channel.ele( 'pubDate' ).txt( now.toUTCString() );
+		this.channel
+			.ele( 'pubDate' )
+			.txt( moment.utc().format( DATE_RFC2822 ) );
 		this.channel.ele( 'wp:wxr_version' ).txt( '1.2' );
 	}
 
@@ -80,12 +85,8 @@ export default class WXR {
 				elements: [ 'language' ],
 			},
 			{
-				key: 'siteUrl',
-				elements: [ 'wp:base_site_url' ],
-			},
-			{
-				key: 'blogUrl',
-				elements: [ 'link', 'wp:base_blog_url' ],
+				key: 'url',
+				elements: [ 'link', 'wp:base_site_url', 'wp:base_blog_url' ],
 			},
 		];
 
@@ -97,6 +98,259 @@ export default class WXR {
 				);
 			}
 		} );
+	}
+
+	/**
+	 * Add a category to the export.
+	 *
+	 * @param {Object} category The category object.
+	 */
+	addCategory( category ) {
+		const dataFilters = [
+			{
+				key: 'id',
+				element: 'wp:term_id',
+				filter: ( data ) => parseInt( data ),
+			},
+			{
+				key: 'slug',
+				element: 'wp:category_nicename',
+				cdata: true,
+				filter: ( data ) => data.toString(),
+			},
+			{
+				key: 'parent',
+				element: 'wp:category_parent',
+				cdata: true,
+				filter: ( data ) => data.toString(),
+			},
+			{
+				key: 'name',
+				element: 'wp:cat_name',
+				cdata: true,
+				filter: ( data ) => data.toString(),
+			},
+			{
+				key: 'description',
+				element: 'wp:category_description',
+				cdata: true,
+				filter: ( data ) => data.toString(),
+			},
+		];
+
+		const categoryEl = this.channel.ele( 'wp:category' );
+
+		dataFilters.forEach( ( filter ) => {
+			if ( category.hasOwnProperty( filter.key ) ) {
+				const data = filter.filter( category[ filter.key ] );
+				if ( filter.cdata ) {
+					categoryEl
+						.ele( filter.element, filter.attributes )
+						.dat( data );
+				} else {
+					categoryEl
+						.ele( filter.element, filter.attributes )
+						.txt( data );
+				}
+			}
+		} );
+	}
+
+	/**
+	 * Add a tag to the export.
+	 *
+	 * @param {Object} tag The tag object.
+	 */
+	addTag( tag ) {
+		const dataFilters = [
+			{
+				key: 'id',
+				element: 'wp:term_id',
+				filter: ( data ) => parseInt( data ),
+			},
+			{
+				key: 'slug',
+				element: 'wp:tag_slug',
+				cdata: true,
+				filter: ( data ) => data.toString(),
+			},
+			{
+				key: 'name',
+				element: 'wp:tag_name',
+				cdata: true,
+				filter: ( data ) => data.toString(),
+			},
+			{
+				key: 'description',
+				element: 'wp:tag_description',
+				cdata: true,
+				filter: ( data ) => data.toString(),
+			},
+		];
+
+		const categoryEl = this.channel.ele( 'wp:tag' );
+
+		dataFilters.forEach( ( filter ) => {
+			if ( tag.hasOwnProperty( filter.key ) ) {
+				const data = filter.filter( tag[ filter.key ] );
+				if ( filter.cdata ) {
+					categoryEl
+						.ele( filter.element, filter.attributes )
+						.dat( data );
+				} else {
+					categoryEl
+						.ele( filter.element, filter.attributes )
+						.txt( data );
+				}
+			}
+		} );
+	}
+
+	/**
+	 * Add an author to the export.
+	 *
+	 * @param {Object} author The author object.
+	 */
+	addAuthor( author ) {
+		const keys = [
+			'id',
+			'login',
+			'email',
+			'display_name',
+			'first_name',
+			'last_name',
+		];
+
+		const authorEl = this.channel.ele( 'wp:author' );
+
+		keys.forEach( ( key ) => {
+			if ( author.hasOwnProperty( key ) ) {
+				authorEl.ele( `wp:author_${ key }` ).txt( author[ key ] );
+			}
+		} );
+	}
+
+	/**
+	 * Add a post to the export.
+	 *
+	 * @param {Object} post The post object.
+	 */
+	addPost( post ) {
+		const dataFilters = [
+			{
+				key: 'id',
+				element: 'wp:post_id',
+				filter: ( data ) => parseInt( data ),
+			},
+			{
+				key: 'title',
+				element: 'title',
+				filter: ( data ) => data.toString(),
+			},
+			{
+				key: 'link',
+				element: 'link',
+				filter: ( data ) => data.toString(),
+			},
+			{
+				key: 'date',
+				element: 'pubDate',
+				filter: ( data ) =>
+					moment( data ).isValid()
+						? moment( data ).utc().format( DATE_RFC2822 )
+						: '',
+			},
+			{
+				key: 'author',
+				element: 'dc:creator',
+				cdata: true,
+				filter: ( data ) => data.toString(),
+			},
+			{
+				key: 'guid',
+				element: 'guid',
+				attributes: { isPermaLink: false },
+				filter: ( data ) => data.toString(),
+			},
+			{
+				key: 'content',
+				element: 'content:encoded',
+				cdata: true,
+				filter: ( data ) => data.toString(),
+			},
+			{
+				key: 'excerpt',
+				element: 'excerpt:encoded',
+				cdata: true,
+				filter: ( data ) => data.toString(),
+			},
+			{
+				key: 'date',
+				element: 'wp:post_date',
+				cdata: true,
+				filter: ( data ) =>
+					moment( data ).isValid()
+						? moment( data ).utc().format( DATE_MYSQL )
+						: '',
+			},
+			{
+				key: 'date',
+				element: 'wp:post_date_gmt',
+				cdata: true,
+				filter: ( data ) =>
+					moment( data ).isValid()
+						? moment( data ).utc().format( DATE_MYSQL )
+						: '',
+			},
+			{
+				key: 'status',
+				element: 'wp:status',
+				cdata: true,
+				filter: ( data ) => data.toString(),
+			},
+			{
+				key: 'type',
+				element: 'wp:post_type',
+				cdata: true,
+				filter: ( data ) => data.toString(),
+			},
+			{
+				key: 'sticky',
+				element: 'wp:is_sticky',
+				filter: ( data ) => parseInt( data ),
+			},
+			{
+				key: 'comment_status',
+				element: 'wp:comment_status',
+				cdata: true,
+				filter: ( data ) => data.toString(),
+			},
+		];
+
+		const postEl = this.channel.ele( 'item' );
+
+		dataFilters.forEach( ( filter ) => {
+			if ( post.hasOwnProperty( filter.key ) ) {
+				const data = filter.filter( post[ filter.key ] );
+				if ( filter.cdata ) {
+					postEl.ele( filter.element, filter.attributes ).dat( data );
+				} else {
+					postEl.ele( filter.element, filter.attributes ).txt( data );
+				}
+			}
+		} );
+
+		// Handle terms.
+		if ( Array.isArray( post.terms ) ) {
+			post.terms.forEach( ( term ) =>
+				postEl
+					.ele( 'category', {
+						domain: term.type,
+						nicename: term.slug,
+					} )
+					.dat( term.name )
+			);
+		}
 	}
 
 	/**
