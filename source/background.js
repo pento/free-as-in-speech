@@ -24,7 +24,11 @@ browser.runtime.onMessage.addListener( async ( message, sender ) => {
 			wixConfig = message.data;
 			wixTabId = sender.tab.id;
 			break;
+		case 'get_wix_config':
+			// Return the config data requested by other parts of the extension.
+			return new Promise( ( resolve ) => resolve( wixConfig ) );
 		case 'start_wix_export':
+			// Start the export.
 			const exportData = await startExport( 'wix', wixConfig );
 
 			browser.tabs.sendMessage( wixTabId, {
