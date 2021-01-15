@@ -16,7 +16,7 @@ export const settings = {
 			statuses.map( ( status ) =>
 				window
 					.fetch(
-						`https://www.wix.com/_api/communities-blog-node-api/_api/posts?offset=0&size=10&fieldsets=categories,owner,likes,content,subscriptions,tags&status=${ status }`,
+						`https://www.wix.com/_api/communities-blog-node-api/_api/posts?offset=0&size=500&fieldsets=categories,owner,likes,content,subscriptions,tags&status=${ status }`,
 						{ headers: { instance: config.instance } }
 					)
 					.then( ( result ) => result.json() )
@@ -33,9 +33,36 @@ export const settings = {
 			)
 			.then( ( result ) => result.json() );
 
+		const categories = await window
+			.fetch(
+				'https://www.wix.com/_api/communities-blog-node-api/_api/categories?offset=0&size=500',
+				{ headers: { instance: config.instance } }
+			)
+			.then( ( result ) => result.json() );
+
+		const tagsQuery = {
+			paging: {
+				offset: 0,
+				limit: 500,
+			},
+		};
+
+		const tags = await window
+			.fetch(
+				'https://www.wix.com/_api/communities-blog-node-api/v2/tags/query',
+				{
+					method: 'POST',
+					headers: { instance: config.instance },
+					body: JSON.stringify( tagsQuery ),
+				}
+			)
+			.then( ( result ) => result.json() );
+
 		return {
 			posts: posts.flat(),
 			authors: authors.assignees,
+			categories,
+			tags: tags.tags,
 		};
 	},
 
@@ -46,7 +73,7 @@ export const settings = {
 	 * @param {Object} wxr The WXR encoder.
 	 */
 	save: async ( data, wxr ) => {
-		const { posts, authors } = data;
+		const { categories, tags, posts, authors } = data;
 		const addedAuthors = [];
 
 		const statusMap = {
@@ -54,6 +81,29 @@ export const settings = {
 			unpublished: 'draft',
 			scheduled: 'future',
 		};
+
+		console.log( 'lol' );
+		console.log( categories );
+
+		categories.forEach( ( category ) => {
+			const categoryData = {
+				slug: category.slug,
+				name: category.menuLabel,
+			};
+			if ( category.description ) {
+				categoryData.description = category.description;
+			}
+			wxr.addCategory( categoryData );
+		} );
+		console.log( 'wat' );
+
+		tags.forEach( ( tag ) =>
+			wxr.addTag( {
+				slug: tag.slug,
+				name: tag.label,
+			} )
+		);
+		console.log( 'cat' );
 
 		posts.forEach( ( post, postId ) => {
 			const postAuthor = post.owner;
@@ -72,6 +122,22 @@ export const settings = {
 					}, '' ),
 				} );
 			}
+
+			console.log( `butts ${ postId } 1` );
+
+			const postCategories = post.categories.map( ( postCategory ) => ( {
+				type: 'category',
+				slug: postCategory.slug,
+				name: postCategory.menuLabel,
+			} ) );
+			console.log( `butts ${ postId } 2` );
+
+			const postTags = post.tags.map( ( postTag ) => ( {
+				type: 'tag',
+				slug: postTag.slug,
+				name: postTag.label,
+			} ) );
+			console.log( `butts ${ postId } 3` );
 
 			let postContent;
 			if ( 'unpublished' === post.status ) {
@@ -102,6 +168,7 @@ export const settings = {
 				sticky: post.isPinned ? 1 : 0,
 				type: 'post',
 				comment_status: post.isCommentsDisabled ? 'closed' : 'open',
+				terms: [ ...postCategories, ...postTags ],
 			} );
 		} );
 	},

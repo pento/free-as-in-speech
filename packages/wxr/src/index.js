@@ -101,6 +101,114 @@ export default class WXR {
 	}
 
 	/**
+	 * Add a category to the export.
+	 *
+	 * @param {Object} category The category object.
+	 */
+	addCategory( category ) {
+		const dataFilters = [
+			{
+				key: 'id',
+				element: 'wp:term_id',
+				filter: ( data ) => parseInt( data ),
+			},
+			{
+				key: 'slug',
+				element: 'wp:category_nicename',
+				cdata: true,
+				filter: ( data ) => data.toString(),
+			},
+			{
+				key: 'parent',
+				element: 'wp:category_parent',
+				cdata: true,
+				filter: ( data ) => data.toString(),
+			},
+			{
+				key: 'name',
+				element: 'wp:cat_name',
+				cdata: true,
+				filter: ( data ) => data.toString(),
+			},
+			{
+				key: 'description',
+				element: 'wp:category_description',
+				cdata: true,
+				filter: ( data ) => data.toString(),
+			},
+		];
+
+		console.log( category );
+
+		const categoryEl = this.channel.ele( 'wp:category' );
+
+		dataFilters.forEach( ( filter ) => {
+			if ( category.hasOwnProperty( filter.key ) ) {
+				const data = filter.filter( category[ filter.key ] );
+				if ( filter.cdata ) {
+					categoryEl
+						.ele( filter.element, filter.attributes )
+						.dat( data );
+				} else {
+					categoryEl
+						.ele( filter.element, filter.attributes )
+						.txt( data );
+				}
+			}
+		} );
+	}
+
+	/**
+	 * Add a tag to the export.
+	 *
+	 * @param {Object} tag The tag object.
+	 */
+	addTag( tag ) {
+		const dataFilters = [
+			{
+				key: 'id',
+				element: 'wp:term_id',
+				filter: ( data ) => parseInt( data ),
+			},
+			{
+				key: 'slug',
+				element: 'wp:tag_slug',
+				cdata: true,
+				filter: ( data ) => data.toString(),
+			},
+			{
+				key: 'name',
+				element: 'wp:tag_name',
+				cdata: true,
+				filter: ( data ) => data.toString(),
+			},
+			{
+				key: 'description',
+				element: 'wp:tag_description',
+				cdata: true,
+				filter: ( data ) => data.toString(),
+			},
+		];
+
+		const categoryEl = this.channel.ele( 'wp:tag' );
+
+		dataFilters.forEach( ( filter ) => {
+			if ( tag.hasOwnProperty( filter.key ) ) {
+				const data = filter.filter( tag[ filter.key ] );
+				if ( filter.cdata ) {
+					categoryEl
+						.ele( filter.element, filter.attributes )
+						.dat( data );
+				} else {
+					categoryEl
+						.ele( filter.element, filter.attributes )
+						.txt( data );
+				}
+			}
+		} );
+	}
+
+	/**
 	 * Add an author to the export.
 	 *
 	 * @param {Object} author The author object.
@@ -233,6 +341,18 @@ export default class WXR {
 				}
 			}
 		} );
+
+		// Handle terms.
+		if ( Array.isArray( post.terms ) ) {
+			post.terms.forEach( ( term ) =>
+				postEl
+					.ele( 'category', {
+						domain: term.type,
+						nicename: term.slug,
+					} )
+					.dat( term.name )
+			);
+		}
 	}
 
 	/**
