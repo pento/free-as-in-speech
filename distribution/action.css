@@ -9,6 +9,7 @@ body:not(.generic-site) #intro-content {
 body:not(.wix-site) #wix-content {
 	display: none;
 }
+
 body:not(.wix-site-no-config) #wix-no-config {
 	display: none;
 }
