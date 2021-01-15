@@ -2,10 +2,10 @@ body {
 	width: 300px;
 }
 
-body:not( .generic-site ) #intro-content {
+body:not(.generic-site) #intro-content {
 	display: none;
 }
 
-body:not( .wix-site ) #wix-content {
+body:not(.wix-site) #wix-content {
 	display: none;
 }
