@@ -12,7 +12,7 @@ export const settings = {
 	extract: async ( config ) => {
 		const statuses = [ 'published', 'unpublished', 'scheduled' ];
 
-		const posts = await Promise.all(
+		const postsPromise = Promise.all(
 			statuses.map( ( status ) =>
 				window
 					.fetch(
@@ -23,7 +23,7 @@ export const settings = {
 			)
 		);
 
-		const authors = await window
+		const authorsPromise = window
 			.fetch(
 				'https://www.wix.com/_serverless/assignee-service/assignees',
 				{
@@ -33,7 +33,7 @@ export const settings = {
 			)
 			.then( ( result ) => result.json() );
 
-		const categories = await window
+		const categoriesPromise = window
 			.fetch(
 				'https://www.wix.com/_api/communities-blog-node-api/_api/categories?offset=0&size=500',
 				{ headers: { instance: config.instance } }
@@ -47,7 +47,7 @@ export const settings = {
 			},
 		};
 
-		const tags = await window
+		const tagsPromise = window
 			.fetch(
 				'https://www.wix.com/_api/communities-blog-node-api/v2/tags/query',
 				{
@@ -57,6 +57,13 @@ export const settings = {
 				}
 			)
 			.then( ( result ) => result.json() );
+
+		const [ posts, authors, categories, tags ] = await Promise.all( [
+			postsPromise,
+			authorsPromise,
+			categoriesPromise,
+			tagsPromise,
+		] );
 
 		return {
 			posts: posts.flat(),
