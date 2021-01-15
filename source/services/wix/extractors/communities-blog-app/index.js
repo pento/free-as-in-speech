@@ -82,9 +82,6 @@ export const settings = {
 			scheduled: 'future',
 		};
 
-		console.log( 'lol' );
-		console.log( categories );
-
 		categories.forEach( ( category ) => {
 			const categoryData = {
 				slug: category.slug,
@@ -95,7 +92,6 @@ export const settings = {
 			}
 			wxr.addCategory( categoryData );
 		} );
-		console.log( 'wat' );
 
 		tags.forEach( ( tag ) =>
 			wxr.addTag( {
@@ -103,7 +99,6 @@ export const settings = {
 				name: tag.label,
 			} )
 		);
-		console.log( 'cat' );
 
 		posts.forEach( ( post, postId ) => {
 			const postAuthor = post.owner;
@@ -123,21 +118,17 @@ export const settings = {
 				} );
 			}
 
-			console.log( `butts ${ postId } 1` );
-
 			const postCategories = post.categories.map( ( postCategory ) => ( {
 				type: 'category',
 				slug: postCategory.slug,
 				name: postCategory.menuLabel,
 			} ) );
-			console.log( `butts ${ postId } 2` );
 
 			const postTags = post.tags.map( ( postTag ) => ( {
 				type: 'tag',
 				slug: postTag.slug,
 				name: postTag.label,
 			} ) );
-			console.log( `butts ${ postId } 3` );
 
 			let postContent;
 			if ( 'unpublished' === post.status ) {

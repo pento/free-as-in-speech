@@ -138,8 +138,6 @@ export default class WXR {
 			},
 		];
 
-		console.log( category );
-
 		const categoryEl = this.channel.ele( 'wp:category' );
 
 		dataFilters.forEach( ( filter ) => {
