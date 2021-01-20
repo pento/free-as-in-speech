@@ -6,7 +6,7 @@ browser.tabs
 	.then( async ( tabs ) => {
 		const currentTabUrl = tabs[ 0 ].url;
 
-		if ( currentTabUrl.startsWith( 'https://www.wix.com/dashboard/' ) ) {
+		if ( currentTabUrl.startsWith( 'https://manage.wix.com/dashboard/' ) ) {
 			// Get the config that's stored in the background.js process.
 			const config = await browser.runtime.sendMessage( {
 				type: 'get_wix_config',
