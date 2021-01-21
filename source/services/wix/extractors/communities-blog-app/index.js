@@ -1,3 +1,8 @@
+/**
+ * Local dependencies
+ */
+import { serializeWixBlocksToWordPressBlocks } from './block-mapping';
+
 export const settings = {
 	/**
 	 * The Wix application ID.
@@ -10,7 +15,8 @@ export const settings = {
 	 * @param {Object} config The app-specific config extracted from the Wix page.
 	 */
 	extract: async ( config ) => {
-		const statuses = [ 'published', 'unpublished', 'scheduled' ];
+		const statuses = [ 'unpublished' ];
+		// const statuses = [ 'published', 'unpublished', 'scheduled' ];
 
 		const postsPromise = Promise.all(
 			statuses.map( ( status ) =>
@@ -144,24 +150,15 @@ export const settings = {
 				postContent = post.content;
 			}
 
-			const content = postContent.blocks
-				.map( ( block ) => {
-					switch ( block.type ) {
-						case 'unstyled':
-							return `<p>${ block.text }</p>`;
-					}
-					return false;
-				} )
-				.filter( ( blockContent ) => blockContent !== false )
-				.join( '\n\n' );
-
 			wxr.addPost( {
 				id: postId,
 				guid: post.id,
 				author: postAuthor.slug,
 				date: post.firstPublishedDate,
 				title: post.title,
-				content,
+				content: serializeWixBlocksToWordPressBlocks(
+					postContent.blocks
+				),
 				status: statusMap[ post.status ],
 				sticky: post.isPinned ? 1 : 0,
 				type: 'post',

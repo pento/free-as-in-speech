@@ -18,6 +18,9 @@
 		"url": "https://github.com/pento/free-as-in-speech/issues"
 	},
 	"dependencies": {
+		"@wordpress/block-library": "2.27.2",
+		"@wordpress/blocks": "6.25.2",
+		"@wordpress/rich-text": "3.24.2",
 		"@wordpress/wxr": "file:packages/wxr",
 		"file-saver": "2.0.5",
 		"webextension-polyfill": "0.7.0"

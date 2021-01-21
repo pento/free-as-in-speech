@@ -20,6 +20,9 @@ browser.runtime.onMessage.addListener( ( message ) => {
 				type: 'text/xml',
 			} );
 
+			// eslint-disable-next-line no-console
+			console.log( message.data );
+
 			saveAs( exportFile, 'wix-export.wxr' );
 	}
 } );
