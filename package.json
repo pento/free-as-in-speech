@@ -20,6 +20,7 @@
 	"dependencies": {
 		"@wordpress/block-library": "2.27.2",
 		"@wordpress/blocks": "6.25.2",
+		"@wordpress/format-library": "1.26.2",
 		"@wordpress/rich-text": "3.24.2",
 		"@wordpress/wxr": "file:packages/wxr",
 		"file-saver": "2.0.5",

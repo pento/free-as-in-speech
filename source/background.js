@@ -2,6 +2,7 @@
  * WordPress dependencies
  */
 import { registerCoreBlocks } from '@wordpress/block-library';
+import '@wordpress/format-library';
 
 /**
  * Internal dependencies
