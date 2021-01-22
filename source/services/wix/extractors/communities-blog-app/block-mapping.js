@@ -101,6 +101,28 @@ const blockMap = {
 			align: block.data.textAlignment,
 		} );
 	},
+	'ordered-list-item': ( blocks, entityMap ) => {
+		return createBlock( 'core/list', {
+			ordered: true,
+			values: blocks
+				.map(
+					( block ) =>
+						'<li>' + formatText( block, entityMap ) + '</li>'
+				)
+				.join( '' ),
+		} );
+	},
+	'unordered-list-item': ( blocks, entityMap ) => {
+		return createBlock( 'core/list', {
+			ordered: false,
+			values: blocks
+				.map(
+					( block ) =>
+						'<li>' + formatText( block, entityMap ) + '</li>'
+				)
+				.join( '' ),
+		} );
+	},
 	unstyled: ( block, entityMap ) => {
 		// Don't transform empty lines into paragraphs.
 		if ( ! block.text.trim() ) {
@@ -222,8 +244,45 @@ const formatText = ( block, entityMap ) => {
  * @return {string} The serialized WordPress blocks.
  */
 export const serializeWixBlocksToWordPressBlocks = ( wixContent ) => {
+	let listType = '';
+	const listBuffer = [];
+
 	return wixContent.blocks
-		.map( ( wixBlock ) => {
+		.map( ( wixBlock, blockIndex ) => {
+			// Wix stores each list item as an individual block, we need to merge them together.
+			// Store list blocks in the listBuffer until we're at the last item in the current list,
+			// then send that as a single "block".
+			if (
+				[ 'unordered-list-item', 'ordered-list-item' ].includes(
+					wixBlock.type
+				)
+			) {
+				if ( ! listType ) {
+					listType = wixBlock.type;
+				}
+				listBuffer.push( wixBlock );
+
+				if (
+					wixContent.blocks[ blockIndex + 1 ] &&
+					wixContent.blocks[ blockIndex + 1 ].type === listType
+				) {
+					// The next block is part of the list, so move on to that one.
+					return false;
+				}
+
+				// We're at the last list item, process the list now.
+				const wpBlock = blockMap[ listType ](
+					listBuffer,
+					wixContent.entityMap
+				);
+
+				// Clean up the buffer.
+				listType = '';
+				listBuffer.splice( 0 );
+
+				return wpBlock;
+			}
+
 			if ( blockMap[ wixBlock.type ] ) {
 				return blockMap[ wixBlock.type ](
 					wixBlock,
