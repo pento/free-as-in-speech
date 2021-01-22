@@ -33,6 +33,21 @@ const blockMap = {
 				}
 
 				return createBlock( 'core/image', imageAttributes );
+
+			case 'wix-draft-plugin-video':
+				// Uploaded videos should be treated as video blocks.
+				if ( entity.data.isCustomVideo ) {
+					return createBlock( 'core/video', {
+						src: `https://video.wixstatic.com/${ entity.data.src.pathname }`,
+						poster: `https://static.wixstatic.com/${ entity.data.src.thumbnail.pathname }`,
+					} );
+				}
+
+				// All other videos are some form of embed.
+				return createBlock( 'core/embed', {
+					url: entity.data.src,
+					align: entity.data.config.alignment,
+				} );
 		}
 
 		// eslint-disable-next-line no-console
