@@ -48,6 +48,20 @@ const blockMap = {
 					url: entity.data.src,
 					align: entity.data.config.alignment,
 				} );
+
+			case 'wix-draft-plugin-gallery':
+				const gallerySettings = {};
+
+				gallerySettings.images = entity.data.items.map( ( img ) => ( {
+					url: `https://static.wixstatic.com/media/${ img.url }`,
+				} ) );
+
+				if ( entity.data.styles.numberOfImagesPerRow > 0 ) {
+					gallerySettings.columns =
+						entity.data.styles.numberOfImagesPerRow;
+				}
+
+				return createBlock( 'core/gallery', gallerySettings );
 		}
 
 		// eslint-disable-next-line no-console
@@ -61,7 +75,7 @@ const blockMap = {
 	},
 	blockquote: ( block, entityMap ) => {
 		return createBlock( 'core/quote', {
-			value: formatText( block, entityMap ),
+			value: '<p>' + formatText( block, entityMap ) + '</p>',
 			align: block.data.textAlignment,
 		} );
 	},
