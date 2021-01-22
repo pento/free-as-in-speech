@@ -62,7 +62,8 @@
 		"release:firefox": "cd distribution && web-ext-submit",
 		"start:chrome": "web-ext run --target=chromium",
 		"start:firefox": "web-ext run",
-		"test": "run-s lint:* build",
+		"pretest": "npm run build:packages",
+		"test": "run-s lint build",
 		"watch:packages": "node ./bin/packages/watch.js",
 		"watch:source": "wp-scripts start",
 		"watch": "npm-run-all build:packages --parallel watch:*"
