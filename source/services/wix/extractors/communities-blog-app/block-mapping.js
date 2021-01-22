@@ -9,12 +9,12 @@ import { applyFormat, create, toHTMLString } from '@wordpress/rich-text';
  *
  * The key is the Wix block type.
  *
- * The value is a function that takes the block object, and a copy of the post's
- * entityMap. The function returns a WordPress block.
+ * The value is a function that takes the block object, and returns an
+ * equivalent WordPress block.
  */
 const blockMap = {
-	atomic: ( block, entityMap ) => {
-		if ( ! block.entityRanges ) {
+	atomic: ( block, { entityMap, ownerSiteMemberId } ) => {
+		if ( block.entityRanges.length === 0 ) {
 			// eslint-disable-next-line no-console
 			console.log( 'Entity block with no entity range', block );
 			return false;
@@ -70,60 +70,66 @@ const blockMap = {
 				}
 
 				return createBlock( 'core/gallery', gallerySettings );
+
+			case 'wix-draft-plugin-file-upload':
+				return createBlock( 'core/file', {
+					href: `https://${ ownerSiteMemberId }.usrfiles.com/ugd/${ entity.data.path }`,
+					fileName: entity.data.name,
+				} );
 		}
 
 		// eslint-disable-next-line no-console
 		console.log( 'Unknown atomic entity type', entity );
 		return false;
 	},
-	'code-block': ( block, entityMap ) => {
+	'code-block': ( block, { entityMap } ) => {
 		return createBlock( 'core/code', {
 			content: formatText( block, entityMap ),
 		} );
 	},
-	blockquote: ( block, entityMap ) => {
+	blockquote: ( block, { entityMap } ) => {
 		return createBlock( 'core/quote', {
 			value: '<p>' + formatText( block, entityMap ) + '</p>',
 			align: block.data.textAlignment,
 		} );
 	},
-	'header-two': ( block, entityMap ) => {
+	'header-two': ( block, { entityMap } ) => {
 		return createBlock( 'core/heading', {
 			content: formatText( block, entityMap ),
 			level: 2,
 			align: block.data.textAlignment,
 		} );
 	},
-	'header-three': ( block, entityMap ) => {
+	'header-three': ( block, { entityMap } ) => {
 		return createBlock( 'core/heading', {
 			content: formatText( block, entityMap ),
 			level: 3,
 			align: block.data.textAlignment,
 		} );
 	},
-	'ordered-list-item': ( blocks, entityMap ) => {
+	'ordered-list-item': ( blocks, { entityMap } ) => {
 		return createBlock( 'core/list', {
 			ordered: true,
 			values: blocks
 				.map(
 					( block ) =>
-						'<li>' + formatText( block, entityMap ) + '</li>'
+						'<li>' + formatText( block, { entityMap } ) + '</li>'
 				)
 				.join( '' ),
 		} );
 	},
-	'unordered-list-item': ( blocks, entityMap ) => {
+	'unordered-list-item': ( blocks, { entityMap } ) => {
 		return createBlock( 'core/list', {
 			ordered: false,
 			values: blocks
 				.map(
 					( block ) =>
-						'<li>' + formatText( block, entityMap ) + '</li>'
+						'<li>' + formatText( block, { entityMap } ) + '</li>'
 				)
 				.join( '' ),
 		} );
 	},
-	unstyled: ( block, entityMap ) => {
+	unstyled: ( block, { entityMap } ) => {
 		// Don't transform empty lines into paragraphs.
 		if ( ! block.text.trim() ) {
 			return false;
@@ -146,7 +152,7 @@ const blockMap = {
  * @return {string} A HTML string generated from the block text.
  */
 const formatText = ( block, entityMap ) => {
-	if ( ! block.inlineStyleRanges ) {
+	if ( block.inlineStyleRanges.length === 0 ) {
 		return block.text;
 	}
 
@@ -237,17 +243,18 @@ const formatText = ( block, entityMap ) => {
 };
 
 /**
- * Given a Wix content object, convert it to a serialized form of WordPress blocks.
+ * Given a list of Wix blocks, convert them to a serialized form of WordPress blocks.
  *
- * @param {Object} wixContent The Wix content object.
+ * @param {Object} wixBlocks The Wix blocks.
+ * @param {Object} data      Additional post data.
  *
  * @return {string} The serialized WordPress blocks.
  */
-export const serializeWixBlocksToWordPressBlocks = ( wixContent ) => {
+export const serializeWixBlocksToWordPressBlocks = ( wixBlocks, data ) => {
 	let listType = '';
 	const listBuffer = [];
 
-	return wixContent.blocks
+	return wixBlocks
 		.map( ( wixBlock, blockIndex ) => {
 			// Wix stores each list item as an individual block, we need to merge them together.
 			// Store list blocks in the listBuffer until we're at the last item in the current list,
@@ -263,18 +270,15 @@ export const serializeWixBlocksToWordPressBlocks = ( wixContent ) => {
 				listBuffer.push( wixBlock );
 
 				if (
-					wixContent.blocks[ blockIndex + 1 ] &&
-					wixContent.blocks[ blockIndex + 1 ].type === listType
+					wixBlocks[ blockIndex + 1 ] &&
+					wixBlocks[ blockIndex + 1 ].type === listType
 				) {
 					// The next block is part of the list, so move on to that one.
 					return false;
 				}
 
 				// We're at the last list item, process the list now.
-				const wpBlock = blockMap[ listType ](
-					listBuffer,
-					wixContent.entityMap
-				);
+				const wpBlock = blockMap[ listType ]( listBuffer, data );
 
 				// Clean up the buffer.
 				listType = '';
@@ -284,16 +288,13 @@ export const serializeWixBlocksToWordPressBlocks = ( wixContent ) => {
 			}
 
 			if ( blockMap[ wixBlock.type ] ) {
-				return blockMap[ wixBlock.type ](
-					wixBlock,
-					wixContent.entityMap
-				);
+				return blockMap[ wixBlock.type ]( wixBlock, data );
 			}
 
 			// eslint-disable-next-line no-console
 			console.log( 'Unknown Wix block', {
 				block: wixBlock,
-				entityMap: wixContent.entityMap,
+				data,
 			} );
 			return false;
 		} )
