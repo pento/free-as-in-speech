@@ -5,6 +5,40 @@ import { createBlock, serialize } from '@wordpress/blocks';
 import { applyFormat, create, toHTMLString } from '@wordpress/rich-text';
 
 const blockMap = {
+	atomic: ( block, entityMap ) => {
+		if ( ! block.entityRanges ) {
+			// eslint-disable-next-line no-console
+			console.log( 'Entity block with no entity range', block );
+			return false;
+		}
+
+		const entity = entityMap[ block.entityRanges[ 0 ].key ];
+
+		switch ( entity.type.toLowerCase() ) {
+			case 'wix-draft-plugin-image':
+				const imageAttributes = {
+					url: `https://static.wixstatic.com/media/${ entity.data.src.file_name }`,
+					align: entity.data.config.alignment,
+				};
+
+				if ( entity.data.metadata ) {
+					imageAttributes.alt = entity.data.metadata.alt;
+					imageAttributes.caption = entity.data.metadata.caption;
+				}
+
+				if ( entity.data.link ) {
+					imageAttributes.href = entity.data.link.url;
+					imageAttributes.linkTarget = entity.data.link.target;
+					imageAttributes.rel = entity.data.link.rel;
+				}
+
+				return createBlock( 'core/image', imageAttributes );
+		}
+
+		// eslint-disable-next-line no-console
+		console.log( 'Unknown atomic entity type', entity );
+		return false;
+	},
 	'code-block': ( block, entityMap ) => {
 		return createBlock( 'core/code', {
 			content: formatText( block, entityMap ),
@@ -32,7 +66,7 @@ const blockMap = {
 	},
 	unstyled: ( block, entityMap ) => {
 		// Don't transform empty lines into paragraphs.
-		if ( ! block.text || block.text === '<br>' ) {
+		if ( ! block.text.trim() ) {
 			return false;
 		}
 
@@ -145,7 +179,10 @@ export const serializeWixBlocksToWordPressBlocks = ( wixContent ) => {
 			}
 
 			// eslint-disable-next-line no-console
-			console.log( 'Unknown Wix block', wixBlock );
+			console.log( 'Unknown Wix block', {
+				block: wixBlock,
+				entityMap: wixContent.entityMap,
+			} );
 			return false;
 		} )
 		.filter( ( blockContent ) => blockContent !== false )
