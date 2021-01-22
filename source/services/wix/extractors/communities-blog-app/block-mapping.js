@@ -5,6 +5,20 @@ import { createBlock, serialize } from '@wordpress/blocks';
 import { applyFormat, create, toHTMLString } from '@wordpress/rich-text';
 
 const blockMap = {
+	'header-two': ( block, entityMap ) => {
+		return createBlock( 'core/heading', {
+			content: formatText( block, entityMap ),
+			level: 2,
+			align: block.data.textAlignment,
+		} );
+	},
+	'header-three': ( block, entityMap ) => {
+		return createBlock( 'core/heading', {
+			content: formatText( block, entityMap ),
+			level: 3,
+			align: block.data.textAlignment,
+		} );
+	},
 	unstyled: ( block, entityMap ) => {
 		// Don't transform empty lines into paragraphs.
 		if ( ! block.text || block.text === '<br>' ) {
