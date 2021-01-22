@@ -5,6 +5,11 @@ import { createBlock, serialize } from '@wordpress/blocks';
 import { applyFormat, create, toHTMLString } from '@wordpress/rich-text';
 
 const blockMap = {
+	'code-block': ( block, entityMap ) => {
+		return createBlock( 'core/code', {
+			content: formatText( block, entityMap ),
+		} );
+	},
 	blockquote: ( block, entityMap ) => {
 		return createBlock( 'core/quote', {
 			value: formatText( block, entityMap ),
