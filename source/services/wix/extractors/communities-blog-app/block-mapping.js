@@ -152,7 +152,10 @@ const blockMap = {
  * @return {string} A HTML string generated from the block text.
  */
 const formatText = ( block, entityMap ) => {
-	if ( block.inlineStyleRanges.length === 0 ) {
+	if (
+		block.inlineStyleRanges.length === 0 &&
+		block.entityRanges.length === 0
+	) {
 		return block.text;
 	}
 
