@@ -5,27 +5,28 @@ import { createBlock, serialize } from '@wordpress/blocks';
 import { applyFormat, create, toHTMLString } from '@wordpress/rich-text';
 
 const blockMap = {
-	unstyled: ( block ) => {
+	unstyled: ( block, entityMap ) => {
 		// Don't transform empty lines into paragraphs.
 		if ( ! block.text || block.text === '<br>' ) {
 			return false;
 		}
 
 		return createBlock( 'core/paragraph', {
-			content: formatText( block ),
+			content: formatText( block, entityMap ),
 			align: block.data.textAlignment,
 		} );
 	},
 };
 
-const formatText = ( block ) => {
+const formatText = ( block, entityMap ) => {
 	if ( ! block.inlineStyleRanges ) {
 		return block.text;
 	}
 
 	const formatMap = {
-		bold: { type: 'strong' },
-		italic: { type: 'em' },
+		bold: { type: 'core/bold' },
+		italic: { type: 'core/italic' },
+		underline: { type: 'core/underline' },
 	};
 
 	const richText = block.inlineStyleRanges.reduce( ( workingText, style ) => {
@@ -37,6 +38,36 @@ const formatText = ( block ) => {
 			return workingText;
 		}
 
+		if ( styleName === 'underline' ) {
+			// Underline can be unnecessary applied to link text, check if the range
+			// of this style matches a link.
+
+			const matchedLink = block.entityRanges.reduce(
+				( matched, entityRange ) => {
+					if ( matched ) {
+						return matched;
+					}
+
+					if (
+						entityRange.offset !== style.offset ||
+						entityRange.length !== style.length
+					) {
+						return false;
+					}
+
+					return (
+						entityMap[ entityRange.key ].type.toLowerCase() ===
+						'link'
+					);
+				},
+				false
+			);
+
+			if ( matchedLink ) {
+				return workingText;
+			}
+		}
+
 		return applyFormat(
 			workingText,
 			formatMap[ styleName ],
@@ -45,14 +76,47 @@ const formatText = ( block ) => {
 		);
 	}, create( { text: block.text } ) );
 
-	return toHTMLString( { value: richText } );
+	const entitisedText = block.entityRanges.reduce(
+		( workingText, entityRange ) => {
+			const entity = entityMap[ entityRange.key ];
+
+			if ( entity.type.toLowerCase() === 'link' ) {
+				const linkFormat = {
+					type: 'core/link',
+					attributes: { url: entity.data.url },
+				};
+
+				if ( entity.data.target === '_blank' ) {
+					linkFormat.attributes.target = '_blank';
+					linkFormat.attributes.rel = 'noreferrer noopener';
+				}
+
+				return applyFormat(
+					workingText,
+					linkFormat,
+					entityRange.offset,
+					entityRange.offset + entityRange.length
+				);
+			}
+
+			// eslint-disable-next-line no-console
+			console.log( 'Unknown text entity type', entity );
+			return workingText;
+		},
+		richText
+	);
+
+	return toHTMLString( { value: entitisedText } );
 };
 
-export const serializeWixBlocksToWordPressBlocks = ( wixBlocks ) => {
-	return wixBlocks
+export const serializeWixBlocksToWordPressBlocks = ( wixContent ) => {
+	return wixContent.blocks
 		.map( ( wixBlock ) => {
 			if ( blockMap[ wixBlock.type ] ) {
-				return blockMap[ wixBlock.type ]( wixBlock );
+				return blockMap[ wixBlock.type ](
+					wixBlock,
+					wixContent.entityMap
+				);
 			}
 
 			// eslint-disable-next-line no-console

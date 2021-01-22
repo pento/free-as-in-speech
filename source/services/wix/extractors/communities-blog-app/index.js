@@ -161,9 +161,7 @@ export const settings = {
 				author: postAuthor.slug,
 				date: post.firstPublishedDate,
 				title: post.title,
-				content: serializeWixBlocksToWordPressBlocks(
-					postContent.blocks
-				),
+				content: serializeWixBlocksToWordPressBlocks( postContent ),
 				status: statusMap[ post.status ],
 				sticky: post.isPinned ? 1 : 0,
 				type: 'post',
