@@ -15,8 +15,7 @@ export const settings = {
 	 * @param {Object} config The app-specific config extracted from the Wix page.
 	 */
 	extract: async ( config ) => {
-		const statuses = [ 'unpublished' ];
-		// const statuses = [ 'published', 'unpublished', 'scheduled' ];
+		const statuses = [ 'published', 'unpublished', 'scheduled' ];
 
 		const postsPromise = Promise.all(
 			statuses.map( ( status ) =>

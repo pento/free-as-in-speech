@@ -4,6 +4,14 @@
 import { createBlock, serialize } from '@wordpress/blocks';
 import { applyFormat, create, toHTMLString } from '@wordpress/rich-text';
 
+/**
+ * The definition map for converting Wix blocks to WordPress blocks.
+ *
+ * The key is the Wix block type.
+ *
+ * The value is a function that takes the block object, and a copy of the post's
+ * entityMap. The function returns a WordPress block.
+ */
 const blockMap = {
 	atomic: ( block, entityMap ) => {
 		if ( ! block.entityRanges ) {
@@ -106,6 +114,15 @@ const blockMap = {
 	},
 };
 
+/**
+ * Given a Wix block, generates a HTML string based upon the block text, the defined
+ * inline styles, and any links definied in the entities list.
+ *
+ * @param {Object} block The Wix block definition.
+ * @param {Object} entityMap The post entity map.
+ *
+ * @return {string} A HTML string generated from the block text.
+ */
 const formatText = ( block, entityMap ) => {
 	if ( ! block.inlineStyleRanges ) {
 		return block.text;
@@ -197,6 +214,13 @@ const formatText = ( block, entityMap ) => {
 	return toHTMLString( { value: entitisedText } );
 };
 
+/**
+ * Given a Wix content object, convert it to a serialized form of WordPress blocks.
+ *
+ * @param {Object} wixContent The Wix content object.
+ *
+ * @return {string} The serialized WordPress blocks.
+ */
 export const serializeWixBlocksToWordPressBlocks = ( wixContent ) => {
 	return wixContent.blocks
 		.map( ( wixBlock ) => {
