@@ -20,6 +20,64 @@ const testData = {
 				rel: 'noopener',
 			},
 		},
+		1: {
+			type: 'wix-draft-plugin-image',
+			data: {
+				src: {
+					file_name: 'image1.png',
+				},
+				config: {
+					alignment: 'center',
+				},
+				metadata: {
+					alt: 'image1 alt text',
+					caption: 'image1 caption',
+				},
+				link: {
+					url: 'https://wordpress.org/',
+					target: '_blank',
+					rel: 'noopener',
+				},
+			},
+		},
+		2: {
+			type: 'wix-draft-plugin-video',
+			data: {
+				isCustomVideo: true,
+				src: {
+					pathname: 'video1.mp4',
+					thumbnail: {
+						pathname: 'media/video1_thumb.jpg',
+					},
+				},
+			},
+		},
+		3: {
+			type: 'wix-draft-plugin-video',
+			data: {
+				src: 'https://www.youtube.com/watch?v=RWf83UX4vKs',
+				config: {
+					alignment: 'right',
+				},
+			},
+		},
+		4: {
+			type: 'wix-draft-plugin-gallery',
+			data: {
+				items: [
+					{ url: 'image2.png' },
+					{ url: 'image3.png' },
+					{ url: 'image4.png' },
+					{ url: 'image5.png' },
+					{ url: 'image6.png' },
+					{ url: 'image7.png' },
+					{ url: 'image8.png' },
+				],
+				styles: {
+					numberOfImagesPerRow: 4,
+				},
+			},
+		},
 	},
 };
 
@@ -309,6 +367,112 @@ maybe.</code></pre>
 		const expected = `<!-- wp:paragraph -->
 <p>This is <a href="https://wordpress.org/" target="_blank" rel="noreferrer noopener">a link</a>.</p>
 <!-- /wp:paragraph -->`;
+
+		expect(
+			serializeWixBlocksToWordPressBlocks( blocks, testData )
+		).toEqual( expected );
+	} );
+
+	test( 'serializeWixBlocksToWordPressBlocks handles single images', () => {
+		const blocks = [
+			{
+				type: 'atomic',
+				text: '',
+				inlineStyleRanges: [],
+				entityRanges: [
+					{
+						offset: 0,
+						length: 0,
+						key: 1,
+					},
+				],
+				data: {},
+			},
+		];
+
+		const expected = `<!-- wp:image {"align":"center"} -->
+<div class="wp-block-image"><figure class="aligncenter"><a href="https://wordpress.org/" target="_blank" rel="noopener"><img src="https://static.wixstatic.com/media/image1.png" alt="image1 alt text"/></a><figcaption>image1 caption</figcaption></figure></div>
+<!-- /wp:image -->`;
+
+		expect(
+			serializeWixBlocksToWordPressBlocks( blocks, testData )
+		).toEqual( expected );
+	} );
+
+	test( 'serializeWixBlocksToWordPressBlocks handles uploaded videos', () => {
+		const blocks = [
+			{
+				type: 'atomic',
+				text: '',
+				inlineStyleRanges: [],
+				entityRanges: [
+					{
+						offset: 0,
+						length: 0,
+						key: 2,
+					},
+				],
+				data: {},
+			},
+		];
+
+		const expected = `<!-- wp:video -->
+<figure class="wp-block-video"><video controls poster="https://static.wixstatic.com/media/video1_thumb.jpg" src="https://video.wixstatic.com/video1.mp4"></video></figure>
+<!-- /wp:video -->`;
+
+		expect(
+			serializeWixBlocksToWordPressBlocks( blocks, testData )
+		).toEqual( expected );
+	} );
+
+	test( 'serializeWixBlocksToWordPressBlocks handles embedded videos', () => {
+		const blocks = [
+			{
+				type: 'atomic',
+				text: '',
+				inlineStyleRanges: [],
+				entityRanges: [
+					{
+						offset: 0,
+						length: 0,
+						key: 3,
+					},
+				],
+				data: {},
+			},
+		];
+
+		const expected = `<!-- wp:embed {"url":"https://www.youtube.com/watch?v=RWf83UX4vKs","align":"right"} -->
+<figure class="wp-block-embed alignright"><div class="wp-block-embed__wrapper">
+https://www.youtube.com/watch?v=RWf83UX4vKs
+</div></figure>
+<!-- /wp:embed -->`;
+
+		expect(
+			serializeWixBlocksToWordPressBlocks( blocks, testData )
+		).toEqual( expected );
+	} );
+
+	test( 'serializeWixBlocksToWordPressBlocks handles image galleries', () => {
+		const blocks = [
+			{
+				type: 'atomic',
+				text: '',
+				inlineStyleRanges: [],
+				entityRanges: [
+					{
+						offset: 0,
+						length: 0,
+						key: 4,
+					},
+				],
+				data: {},
+			},
+		];
+
+		const expected = `<!-- wp:gallery {"columns":4} -->
+<figure class="wp-block-gallery columns-4 is-cropped"><ul class="blocks-gallery-grid"><li class="blocks-gallery-item"><figure><img src="https://static.wixstatic.com/media/image2.png"/></figure></li><li class="blocks-gallery-item"><figure><img src="https://static.wixstatic.com/media/image3.png"/></figure></li><li class="blocks-gallery-item"><figure><img src="https://static.wixstatic.com/media/image4.png"/></figure></li><li class="blocks-gallery-item"><figure><img src="https://static.wixstatic.com/media/image5.png"/></figure></li><li class="blocks-gallery-item"><figure><img src="https://static.wixstatic.com/media/image6.png"/></figure></li><li class="blocks-gallery-item"><figure><img src="https://static.wixstatic.com/media/image7.png"/></figure></li><li class="blocks-gallery-item"><figure><img src="https://static.wixstatic.com/media/image8.png"/></figure></li></ul></figure>
+<!-- /wp:gallery -->`;
 
 		expect(
 			serializeWixBlocksToWordPressBlocks( blocks, testData )
