@@ -1,3 +1,8 @@
+/**
+ * Local dependencies
+ */
+import { serializeWixBlocksToWordPressBlocks } from './block-mapping';
+
 export const settings = {
 	/**
 	 * The Wix application ID.
@@ -16,8 +21,11 @@ export const settings = {
 			statuses.map( ( status ) =>
 				window
 					.fetch(
-						`https://www.wix.com/_api/communities-blog-node-api/_api/posts?offset=0&size=500&fieldsets=categories,owner,likes,content,subscriptions,tags&status=${ status }`,
-						{ headers: { instance: config.instance } }
+						`https://manage.wix.com/_api/communities-blog-node-api/_api/posts?offset=0&size=500&fieldsets=categories,owner,likes,content,subscriptions,tags&status=${ status }`,
+						{
+							headers: { instance: config.instance },
+							mode: 'same-origin',
+						}
 					)
 					.then( ( result ) => result.json() )
 			)
@@ -25,18 +33,19 @@ export const settings = {
 
 		const authorsPromise = window
 			.fetch(
-				'https://www.wix.com/_serverless/assignee-service/assignees',
+				'https://manage.wix.com/_serverless/assignee-service/assignees',
 				{
 					credentials: 'include',
 					headers: { Authorization: config.instance },
+					mode: 'same-origin',
 				}
 			)
 			.then( ( result ) => result.json() );
 
 		const categoriesPromise = window
 			.fetch(
-				'https://www.wix.com/_api/communities-blog-node-api/_api/categories?offset=0&size=500',
-				{ headers: { instance: config.instance } }
+				'https://manage.wix.com/_api/communities-blog-node-api/_api/categories?offset=0&size=500',
+				{ headers: { instance: config.instance }, mode: 'same-origin' }
 			)
 			.then( ( result ) => result.json() );
 
@@ -49,10 +58,11 @@ export const settings = {
 
 		const tagsPromise = window
 			.fetch(
-				'https://www.wix.com/_api/communities-blog-node-api/v2/tags/query',
+				'https://manage.wix.com/_api/communities-blog-node-api/v2/tags/query',
 				{
 					method: 'POST',
 					headers: { instance: config.instance },
+					mode: 'same-origin',
 					body: JSON.stringify( tagsQuery ),
 				}
 			)
@@ -144,24 +154,19 @@ export const settings = {
 				postContent = post.content;
 			}
 
-			const content = postContent.blocks
-				.map( ( block ) => {
-					switch ( block.type ) {
-						case 'unstyled':
-							return `<p>${ block.text }</p>`;
-					}
-					return false;
-				} )
-				.filter( ( blockContent ) => blockContent !== false )
-				.join( '\n\n' );
-
 			wxr.addPost( {
 				id: postId,
 				guid: post.id,
 				author: postAuthor.slug,
 				date: post.firstPublishedDate,
 				title: post.title,
-				content,
+				content: serializeWixBlocksToWordPressBlocks(
+					postContent.blocks,
+					{
+						entityMap: postContent.entityMap,
+						ownerSiteMemberId: post.ownerSiteMemberId,
+					}
+				),
 				status: statusMap[ post.status ],
 				sticky: post.isPinned ? 1 : 0,
 				type: 'post',

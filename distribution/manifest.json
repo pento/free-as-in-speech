@@ -16,7 +16,7 @@
 	},
 	"permissions": [
 		"activeTab",
-		"https://www.wix.com/*"
+		"https://*.wix.com/*"
 	],
 	"browser_action": {
 		"default_icon": "icon.png",
@@ -38,5 +38,6 @@
 			],
 			"run_at": "document_start"
 		}
-	]
+	],
+	"content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self';"
 }

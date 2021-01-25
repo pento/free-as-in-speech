@@ -1,4 +1,10 @@
 /**
+ * WordPress dependencies
+ */
+import { registerCoreBlocks } from '@wordpress/block-library';
+import '@wordpress/format-library';
+
+/**
  * Internal dependencies
  */
 import { startExport } from './services';
@@ -39,3 +45,6 @@ browser.runtime.onMessage.addListener( async ( message, sender ) => {
 			break;
 	}
 } );
+
+// Register the Core WordPress block library, so we're able to export to those blocks.
+registerCoreBlocks();
