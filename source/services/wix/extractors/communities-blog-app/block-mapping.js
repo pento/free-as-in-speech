@@ -162,7 +162,12 @@ const formatText = ( block, entityMap ) => {
 	const formatMap = {
 		bold: { type: 'core/bold' },
 		italic: { type: 'core/italic' },
-		underline: { type: 'core/underline' },
+		underline: {
+			type: 'core/underline',
+			attributes: {
+				style: 'text-decoration: underline;',
+			},
+		},
 	};
 
 	const richText = block.inlineStyleRanges.reduce( ( workingText, style ) => {
