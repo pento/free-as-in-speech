@@ -17,6 +17,8 @@ export default class WXR {
 	constructor() {
 		this.wxr = create();
 
+		this.postIdCounter = 0;
+
 		this.addHeader();
 
 		this.channel = this.wxr
@@ -325,6 +327,12 @@ export default class WXR {
 				cdata: true,
 				filter: ( data ) => data.toString(),
 			},
+			{
+				key: 'attachment_url',
+				element: 'wp:attachment_url',
+				cdata: true,
+				filter: ( data ) => data.toString(),
+			},
 		];
 
 		const postEl = this.channel.ele( 'item' );
@@ -337,6 +345,12 @@ export default class WXR {
 				} else {
 					postEl.ele( filter.element, filter.attributes ).txt( data );
 				}
+			} else if ( 'id' === filter.key ) {
+				// There was no post ID passed, so let's use our internal counter.
+				postEl
+					.ele( filter.element, filter.attributes )
+					.txt( this.postIdCounter );
+				this.postIdCounter++;
 			}
 		} );
 

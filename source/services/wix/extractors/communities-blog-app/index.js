@@ -117,7 +117,7 @@ export const settings = {
 			} )
 		);
 
-		posts.forEach( ( post, postId ) => {
+		posts.forEach( ( post ) => {
 			const postAuthor = post.owner;
 			// If we haven't already added this author, we need to add them now.
 			if ( ! addedAuthors.includes( postAuthor.siteMemberId ) ) {
@@ -155,7 +155,6 @@ export const settings = {
 			}
 
 			wxr.addPost( {
-				id: postId,
 				guid: post.id,
 				author: postAuthor.slug,
 				date: post.firstPublishedDate,
