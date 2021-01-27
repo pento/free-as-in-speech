@@ -2,7 +2,7 @@
 
 Welcome to WordPress' *Free (as in Freedom)* project! We hope you join us in helping folks free their content from CMSes that try to lock them in; all are welcome here.
 
-## How can I contribute?
+## How To Contribute
 
 To learn all about contributing to the *Free (as in Freedom)* project, see the [Contributor Guide](/docs/contributors/readme.md). The handbook includes all the details you need to get setup and start shaping the future of web publishing.
 

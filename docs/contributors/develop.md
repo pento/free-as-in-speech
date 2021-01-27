@@ -14,4 +14,4 @@ Browse [the issues list](https://github.com/pento/free-as-in-speech/issues) to f
 
 ## Contributor Resources
 
-* [Getting Started](/docs/contributors/getting-started.md) documents getting your development environment setup, this includes your test site and developer tools suggestions.
+[Getting Started](/docs/contributors/getting-started.md) documents getting your development environment setup, this includes your test site and developer tools suggestions.
