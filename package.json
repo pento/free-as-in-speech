@@ -84,8 +84,7 @@
 			"chromiumProfile": "./test/web-ext-profile",
 			"startUrl": [
 				"https://www.wix.com"
-			],
-			"browserConsole": true
+			]
 		}
 	}
 }
