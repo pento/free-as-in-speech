@@ -21,4 +21,7 @@ Once built, *Free (as in Speech)* can be loaded in your browser as a development
 
 ## Local Environment
 
-Whilst you can run the extension within your normal browser, it's usually better to use a clean browser profile for development. You'll need to have [Chrome](https://www.google.com/chrome/) or [Firefox](https://www.mozilla.org/firefox/new/) installed, you can then start a fresh copy of either of them by running `npm run start:chrome` or `npm run start:firefox`, respectively.
+Whilst you can run the extension within your normal browser, it's usually better to use a clean browser profile for development. 
+With [Chrome](https://www.google.com/chrome/) or [Firefox](https://www.mozilla.org/firefox/new/) installed, create a `.test/web-ext-profile` directory at the root of this repository checkout.
+
+You can then start a fresh copy of either of them by running `npm run start:chrome` or `npm run start:firefox`, respectively.
