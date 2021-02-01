@@ -56,11 +56,14 @@ const code = `
 
 		tries++;
 
-		if ( window.__INITIAL_STATE__ ) {
+		if ( window.__INITIAL_STATE__ && window.__MEDIA_TOKEN__ ) {
 			// To communicate back to content.js, use window.postMessage().
 			realPostMessage( {
 				type: 'save_wix_config',
-				data: window.__INITIAL_STATE__,
+				data: {
+					initialState: window.__INITIAL_STATE__,
+					mediaToken: window.__MEDIA_TOKEN__,
+				},
 			}, '*' );
 
 			clearInterval( intervalId )

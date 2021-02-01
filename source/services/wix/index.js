@@ -19,19 +19,25 @@ export const startExport = async ( config ) => {
 	await Promise.all(
 		extractors.map( async ( extractor ) => {
 			// Grab the config data for this extractor.
-			const extractorConfig = Object.values(
-				config.embeddedServices
-			).reduce( ( found, appConfig ) => {
-				if ( found ) {
-					return found;
-				}
+			let extractorConfig;
 
-				if ( appConfig.applicationId === extractor.appId ) {
-					return appConfig;
-				}
+			if ( extractor.appId === 'media-manager' ) {
+				extractorConfig = config.mediaToken;
+			} else {
+				extractorConfig = Object.values(
+					config.initialState.embeddedServices
+				).reduce( ( found, appConfig ) => {
+					if ( found ) {
+						return found;
+					}
 
-				return false;
-			}, false );
+					if ( appConfig.applicationId === extractor.appId ) {
+						return appConfig;
+					}
+
+					return false;
+				}, false );
+			}
 
 			// Run the extractor.
 			const extractedData = await extractor.extract( extractorConfig );
