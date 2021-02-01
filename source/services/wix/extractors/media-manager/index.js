@@ -60,13 +60,23 @@ export const settings = {
 	 */
 	save: async ( files, wxr ) => {
 		files.forEach( ( file ) => {
-			wxr.addPost( {
-				guid: `https://static.wixstatic.com/${ file.file_url }`,
-				date: file.created_ts,
-				title: file.original_file_name,
-				type: 'attachment',
-				attachment_url: `https://static.wixstatic.com/${ file.file_url }`,
-			} );
+			if ( file.media_type === 'video' ) {
+				wxr.addPost( {
+					guid: `https://video.wixstatic.com/${ file.file_output.video[ 0 ].url }`,
+					date: file.created_ts * 1000,
+					title: file.original_file_name,
+					type: 'attachment',
+					attachment_url: `https://video.wixstatic.com/${ file.file_output.video[ 0 ].url }`,
+				} );
+			} else {
+				wxr.addPost( {
+					guid: `https://static.wixstatic.com/${ file.file_url }`,
+					date: file.created_ts * 1000,
+					title: file.original_file_name,
+					type: 'attachment',
+					attachment_url: `https://static.wixstatic.com/${ file.file_url }`,
+				} );
+			}
 		} );
 	},
 };
