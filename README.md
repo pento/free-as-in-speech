@@ -18,7 +18,7 @@ If you do try out *FaiS*, please let us know how you go! We love to hear feedbac
 
 See the [Contributing Guidelines](/CONTRIBUTING.md) for information on getting started.
 
-As with all WordPress projects, we want to ensure a welcoming environment for everyone. With that in mind, all contributors are expected to follow our [Code of Conduct](/ODE_OF_CONDUCT.md).
+As with all WordPress projects, we want to ensure a welcoming environment for everyone. With that in mind, all contributors are expected to follow our [Code of Conduct](/CODE_OF_CONDUCT.md).
 
 ## Get Involved
 
