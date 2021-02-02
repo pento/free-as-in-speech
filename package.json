@@ -18,10 +18,10 @@
 		"url": "https://github.com/pento/free-as-in-speech/issues"
 	},
 	"dependencies": {
-		"@wordpress/block-library": "2.28.0",
-		"@wordpress/blocks": "7.0.0",
-		"@wordpress/format-library": "1.26.3",
-		"@wordpress/rich-text": "3.24.3",
+		"@wordpress/block-library": "2.28.2",
+		"@wordpress/blocks": "7.0.2",
+		"@wordpress/format-library": "1.26.5",
+		"@wordpress/rich-text": "3.24.5",
 		"@wordpress/wxr": "file:packages/wxr",
 		"file-saver": "2.0.5",
 		"webextension-polyfill": "0.7.0"
@@ -29,6 +29,7 @@
 	"devDependencies": {
 		"@babel/core": "7.12.10",
 		"@babel/preset-env": "7.12.11",
+		"@wordpress/babel-preset-default": "5.0.1",
 		"@wordpress/eslint-plugin": "8.0.2",
 		"@wordpress/npm-package-json-lint-config": "4.0.1",
 		"@wordpress/prettier-config": "1.0.1",
