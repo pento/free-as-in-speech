@@ -26,49 +26,49 @@ browser.runtime.onMessage.addListener( ( message ) => {
 
 const code = `
 ( () => {
-	let tries = 0;
-	let realPostMessage;
+	let initialState = null, mediaToken = null, sentMessage = false;
+	let lastInitialState = null, lastMediaToken = null;
 
-	// window.__INITIAL_STATE__ is set when the page is loaded, but is subsequently deleted once
-	// it's been loaded into Wix's redux store. In order to intercept it, we load this script as early
-	// as we possibly can.
-	//
-	// As this script is loaded extremely early, it may be run before the window.__INITIAL_STATE__
-	// object has been set. To allow for this, we can check every 5 ms, so we get it as soon as it's
-	// defined.
-	const intervalId = setInterval( () => {
-		// If the state didn't become available in the first 500ms, it probably isn't there.
-		// Kill this timer, since it would otherwise be a bit of a performance drag.
-		if ( tries > 100 ) {
-			clearInterval( intervalId );
-			return;
+	function sendMessage() {
+		if ( ! initialState ) return;
+		if ( ! mediaToken ) return;
+		if ( sentMessage ) return;
+		sentMessage = true;
+		window.postMessage( {
+			type: 'save_wix_config',
+			data: { initialState, mediaToken },
+		}, '*' );
+
+	}
+
+	Object.defineProperty(window, '__INITIAL_STATE__', {
+		configurable: true,
+		get: function() {
+			return lastInitialState;
+		},
+		set: function(value) {
+			if ( ! initialState ) {
+				initialState = Object.assign( {}, value );
+				sendMessage();
+			}
+			return lastInitialState = value;
 		}
+	});
 
-		if ( ! window ) {
-			return;
+	Object.defineProperty(window, '__MEDIA_TOKEN__', {
+		configurable: true,
+		get: function() {
+			return lastMediaToken;
+		},
+		set: function(value) {
+			if ( ! mediaToken ) {
+				mediaToken = value;
+				sendMessage();
+			}
+			return lastMediaToken = value;
 		}
+	});
 
-		// Grab a copy of window.postMessage as soon as it's available, to ensure we're using
-		// an original version.
-		if ( ! realPostMessage && window.postMessage ) {
-			realPostMessage = window.postMessage;
-		}
-
-		tries++;
-
-		if ( window.__INITIAL_STATE__ && window.__MEDIA_TOKEN__ ) {
-			// To communicate back to content.js, use window.postMessage().
-			realPostMessage( {
-				type: 'save_wix_config',
-				data: {
-					initialState: window.__INITIAL_STATE__,
-					mediaToken: window.__MEDIA_TOKEN__,
-				},
-			}, '*' );
-
-			clearInterval( intervalId )
-		}
-	}, 5 );
 } )();
 `;
 
