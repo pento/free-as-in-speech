@@ -1,13 +1,3 @@
 {
-	"presets": [
-		[
-			"@babel/preset-env",
-			{
-				"targets": {
-					"chrome": "74",
-					"firefox": "67"
-				}
-			}
-		]
-	]
+	"presets": [ "@wordpress/default" ]
 }
