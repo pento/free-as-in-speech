@@ -45,33 +45,33 @@ const code = `
 	// it's been loaded into Wix's redux store. In order to keep a copy before this happens, we intercept
 	// it right when the value is being set.
 
-	Object.defineProperty(window, '__INITIAL_STATE__', {
-		configurable: true,
+	Object.defineProperty( window, '__INITIAL_STATE__', {
+		configurable: true, // Needs to be true so that it can be deleted later.
 		get: function() {
 			return lastInitialState;
 		},
-		set: function(value) {
+		set: function( value ) {
 			if ( ! initialState ) {
 				initialState = Object.assign( {}, value );
 				sendMessage();
 			}
 			return lastInitialState = value;
 		}
-	});
+	} );
 
 	Object.defineProperty(window, '__MEDIA_TOKEN__', {
-		configurable: true,
+		configurable: true, // Needs to be true so that it can be deleted later.
 		get: function() {
 			return lastMediaToken;
 		},
-		set: function(value) {
+		set: function( value ) {
 			if ( ! mediaToken ) {
 				mediaToken = value;
 				sendMessage();
 			}
 			return lastMediaToken = value;
 		}
-	});
+	} );
 
 } )();
 `;
