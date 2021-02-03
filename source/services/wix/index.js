@@ -16,16 +16,22 @@ import { extractors } from './extractors';
 export const startExport = async ( config ) => {
 	const wxr = new WXR();
 
+	const { initialState, mediaToken } = config;
+
 	await Promise.all(
 		extractors.map( async ( extractor ) => {
 			// Grab the config data for this extractor.
 			let extractorConfig;
 
 			if ( extractor.appId === 'media-manager' ) {
-				extractorConfig = config.mediaToken;
+				extractorConfig = mediaToken;
+			} else if ( extractor.appId === 'adi-editor' ) {
+				if ( initialState.liveSite.editorType === 'ADI' ) {
+					extractorConfig = initialState.siteMetaData;
+				}
 			} else {
 				extractorConfig = Object.values(
-					config.initialState.embeddedServices
+					initialState.embeddedServices
 				).reduce( ( found, appConfig ) => {
 					if ( found ) {
 						return found;
