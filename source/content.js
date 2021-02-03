@@ -41,6 +41,10 @@ const code = `
 
 	}
 
+	// window.__INITIAL_STATE__ is set when the page is loaded, but is subsequently deleted once
+	// it's been loaded into Wix's redux store. In order to keep a copy before this happens, we intercept
+	// it right when the value is being set.
+
 	Object.defineProperty(window, '__INITIAL_STATE__', {
 		configurable: true,
 		get: function() {
