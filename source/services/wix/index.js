@@ -39,6 +39,11 @@ export const startExport = async ( config ) => {
 				}, false );
 			}
 
+			// If we couldn't find any app config for this extractor, the app isn't enabled.
+			if ( ! extractorConfig ) {
+				return;
+			}
+
 			// Run the extractor.
 			const extractedData = await extractor.extract( extractorConfig );
 
