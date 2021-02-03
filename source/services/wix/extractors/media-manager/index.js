@@ -49,7 +49,8 @@ export const settings = {
 
 		const fileList = await Promise.all( fileListPromises );
 
-		return fileList.flat();
+		// If a folder is empty, it will result in a 'null' file in the list. Remove them.
+		return fileList.flat().filter( ( file ) => file !== null );
 	},
 
 	/**
