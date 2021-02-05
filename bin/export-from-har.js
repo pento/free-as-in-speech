@@ -14,8 +14,6 @@ global.Mousetrap = {
 window.matchMedia = global.matchMedia = () => ( { addListener: noop } );
 global.Node = window.Node;
 
-const serializer = require( '@wordpress/blocks/build/api/serializer' );
-const { createBlock } = require( '@wordpress/blocks/build/api/factory' );
 const { registerCoreBlocks } = require( '@wordpress/block-library' );
 
 registerCoreBlocks();
