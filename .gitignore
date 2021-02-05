@@ -11,3 +11,5 @@ yarn.lock
 # Local browser profiles.
 test/web-ext-profile
 !test/web-ext-profile/.gitkeep
+
+*.har
