@@ -5,9 +5,9 @@ import { serializeWixBlocksToWordPressBlocks } from './block-mapping';
 
 export const settings = {
 	/**
-	 * The Wix application ID.
+	 * The Wix application definition ID.
 	 */
-	appId: 10297,
+	appDefinitionId: '14bcded7-0066-7c35-14d7-466cb3f09103',
 
 	/**
 	 * This function will be called once the extraction process has started.
