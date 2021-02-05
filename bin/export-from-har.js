@@ -1,63 +1,24 @@
 // Some Gutenberg modules we use assume that there is a window.
 const noop = function () {};
 
-// eslint-disable-next-line no-undef
-Mousetrap = {
-	init: noop,
-	prototype: {},
-};
-document = {
-	addEventListener: noop,
-	querySelectorAll: () => [],
-	head: { appendChild: noop },
-	createElement: () => {
-		return {
-			setAttribute: () => null,
-			insertBefore: () => null,
-			appendChild: () => null,
-		};
-	},
-	createTextNode: () => {
-		return {
-			setAttribute: () => null,
-		};
-	},
-};
-document.head = document.createElement();
-document.documentElement = document.createElement();
-navigator = {}; // eslint-disable-line no-undef
-window = {
-	addEventListener: noop,
-	matchMedia: () => ( {
-		addListener: () => {},
-	} ),
-	navigator: { platform: '', userAgent: '' },
-	Node: {
-		TEXT_NODE: '',
-		ELEMENT_NODE: '',
-		DOCUMENT_POSITION_PRECEDING: '',
-		DOCUMENT_POSITION_FOLLOWING: '',
-	},
-	URL,
-};
+const Window = require( 'window' );
 
-const { registerBlockType } = require( '@wordpress/blocks' );
-[
-	// 'core/bold',
-	require( '../node_modules/@wordpress/block-library/build/code/index.js' ),
-	require( '../node_modules/@wordpress/block-library/build/embed/index.js' ),
-	// 'core/file',
-	// 'core/gallery',
-	// 'core/heading',
-	// 'core/image',
-	// 'core/italic',
-	// 'core/link',
-	// 'core/list',
-	require( '../node_modules/@wordpress/block-library/build/paragraph/index.js' ),
-	require( '../node_modules/@wordpress/block-library/build/quote/index.js' ),
-	// 'core/underline',
-	// 'core/video',
-].forEach( ( t ) => registerBlockType( t.name, t.settings ) );
+global.window = new Window( { url: 'http://localhost' } );
+global.document = window.document;
+global.requestAnimationFrame = global.cancelAnimationFrame = noop;
+global.navigator = window.navigator;
+global.Mousetrap = {
+	init: noop,
+	prototype: { stopCallback: noop },
+};
+window.matchMedia = global.matchMedia = () => ( { addListener: noop } );
+global.Node = window.Node;
+
+const serializer = require( '@wordpress/blocks/build/api/serializer' );
+const { createBlock } = require( '@wordpress/blocks/build/api/factory' );
+const { registerCoreBlocks } = require( '@wordpress/block-library' );
+
+registerCoreBlocks();
 
 const fs = require( 'fs' );
 const fetchFromHAR = require( 'fetch-from-har' );
