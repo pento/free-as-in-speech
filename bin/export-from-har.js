@@ -1,7 +1,62 @@
 // Some Gutenberg modules we use assume that there is a window.
-const windowPolyFill = require( 'node-window-polyfill' );
-windowPolyFill.register();
-window.URL = URL;
+const noop = function() {};
+Mousetrap = {
+	init: noop,
+	prototype: {},
+};
+document = {
+	addEventListener: noop,
+	createElement: noop,
+	querySelectorAll: () => [],
+	head: { appendChild: noop },
+	createElement: () => {
+		return {
+			setAttribute: () => null,
+			insertBefore: () => null,
+			appendChild: () => null,
+		}
+	},
+	createTextNode: () => {
+		return {
+			setAttribute: () => null,
+		}
+	},
+};
+document.head = document.createElement();
+document.documentElement = document.createElement();
+navigator = {},
+window = {
+	addEventListener: noop,
+	matchMedia: () => ( {
+		addListener: () => {},
+	} ),
+	navigator: { platform: '', userAgent: '' },
+	Node: {
+		TEXT_NODE: '',
+		ELEMENT_NODE: '',
+		DOCUMENT_POSITION_PRECEDING: '',
+		DOCUMENT_POSITION_FOLLOWING: '',
+	},
+	URL: URL,
+};
+
+const { registerBlockType } = require( '@wordpress/blocks' );
+[
+	// 'core/bold',
+	require( '../node_modules/@wordpress/block-library/build/code/index.js' ),
+	require( '../node_modules/@wordpress/block-library/build/embed/index.js' ),
+	// 'core/file',
+	// 'core/gallery',
+	// 'core/heading',
+	// 'core/image',
+	// 'core/italic',
+	// 'core/link',
+	// 'core/list',
+	require( '../node_modules/@wordpress/block-library/build/paragraph/index.js' ),
+	require( '../node_modules/@wordpress/block-library/build/quote/index.js' ),
+	// 'core/underline',
+	// 'core/video',
+].forEach( ( t ) => registerBlockType( t.name, t.settings ))
 
 const fs = require( 'fs' );
 const fetchFromHAR = require( 'fetch-from-har' );
@@ -34,12 +89,17 @@ window.fetch = fetchFromHAR( JSON.parse( fs.readFileSync( filename ) ), {
 	fallback: ( url, entry ) => {
 		console.log( 'Not Found', url ); // eslint-disable-line no-console
 		const u = new URL( url );
-		entry.response.content.text = '{}';
+		entry.response.content.text = '[]';
 		// an example of how to hard-code a fallback, this will only be used if the HAR doesn't have such an entry.
 		if ( u.pathname === '/_api/communities-blog-node-api/v2/tags/query' ) {
 			entry.response.status = 200;
 			entry.response.statusText = 'OK';
 			entry.response.content.text = '{"tags":[]}';
+		}
+		if ( u.pathname === '/_api/communities-blog-node-api/_api/categories' ) {
+			entry.response.status = 200;
+			entry.response.statusText = 'OK';
+			entry.response.content.text = '[]';
 		}
 		return entry;
 	},
@@ -51,7 +111,10 @@ async function getWxr() {
 		initialState: {
 			embeddedServices: [
 				{
-					applicationId: -666,
+					// applicationId: -666,
+				},
+				{
+					applicationId: 10297,
 				},
 			],
 		},
