@@ -32,9 +32,10 @@ window.fetch = fetchFromHAR( JSON.parse( fs.readFileSync( filename ) ), {
 		return false;
 	},
 	fallback: ( url, entry ) => {
-		console.log( 'Not Found', url );
+		console.log( 'Not Found', url ); // eslint-disable-line no-console
 		const u = new URL( url );
 		entry.response.content.text = '{}';
+		// an example of how to hard-code a fallback, this will only be used if the HAR doesn't have such an entry.
 		if ( u.pathname === '/_api/communities-blog-node-api/v2/tags/query' ) {
 			entry.response.status = 200;
 			entry.response.statusText = 'OK';
@@ -50,10 +51,10 @@ async function getWxr() {
 		initialState: {
 			embeddedServices: [
 				{
-					// applicationId: 10297,
-				}
+					applicationId: -666,
+				},
 			],
 		},
 	} );
 }
-getWxr().then( wxr => console.log( wxr ) )
+getWxr().then( ( wxr ) => console.log( wxr ) ); // eslint-disable-line no-console
