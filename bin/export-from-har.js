@@ -1,6 +1,8 @@
+// Some Gutenberg modules we use assume that there is a window.
 const windowPolyFill = require( 'node-window-polyfill' );
 windowPolyFill.register();
 window.URL = URL;
+
 const fs = require( 'fs' );
 const fetchFromHAR = require( 'fetch-from-har' );
 
@@ -13,8 +15,10 @@ const mockMapping = {
 	},
 };
 
+// TODO: Implement proper argument parsing
 const filename = process.argv[ 2 ];
-global.fetch = fetchFromHAR( JSON.parse( fs.readFileSync( filename ) ), {
+
+window.fetch = fetchFromHAR( JSON.parse( fs.readFileSync( filename ) ), {
 	queryComparison: ( requestValue, harValue, key, url ) => {
 		if ( requestValue === harValue ) {
 			return true;
@@ -39,7 +43,7 @@ global.fetch = fetchFromHAR( JSON.parse( fs.readFileSync( filename ) ), {
 		return entry;
 	},
 } );
-window.fetch = global.fetch;
+
 async function getWxr() {
 	return await services.startExport( 'wix', {
 		mediaToken: 'test',
