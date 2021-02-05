@@ -2,7 +2,7 @@
 	"name": "fetch-from-har",
 	"version": "1.0.0",
 	"description": "A package for using a HAR file as cache for fetch.",
-	"author": "",
+	"author": "The WordPress Contributors",
 	"license": "GPL-2.0-or-later",
 	"keywords": [
 		"fetch",

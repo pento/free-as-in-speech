@@ -17,7 +17,7 @@ const cliConfig = {
 		filename: '[name].js',
 	},
 	target: 'node',
-	mode: 'development'
+	mode: 'development',
 };
 
 const extensionConfig = {
