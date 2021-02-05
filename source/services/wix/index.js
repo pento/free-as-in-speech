@@ -31,10 +31,11 @@ export const startExport = async ( config ) => {
 						return found;
 					}
 
-					if ( appConfig.appDefinitionId === extractor.appDefinitionId ) {
+					if (
+						appConfig.appDefinitionId === extractor.appDefinitionId
+					) {
 						return appConfig;
 					}
-
 
 					if ( appConfig.applicationId === extractor.appId ) {
 						return appConfig;
