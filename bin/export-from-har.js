@@ -46,14 +46,14 @@ window.fetch = fetchFromHAR( JSON.parse( fs.readFileSync( filename ) ), {
 
 async function getWxr() {
 	return await services.startExport( 'wix', {
-		mediaToken: 'test',
+		// mediaToken: 'test',
 		initialState: {
 			embeddedServices: [
 				{
-					applicationId: 10297,
-				},
+					// applicationId: 10297,
+				}
 			],
 		},
 	} );
 }
-console.log( getWxr() );
+getWxr().then( wxr => console.log( wxr ) )
