@@ -1,12 +1,13 @@
 // Some Gutenberg modules we use assume that there is a window.
-const noop = function() {};
+const noop = function () {};
+
+// eslint-disable-next-line no-undef
 Mousetrap = {
 	init: noop,
 	prototype: {},
 };
 document = {
 	addEventListener: noop,
-	createElement: noop,
 	querySelectorAll: () => [],
 	head: { appendChild: noop },
 	createElement: () => {
@@ -14,17 +15,17 @@ document = {
 			setAttribute: () => null,
 			insertBefore: () => null,
 			appendChild: () => null,
-		}
+		};
 	},
 	createTextNode: () => {
 		return {
 			setAttribute: () => null,
-		}
+		};
 	},
 };
 document.head = document.createElement();
 document.documentElement = document.createElement();
-navigator = {},
+navigator = {}; // eslint-disable-line no-undef
 window = {
 	addEventListener: noop,
 	matchMedia: () => ( {
@@ -37,7 +38,7 @@ window = {
 		DOCUMENT_POSITION_PRECEDING: '',
 		DOCUMENT_POSITION_FOLLOWING: '',
 	},
-	URL: URL,
+	URL,
 };
 
 const { registerBlockType } = require( '@wordpress/blocks' );
@@ -56,7 +57,7 @@ const { registerBlockType } = require( '@wordpress/blocks' );
 	require( '../node_modules/@wordpress/block-library/build/quote/index.js' ),
 	// 'core/underline',
 	// 'core/video',
-].forEach( ( t ) => registerBlockType( t.name, t.settings ))
+].forEach( ( t ) => registerBlockType( t.name, t.settings ) );
 
 const fs = require( 'fs' );
 const fetchFromHAR = require( 'fetch-from-har' );
@@ -95,11 +96,6 @@ window.fetch = fetchFromHAR( JSON.parse( fs.readFileSync( filename ) ), {
 			entry.response.status = 200;
 			entry.response.statusText = 'OK';
 			entry.response.content.text = '{"tags":[]}';
-		}
-		if ( u.pathname === '/_api/communities-blog-node-api/_api/categories' ) {
-			entry.response.status = 200;
-			entry.response.statusText = 'OK';
-			entry.response.content.text = '[]';
 		}
 		return entry;
 	},
