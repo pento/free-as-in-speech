@@ -21,7 +21,7 @@ export const startExport = async ( config ) => {
 			// Grab the config data for this extractor.
 			let extractorConfig;
 
-			if ( extractor.appId === 'media-manager' ) {
+			if ( extractor.appDefinitionId === 'media-manager' ) {
 				extractorConfig = config.mediaToken;
 			} else {
 				extractorConfig = Object.values(
@@ -31,7 +31,9 @@ export const startExport = async ( config ) => {
 						return found;
 					}
 
-					if ( appConfig.applicationId === extractor.appId ) {
+					if (
+						appConfig.appDefinitionId === extractor.appDefinitionId
+					) {
 						return appConfig;
 					}
 

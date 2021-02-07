@@ -1,8 +1,8 @@
 export const settings = {
 	/**
-	 * The Wix application ID.
+	 * The Wix application definition ID.
 	 */
-	appId: -666,
+	appDefinitionId: '22bef345-3c5b-4c18-b782-74d4085112ff',
 
 	/**
 	 * This function will be called once the extraction process has started.
