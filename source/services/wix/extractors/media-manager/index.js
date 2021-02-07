@@ -1,8 +1,8 @@
 export const settings = {
 	/**
-	 * The Wix application ID.
+	 * The media manager doesn't have an app definition ID, we can use a fake one here.
 	 */
-	appId: 'media-manager',
+	appDefinitionId: 'media-manager',
 
 	/**
 	 * This function will be called once the extraction process has started.
