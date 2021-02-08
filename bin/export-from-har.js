@@ -1,16 +1,19 @@
 const noop = function () {};
-const { JSDOM, ResourceLoader } = require('jsdom');
+const { JSDOM, ResourceLoader } = require( 'jsdom' );
 class Window {
-	constructor(jsdomConfig = {}) {
+	constructor( jsdomConfig = {} ) {
 		const { proxy, strictSSL, userAgent } = jsdomConfig;
-		const resources = new ResourceLoader({
+		const resources = new ResourceLoader( {
 			proxy,
 			strictSSL,
-			userAgent
-		});
-		return (new JSDOM('', Object.assign(jsdomConfig, {
-			resources
-		}))).window;
+			userAgent,
+		} );
+		return new JSDOM(
+			'',
+			Object.assign( jsdomConfig, {
+				resources,
+			} )
+		).window;
 	}
 }
 
@@ -44,53 +47,68 @@ const mockMapping = {
 const { Command } = require( 'commander' );
 const program = new Command();
 program.version( '1.0.0' );
-program.command( 'wix')
-	.option('-a, --appDefinitionId <appDefinitionId...>', 'Which Wix module to extract' )
-	.option('-m, --mediaToken <mediaToken>', 'Specify a media token' )
-	.option('-f <harfile>', 'The file to import')
-  .description('Extract from Wix')
-  .action( ( options ) => {
-  	console.log(options);
-  	window.fetch = fetchFromHAR( JSON.parse( fs.readFileSync( options.F ) ), {
-  		queryComparison: ( requestValue, harValue, key, url ) => {
-  			if ( requestValue === harValue ) {
-  				return true;
-  			}
-  			if (
-  				'undefined' !==
-  				typeof mockMapping[ url.host ][ url.pathname ][ key ]
-  			) {
-  				return mockMapping[ url.host ][ url.pathname ][ key ];
-  			}
-  			return false;
-  		},
-  		fallback: ( url, entry ) => {
-  			console.log( 'Not Found', url ); // eslint-disable-line no-console
-  			const u = new URL( url );
-  			entry.response.content.text = '[]';
-  			// an example of how to hard-code a fallback, this will only be used if the HAR doesn't have such an entry.
-  			if ( u.pathname === '/_api/communities-blog-node-api/v2/tags/query' ) {
-  				entry.response.status = 200;
-  				entry.response.statusText = 'OK';
-  				entry.response.content.text = '{"tags":[]}';
-  			}
-  			return entry;
-  		},
-  	} );
-  	async function getWxr() {
-  		return await services.startExport( 'wix', {
-  			mediaToken: options.mediaToken,
-  			initialState: {
-  				embeddedServices: options.appDefinitionId.map(appDefinitionId => { appDefinitionId } )
-  			},
-  		} );
-  	}
+program
+	.command( 'wix' )
+	.option(
+		'-a, --appDefinitionId <appDefinitionId...>',
+		'Which Wix module to extract',
+		[]
+	)
+	.option( '-m, --mediaToken <mediaToken>', 'Specify a media token', null )
+	.option( '-f <harfile>', 'The file to import' )
+	.description( 'Extract from Wix' )
+	.action( ( options ) => {
+		window.fetch = fetchFromHAR(
+			JSON.parse( fs.readFileSync( options.F ) ),
+			{
+				queryComparison: ( requestValue, harValue, key, url ) => {
+					if ( requestValue === harValue ) {
+						return true;
+					}
+					if (
+						'undefined' !==
+						typeof mockMapping[ url.host ][ url.pathname ][ key ]
+					) {
+						return mockMapping[ url.host ][ url.pathname ][ key ];
+					}
+					return false;
+				},
+				fallback: ( url, entry ) => {
+					console.log( 'Not Found', url ); // eslint-disable-line no-console
+					const u = new URL( url );
+					entry.response.content.text = '[]';
+					// an example of how to hard-code a fallback, this will only be used if the HAR doesn't have such an entry.
+					if (
+						u.pathname ===
+						'/_api/communities-blog-node-api/v2/tags/query'
+					) {
+						entry.response.status = 200;
+						entry.response.statusText = 'OK';
+						entry.response.content.text = '{"tags":[]}';
+					}
+					return entry;
+				},
+			}
+		);
+		async function getWxr() {
+			if ( typeof options.appDefinitionId === 'string' ) {
+				options.appDefinitionId = [ options.appDefinitionId ];
+			}
+			return await services.startExport( 'wix', {
+				mediaToken: options.mediaToken,
+				initialState: {
+					embeddedServices: options.appDefinitionId.map(
+						( appDefinitionId ) => {
+							return {
+								appDefinitionId,
+							};
+						}
+					),
+				},
+			} );
+		}
 
-  	getWxr().then( ( wxr ) => console.log( wxr ) ); // eslint-disable-line no-console
+		getWxr().then( ( wxr ) => console.log( wxr ) ); // eslint-disable-line no-console
+	} );
 
-  });
-
-program.parse(process.argv);
-
-
-
+program.parse( process.argv );
