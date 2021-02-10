@@ -25,7 +25,8 @@
 		"@wordpress/wxr": "file:packages/wxr",
 		"cheerio": "1.0.0-rc.5",
 		"dayjs": "1.10.4",
-		"file-saver": "2.0.5",
+		"streamsaver": "2.0.5",
+		"web-streams-polyfill": "3.0.2",
 		"webextension-polyfill": "0.7.0"
 	},
 	"devDependencies": {
@@ -43,6 +44,7 @@
 		"copy-webpack-plugin": "7.0.0",
 		"daily-version": "2.0.0",
 		"dot-json": "1.2.1",
+		"fake-indexeddb": "3.1.2",
 		"fetch-from-har": "file:packages/fetch-from-har",
 		"fetch-mock-jest": "1.5.1",
 		"glob": "7.1.6",

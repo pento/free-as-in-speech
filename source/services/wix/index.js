@@ -1,7 +1,7 @@
 /**
  * WordPress dependencies
  */
-const WXR = require( '@wordpress/wxr' );
+const { getWXRDriver } = require( '@wordpress/wxr' );
 
 /**
  * Internal dependencies
@@ -14,7 +14,8 @@ const extractors = require( './extractors' );
  * @param {Object} config The Wix config data.
  */
 const startExport = async ( config ) => {
-	const wxr = new WXR();
+	const wxr = await getWXRDriver( '1.2' );
+	await wxr.clear();
 
 	await Promise.all(
 		extractors.map( async ( extractor ) => {
@@ -60,7 +61,7 @@ const startExport = async ( config ) => {
 		} )
 	);
 
-	return wxr.export();
+	return wxr;
 };
 
 module.exports = startExport;

@@ -1,7 +1,7 @@
 /**
  * External dependencies
  */
-const { saveAs } = require( 'file-saver' );
+const { createWriteStream } = require( 'streamsaver' );
 
 // Listen for the message to save the config.
 window.addEventListener( 'message', ( e ) => {
@@ -12,15 +12,25 @@ window.addEventListener( 'message', ( e ) => {
 	}
 } );
 
-// Listen for the message to create the download.
-browser.runtime.onMessage.addListener( ( message ) => {
-	switch ( message.type ) {
-		case 'generate_download':
-			const exportFile = new Blob( [ message.data ], {
-				type: 'text/xml',
-			} );
+let fileStream;
+let writer;
 
-			saveAs( exportFile, 'wix-export.wxr' );
+// Listen for the message to create the download.
+browser.runtime.onMessage.addListener( async ( message ) => {
+	switch ( message.type ) {
+		case 'start_download':
+			fileStream = createWriteStream( 'wix-export.wxr' );
+			writer = fileStream.getWriter();
+
+			break;
+		case 'download_data':
+			await writer.ready;
+			await writer.write( message.data );
+
+			break;
+		case 'finish_download':
+			await writer.ready;
+			writer.close();
 	}
 } );
 

@@ -21,8 +21,10 @@
 	"main": "build/index.js",
 	"module": "build-module/index.js",
 	"dependencies": {
+		"idb": "6.0.0",
 		"moment": "2.29.1",
-		"xmlbuilder2": "2.4.0"
+		"web-streams-polyfill": "3.0.2",
+		"xml-sanitizer": "1.1.6"
 	},
 	"publishConfig": {
 		"access": "public"

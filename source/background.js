@@ -1,4 +1,9 @@
 /**
+ * External dependencies
+ */
+const { WritableStream } = require( 'web-streams-polyfill/ponyfill/es6' );
+
+/**
  * WordPress dependencies
  */
 const { registerCoreBlocks } = require( '@wordpress/block-library' );
@@ -35,12 +40,48 @@ browser.runtime.onMessage.addListener( async ( message, sender ) => {
 			return new Promise( ( resolve ) => resolve( wixConfig ) );
 		case 'start_wix_export':
 			// Start the export.
-			const exportData = await startExport( 'wix', wixConfig );
+			const wxr = await startExport( 'wix', wixConfig );
 
-			browser.tabs.sendMessage( wixTabId, {
-				type: 'generate_download',
-				data: exportData,
+			await browser.tabs.sendMessage( wixTabId, {
+				type: 'start_download',
 			} );
+
+			let buffer = '';
+
+			const writableStream = new WritableStream( {
+				write: ( chunk ) =>
+					new Promise( ( resolve ) => {
+						buffer += chunk;
+
+						let data = '';
+						if ( buffer.length > 1024 ) {
+							data = buffer;
+							buffer = '';
+						}
+						resolve();
+
+						if ( data.length > 0 ) {
+							browser.tabs.sendMessage( wixTabId, {
+								type: 'download_data',
+								data,
+							} );
+						}
+					} ),
+				close: () => {
+					browser.tabs
+						.sendMessage( wixTabId, {
+							type: 'download_data',
+							data: buffer,
+						} )
+						.then( () => {
+							browser.tabs.sendMessage( wixTabId, {
+								type: 'finish_download',
+							} );
+						} );
+				},
+			} );
+
+			wxr.stream( writableStream );
 
 			break;
 	}

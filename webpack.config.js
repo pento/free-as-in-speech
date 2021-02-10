@@ -69,7 +69,12 @@ const extensionConfig = {
 				},
 				{
 					from:
-						'node_modules/webextension-polyfill/dist/browser-polyfill.min.js',
+						'node_modules/webextension-polyfill/dist/browser-polyfill.js',
+					to: 'polyfills/webextension.js',
+				},
+				{
+					from: 'node_modules/web-streams-polyfill/dist/ponyfill.js',
+					to: 'polyfills/web-streams.js',
 				},
 			],
 		} ),

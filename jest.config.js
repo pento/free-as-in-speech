@@ -16,6 +16,7 @@ module.exports = {
 		) })$` ]: 'packages/$1/src',
 	},
 	preset: '@wordpress/jest-preset-default',
+	setupFiles: [ 'fake-indexeddb/auto' ],
 	testURL: 'http://localhost',
 	testPathIgnorePatterns: [
 		'/.git/',

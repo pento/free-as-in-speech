@@ -26,7 +26,7 @@
 	},
 	"background": {
 		"scripts": [
-			"build/browser-polyfill.min.js",
+			"build/polyfills/webextension.js",
 			"build/background.js"
 		]
 	},
@@ -34,7 +34,8 @@
 		{
 			"matches": [ "https://manage.wix.com/dashboard/*" ],
 			"js": [
-				"build/browser-polyfill.min.js",
+				"build/polyfills/webextension.js",
+				"build/polyfills/web-streams.js",
 				"build/content.js"
 			],
 			"run_at": "document_start"
