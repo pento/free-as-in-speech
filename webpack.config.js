@@ -18,9 +18,9 @@ const cliConfig = {
 	},
 	target: 'node',
 	mode: 'development',
-	ignoreWarnings: [
-		( warning ) => warning.includes( "Can't resolve 'canvas'" ),
-	],
+	externals: {
+		canvas: 'util',
+	},
 };
 
 const extensionConfig = {
