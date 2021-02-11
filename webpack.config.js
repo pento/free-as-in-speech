@@ -20,7 +20,7 @@ const cliConfig = {
 	mode: 'development',
 	ignoreWarnings: [
 		{
-			// message: /Can't resolve 'canvas'/
+			message: /Can't resolve 'canvas'/,
 		},
 	],
 };
