@@ -19,7 +19,7 @@ const cliConfig = {
 	target: 'node',
 	mode: 'development',
 	externals: {
-		canvas: 'util',
+		canvas: 'canvas', // https://github.com/jsdom/jsdom/issues/2508
 	},
 };
 
