@@ -6,10 +6,8 @@ const moment = require( 'moment' );
 /**
  * Internal dependencies
  */
-const { WXR_VERSION } = require( './index' );
-
-const DATE_RFC2822 = 'ddd, DD MMM YYYY HH:mm:ss [GMT]';
-const DATE_MYSQL = 'YYYY-MM-DD HH:mm:ss';
+// const foo = require( './index.js' );
+// console.log( foo );
 
 module.exports = {
 	siteMeta: {
@@ -31,9 +29,9 @@ module.exports = {
 			},
 			{
 				name: 'pubDate',
-				type: 'string',
+				type: 'rfc2822_date',
 				element: 'pubDate',
-				default: () => moment.utc().format( DATE_RFC2822 ),
+				default: () => moment.utc().toString(),
 				writeable: false,
 			},
 			{
@@ -43,9 +41,9 @@ module.exports = {
 			},
 			{
 				name: 'wxrVersion',
-				type: 'string',
+				type: 'number',
 				element: 'wp:wxr_version',
-				default: () => WXR_VERSION,
+				default: () => 1.2,
 				writeable: false,
 			},
 			{
@@ -224,12 +222,8 @@ module.exports = {
 			},
 			{
 				name: 'date',
-				type: 'string',
+				type: 'rfc2822_date',
 				element: 'pubDate',
-				format: ( data ) =>
-					moment( data ).isValid()
-						? moment( data ).utc().format( DATE_RFC2822 )
-						: '',
 			},
 			{
 				name: 'author',
@@ -244,9 +238,8 @@ module.exports = {
 			},
 			{
 				name: 'description',
-				type: 'string',
+				type: 'empty',
 				element: 'description',
-				default: () => '',
 				writeable: false,
 			},
 			{
@@ -260,45 +253,31 @@ module.exports = {
 				element: 'excerpt:encoded',
 			},
 			{
-				name: 'date',
-				type: 'string',
+				name: 'postDate',
+				type: 'mysql_date',
 				element: 'wp:post_date',
-				format: ( data ) =>
-					moment( data ).isValid()
-						? moment( data ).utc().format( DATE_MYSQL )
-						: '',
+				default: ( data ) => data.date,
 			},
 			{
 				name: 'date_gmt',
-				type: 'string',
+				type: 'mysql_date',
 				element: 'wp:post_date_gmt',
-				format: ( data ) =>
-					moment( data ).isValid()
-						? moment( data ).utc().format( DATE_MYSQL )
-						: '',
 			},
 			{
 				name: 'modified',
-				type: 'string',
+				type: 'mysql_date',
 				element: 'wp:post_modified',
-				format: ( data ) =>
-					moment( data ).isValid()
-						? moment( data ).utc().format( DATE_MYSQL )
-						: '',
 			},
 			{
 				name: 'modified_gmt',
-				type: 'string',
+				type: 'mysql_date',
 				element: 'wp:post_modified_gmt',
-				format: ( data ) =>
-					moment( data ).isValid()
-						? moment( data ).utc().format( DATE_MYSQL )
-						: '',
 			},
 			{
 				name: 'comment_status',
 				type: 'string',
 				element: 'wp:comment_status',
+				default: () => 'open',
 			},
 			{
 				name: 'ping_status',
@@ -339,6 +318,7 @@ module.exports = {
 				name: 'sticky',
 				type: 'int',
 				element: 'wp:is_sticky',
+				default: () => 0,
 			},
 			{
 				name: 'attachment_url',
@@ -348,12 +328,10 @@ module.exports = {
 			{
 				name: 'terms',
 				type: 'terms',
-				element: 'category',
 			},
 			{
 				name: 'meta',
 				type: 'meta',
-				element: 'wp:postmeta',
 			},
 		],
 	},

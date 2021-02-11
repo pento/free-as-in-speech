@@ -1,6 +1,7 @@
 /**
  * External dependencies
  */
+const moment = require( 'moment' );
 const { openDB } = require( 'idb/with-async-ittr-cjs' );
 const { WritableStream } = require( 'web-streams-polyfill/ponyfill/es6' );
 const xmlSanitizer = require( 'xml-sanitizer' );
@@ -35,26 +36,48 @@ class WXRDriver {
 		} );
 	}
 
+	/**
+	 * Clear any data that's currently stored in the tables. This should usually be called
+	 * when starting a new export, to ensure there's no residual data left from previous exports.
+	 */
 	clear() {
 		return Promise.all(
 			Object.keys( schema ).map( ( store ) => this.db.clear( store ) )
 		);
 	}
 
+	/**
+	 * Given a blob of data, run it against the schema for the given dataType, then store it
+	 * in the database.
+	 *
+	 * @param {string} dataType The type of data passed in the `data` blob.
+	 * @param {Object} data     The data to store.
+	 */
 	storeData( dataType, data ) {
+		// If we don't know about this dataType, bail.
 		if ( ! schema[ dataType ] ) {
 			return;
 		}
 
 		const validatedData = {};
 
+		// Go over each field in the schema, and validate it.
 		schema[ dataType ].fields.forEach( ( field ) => {
+			// If it's an empty field, set an empty value, then move on.
+			if ( field.type === 'empty' ) {
+				validatedData[ field.name ] = '';
+				return;
+			}
+
+			// If the field is read-only, get the default value.
 			if ( field.hasOwnProperty( 'writeable' ) && ! field.writeable ) {
 				validatedData[ field.name ] = field.default( validatedData );
+				return;
 			}
 
 			let value;
 
+			// Check if we have a value for this field, or fall back to the default value.
 			if ( data.hasOwnProperty( field.name ) ) {
 				value = data[ field.name ];
 			} else if ( field.default ) {
@@ -65,25 +88,40 @@ class WXRDriver {
 				return;
 			}
 
-			if ( field.format ) {
-				validatedData[ field.name ] = field.format( value );
-			} else {
-				validatedData[ field.name ] = this.castValue(
-					value,
-					field.type
-				);
-			}
+			validatedData[ field.name ] = this.castValue( value, field.type );
 		} );
 
 		this.db.add( dataType, validatedData );
 	}
 
+	/**
+	 * Given a particular value, cast it to the passed type.
+	 *
+	 * The type is not necessarily a JavaScript data type: instead, these are particular types of data
+	 * that we need to insert in the XHR file.
+	 *
+	 * @param {*}      value The value to be cast.
+	 * @param {string} type  The type to cast the value as. Valid types are: 'string', 'int', 'mysql_date',
+	 *                       'meta', and 'terms'.
+	 */
 	castValue( value, type ) {
 		switch ( type ) {
 			case 'string':
 				return value.toString();
 			case 'int':
 				return parseInt( value );
+			case 'number':
+				return Number( value );
+			case 'mysql_date':
+				return moment( value ).isValid()
+					? moment( value ).utc().format( 'YYYY-MM-DD HH:mm:ss' )
+					: '';
+			case 'rfc2822_date':
+				return moment( value ).isValid()
+					? moment( value )
+							.utc()
+							.format( 'ddd, DD MMM YYYY HH:mm:ss [GMT]' )
+					: '';
 			case 'meta':
 				if ( ! Array.isArray( value ) ) {
 					return [];
@@ -181,6 +219,11 @@ class WXRDriver {
 		return buffer;
 	}
 
+	/**
+	 * Given a WritableStream, generate the XHR file, and write it to that stream.
+	 *
+	 * @param {WritableStream} writableStream The stream to write to.
+	 */
 	async stream( writableStream ) {
 		const writer = writableStream.getWriter();
 
@@ -210,34 +253,42 @@ class WXRDriver {
 					}
 
 					for ( const field of storeDef.fields ) {
-						if ( ! datum[ field.name ] ) {
+						let value = datum[ field.name ];
+						if ( field.element === 'wp:post_id' ) {
+							value = datum.internalId;
+						}
+
+						if ( value === undefined ) {
 							continue;
 						}
 
-						await this.write( writer, '\t'.repeat( tabs ) );
-						await this.write( writer, `<${ field.element }` );
+						if ( field.element ) {
+							await this.write( writer, '\t'.repeat( tabs ) );
+							await this.write( writer, `<${ field.element }` );
 
-						if ( field.attributes ) {
-							for ( const attrKey in field.attributes ) {
-								await this.write(
-									writer,
-									` ${ attrKey }="${ field.attributes[ attrKey ] }`
-								);
+							if ( field.attributes ) {
+								for ( const attrKey in field.attributes ) {
+									await this.write(
+										writer,
+										` ${ attrKey }="${ field.attributes[ attrKey ] }"`
+									);
+								}
 							}
-						}
 
-						await this.write( writer, '>' );
+							await this.write( writer, '>' );
+						}
 
 						await this.write(
 							writer,
-							this.formatValue(
-								datum[ field.name ],
-								field.type,
-								tabs
-							)
+							this.formatValue( value, field.type, tabs )
 						);
 
-						await this.write( writer, `</${ field.element }>\n` );
+						if ( field.element ) {
+							await this.write(
+								writer,
+								`</${ field.element }>\n`
+							);
+						}
 					}
 
 					if ( storeDef.containerElement ) {
@@ -259,13 +310,26 @@ class WXRDriver {
 		await writer.close();
 	}
 
-	formatValue( value, fieldType, tabs ) {
-		switch ( fieldType ) {
+	/**
+	 * Format a given value for writing to the XHR file.
+	 *
+	 * @param {*}      value The value being written.
+	 * @param {string} type  The of the value, same as used in `castValue()`.
+	 * @param {number} tabs  The number of tabs to indent the value, for multiline values.
+	 */
+	formatValue( value, type, tabs ) {
+		switch ( type ) {
 			case 'string':
+			case 'mysql_date':
+			case 'rfc2822_date':
 				return '<![CDATA[' + xmlSanitizer( value ) + ']]>';
 			case 'meta':
 				return '';
 			case 'terms':
+				if ( value.length === 0 ) {
+					return '';
+				}
+
 				let xmlChunk = '\n';
 				for ( const term of value ) {
 					xmlChunk += '\t'.repeat( tabs + 1 );
@@ -274,17 +338,32 @@ class WXRDriver {
 					xmlChunk += '</category>\n';
 				}
 				return xmlChunk;
+			case 'int':
+			case 'number':
+				return value;
+			case 'empty':
+				return '';
 			default:
 				return xmlSanitizer( value );
 		}
 	}
 
+	/**
+	 * A little helper to wait for writable stream writer to be ready before writing to it.
+	 *
+	 * @param {WritableStreamDefaultWriter} writer  The writable stream writer.
+	 * @param {string}                      content The content to write.
+	 */
 	async write( writer, content ) {
-		// console.log( { content } );
 		await writer.ready;
 		await writer.write( content );
 	}
 
+	/**
+	 * Write the XHR file header to the write stream.
+	 *
+	 * @param {WritableStreamDefaultWriter} writer The writable stream writer.
+	 */
 	async writeHeader( writer ) {
 		await this.write(
 			writer,
@@ -319,6 +398,11 @@ class WXRDriver {
 		);
 	}
 
+	/**
+	 * Write the XHR file footer to the write stream.
+	 *
+	 * @param {WritableStreamDefaultWriter} writer The writable stream writer.
+	 */
 	async writeFooter( writer ) {
 		await this.write(
 			writer,

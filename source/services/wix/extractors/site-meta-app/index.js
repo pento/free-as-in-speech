@@ -33,7 +33,7 @@ module.exports = {
 	save: async ( data, wxr ) => {
 		wxr.setSiteMeta( {
 			title: data.quickActionsData.displayName,
-			url: data.quickActionsData.viewUrl,
+			link: data.quickActionsData.viewUrl,
 		} );
 	},
 };
