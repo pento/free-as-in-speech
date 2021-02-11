@@ -50,16 +50,16 @@ program.version( '1.0.0' );
 program
 	.command( 'wix' )
 	.option(
-		'-a, --appDefinitionId <appDefinitionId...>',
+		'-a, --appDefinitionId <appDefinitionId,...>',
 		'Which Wix module to extract',
 		[]
 	)
 	.option( '-m, --mediaToken <mediaToken>', 'Specify a media token', null )
-	.option( '-f <harfile>', 'The file to import' )
+	.arguments( '<harfile>', 'The file to import' )
 	.description( 'Extract from Wix' )
-	.action( ( options ) => {
+	.action( ( harfile, options, command ) => {
 		window.fetch = fetchFromHAR(
-			JSON.parse( fs.readFileSync( options.F ) ),
+			JSON.parse( fs.readFileSync( harfile ) ),
 			{
 				queryComparison: ( requestValue, harValue, key, url ) => {
 					if ( requestValue === harValue ) {
@@ -92,7 +92,7 @@ program
 		);
 		async function getWxr() {
 			if ( typeof options.appDefinitionId === 'string' ) {
-				options.appDefinitionId = [ options.appDefinitionId ];
+				options.appDefinitionId = options.appDefinitionId.split( /,/ );
 			}
 			return await services.startExport( 'wix', {
 				mediaToken: options.mediaToken,
