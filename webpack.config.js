@@ -21,8 +21,8 @@ const cliConfig = {
 	ignoreWarnings: [
 		{
 			// message: /Can't resolve 'canvas'/
-		}
-	]
+		},
+	],
 };
 
 const extensionConfig = {
