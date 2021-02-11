@@ -1,7 +1,8 @@
 /**
  * External dependencies
  */
-const { WritableStream } = require( 'web-streams-polyfill/ponyfill/es6' );
+// const { WritableStream } = require( 'web-streams-polyfill/ponyfill/es6' );
+import { createWriteStream } from 'streamsaver';
 
 /**
  * WordPress dependencies
@@ -46,40 +47,42 @@ browser.runtime.onMessage.addListener( async ( message, sender ) => {
 				type: 'start_download',
 			} );
 
-			let buffer = '';
+			// let buffer = '';
 
-			const writableStream = new WritableStream( {
-				write: ( chunk ) =>
-					new Promise( ( resolve ) => {
-						buffer += chunk;
+			// const writableStream = new WritableStream( {
+			// 	write: ( chunk ) =>
+			// 		new Promise( ( resolve ) => {
+			// 			buffer += chunk;
 
-						let data = '';
-						if ( buffer.length > 1024 ) {
-							data = buffer;
-							buffer = '';
-						}
-						resolve();
+			// 			let data = '';
+			// 			if ( buffer.length > 1024 ) {
+			// 				data = buffer;
+			// 				buffer = '';
+			// 			}
+			// 			resolve();
 
-						if ( data.length > 0 ) {
-							browser.tabs.sendMessage( wixTabId, {
-								type: 'download_data',
-								data,
-							} );
-						}
-					} ),
-				close: () => {
-					browser.tabs
-						.sendMessage( wixTabId, {
-							type: 'download_data',
-							data: buffer,
-						} )
-						.then( () => {
-							browser.tabs.sendMessage( wixTabId, {
-								type: 'finish_download',
-							} );
-						} );
-				},
-			} );
+			// 			if ( data.length > 0 ) {
+			// 				browser.tabs.sendMessage( wixTabId, {
+			// 					type: 'download_data',
+			// 					data,
+			// 				} );
+			// 			}
+			// 		} ),
+			// 	close: () => {
+			// 		browser.tabs
+			// 			.sendMessage( wixTabId, {
+			// 				type: 'download_data',
+			// 				data: buffer,
+			// 			} )
+			// 			.then( () => {
+			// 				browser.tabs.sendMessage( wixTabId, {
+			// 					type: 'finish_download',
+			// 				} );
+			// 			} );
+			// 	},
+			// } );
+
+			const writableStream = createWriteStream( 'wix-export.xhr' );
 
 			wxr.stream( writableStream );
 

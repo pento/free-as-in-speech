@@ -27,6 +27,7 @@
 	"background": {
 		"scripts": [
 			"build/polyfills/webextension.js",
+			"build/polyfills/web-streams.js",
 			"build/background.js"
 		]
 	},
