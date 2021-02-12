@@ -81,7 +81,7 @@ function fetchFromHAR( HAR, mockOptions ) {
 			const entries = findRequestInHar(
 				HAR,
 				url,
-				Object.assign( options, mockOptions )
+				Object.assign( options || {}, mockOptions || {} )
 			);
 			let entry = {
 				request: {
