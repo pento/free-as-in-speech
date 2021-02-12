@@ -43,7 +43,11 @@ export const startExport = async ( config ) => {
 
 			// If we couldn't find any app config for this extractor, the app isn't enabled.
 			if ( ! extractorConfig ) {
-				return;
+				if ( config.extractAll ) {
+					extractorConfig = {};
+				} else {
+					return;
+				}
 			}
 
 			// Run the extractor.

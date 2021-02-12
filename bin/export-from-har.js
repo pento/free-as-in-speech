@@ -52,9 +52,8 @@ program
 	.option(
 		'-a, --appDefinitionId <appDefinitionId,...>',
 		'Which Wix module to extract',
-		[]
+		'all'
 	)
-	.option( '-m, --mediaToken <mediaToken>', 'Specify a media token', null )
 	.arguments( '<harfile>', 'The file to import' )
 	.description( 'Extract from Wix' )
 	.action( ( harfile, options ) => {
@@ -63,16 +62,18 @@ program
 				if ( requestValue === harValue ) {
 					return true;
 				}
+
 				if (
 					'undefined' !==
 					typeof mockMapping[ url.host ][ url.pathname ][ key ]
 				) {
 					return mockMapping[ url.host ][ url.pathname ][ key ];
 				}
+
 				return false;
 			},
 			fallback: ( url, entry ) => {
-				console.log( 'Not Found', url ); // eslint-disable-line no-console
+				console.error( 'Not Found', url ); // eslint-disable-line no-console
 				const u = new URL( url );
 				entry.response.content.text = '[]';
 				// an example of how to hard-code a fallback, this will only be used if the HAR doesn't have such an entry.
@@ -83,26 +84,50 @@ program
 					entry.response.status = 200;
 					entry.response.statusText = 'OK';
 					entry.response.content.text = '{"tags":[]}';
+				} else if (
+					u.pathname ===
+					'/_serverless/dashboard-site-details/widget-data'
+				) {
+					entry.response.status = 200;
+					entry.response.statusText = 'OK';
+					entry.response.content.text = '{"quickActionsData":[]}';
+				} else if (
+					u.pathname ===
+					'/go/site/media/files/list'
+				) {
+					entry.response.status = 200;
+					entry.response.statusText = 'OK';
+					entry.response.content.text = '{"files":[]}';
 				}
+
 				return entry;
 			},
 		} );
 		async function getWxr() {
+			const config = {
+				initialState: {},
+			};
+
 			if ( typeof options.appDefinitionId === 'string' ) {
-				options.appDefinitionId = options.appDefinitionId.split( /,/ );
+				if ( 'all' === options.appDefinitionId ) {
+					config.extractAll = true;
+					options.appDefinitionId = [];
+				} else {
+					options.appDefinitionId = options.appDefinitionId.split(
+						/,/
+					);
+				}
 			}
-			return await services.startExport( 'wix', {
-				mediaToken: options.mediaToken,
-				initialState: {
-					embeddedServices: options.appDefinitionId.map(
-						( appDefinitionId ) => {
-							return {
-								appDefinitionId,
-							};
-						}
-					),
-				},
-			} );
+
+			config.initialState.embeddedServices = options.appDefinitionId.map(
+				( appDefinitionId ) => {
+					return {
+						appDefinitionId,
+					};
+				}
+			);
+
+			return await services.startExport( 'wix', config );
 		}
 
 		getWxr().then( ( wxr ) => console.log( wxr ) ); // eslint-disable-line no-console
