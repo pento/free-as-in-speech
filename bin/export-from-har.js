@@ -91,10 +91,7 @@ program
 					entry.response.status = 200;
 					entry.response.statusText = 'OK';
 					entry.response.content.text = '{"quickActionsData":[]}';
-				} else if (
-					u.pathname ===
-					'/go/site/media/files/list'
-				) {
+				} else if ( u.pathname === '/go/site/media/files/list' ) {
 					entry.response.status = 200;
 					entry.response.statusText = 'OK';
 					entry.response.content.text = '{"files":[]}';
