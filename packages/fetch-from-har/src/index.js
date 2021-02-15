@@ -6,10 +6,6 @@
  * @param {Object} options
  */
 function findRequestInHar( HAR, requestUrl, options ) {
-	const queryComparison =
-		options && 'function' === typeof options.queryComparison
-			? options.queryComparison
-			: ( requestValue, harValue ) => requestValue === harValue;
 	const req = new URL( requestUrl );
 	// lets do a first pass on it.
 	const entries = HAR.log.entries.filter( ( e ) => {
@@ -32,20 +28,40 @@ function findRequestInHar( HAR, requestUrl, options ) {
 
 	if ( entries.length > 1 ) {
 		let results = entries;
+
 		// first lets filter on query params
 		const withSameQueryString = entries.filter( ( e ) => {
-			return e.request.queryString.every( ( qs ) => {
-				return queryComparison(
-					req.searchParams.get( qs.name ),
-					qs.value,
-					qs.name,
-					e.request.url
-				);
-			} );
+			for ( const [ name, value ] of req.searchParams ) {
+				if ( value !== e.request.url.searchParams.get( name ) ) {
+					return false;
+				}
+			}
+			return true;
 		} );
+
 		if ( withSameQueryString.length > 0 ) {
 			results = withSameQueryString;
+		} else if ( options && 'function' === typeof options.queryComparison ) {
+			const withAllowedDeviatingQueryString = entries.filter( ( e ) => {
+				for ( const [ name, value ] of req.searchParams ) {
+					if (
+						! options.queryComparison(
+							e.request.url.searchParams.get( name ),
+							value,
+							name,
+							e.request.url
+						)
+					) {
+						return false;
+					}
+				}
+				return true;
+			} );
+			if ( withAllowedDeviatingQueryString.length > 0 ) {
+				results = withAllowedDeviatingQueryString;
+			}
 		}
+
 		if ( results.length > 1 && req.body ) {
 			// then try to filter on body
 			const withTheSameBody = entries.filter( ( e ) => {
@@ -96,8 +112,11 @@ function fetchFromHAR( HAR, mockOptions ) {
 				},
 			};
 			if ( ! entries.length ) {
-				if ( options && 'function' === typeof options.fallback ) {
-					entry = options.fallback( url, entry );
+				if (
+					mockOptions &&
+					'function' === typeof mockOptions.fallback
+				) {
+					entry = mockOptions.fallback( url, entry );
 				}
 			} else {
 				entry = entries[ 0 ];

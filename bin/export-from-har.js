@@ -36,13 +36,6 @@ const fs = require( 'fs' );
 const fetchFromHAR = require( 'fetch-from-har' );
 
 const services = require( '../source/services' );
-const mockMapping = {
-	'manage.wix.com': {
-		'/_api/communities-blog-node-api/_api/posts': {
-			status: true,
-		},
-	},
-};
 
 const { Command } = require( 'commander' );
 const program = new Command();
@@ -59,18 +52,19 @@ program
 	.action( ( harfile, options ) => {
 		window.fetch = fetchFromHAR( JSON.parse( fs.readFileSync( harfile ) ), {
 			queryComparison: ( requestValue, harValue, key, url ) => {
-				if ( requestValue === harValue ) {
-					return true;
-				}
-
 				if (
-					'undefined' !==
-					typeof mockMapping[ url.host ][ url.pathname ][ key ]
+					'manage.wix.com' === url.host &&
+					'/_api/communities-blog-node-api/_api/posts' ===
+						url.pathname
 				) {
-					return mockMapping[ url.host ][ url.pathname ][ key ];
+					if ( 'status' === key && requestValue !== harValue ) {
+						// The values must match, so this is not ok.
+						return false;
+					}
 				}
 
-				return false;
+				// Parameters don't need to match.
+				return true;
 			},
 			fallback: ( url, entry ) => {
 				console.error( 'Not Found', url ); // eslint-disable-line no-console
