@@ -35,6 +35,7 @@ registerCoreBlocks();
 const fetchFromHAR = require( 'fetch-from-har' );
 const getWXRFromWixHAR = require( './lib/get-wxr-from-wix-har' );
 const fs = require( 'fs' );
+const wixServices = require( '../source/services/wix' );
 
 const { Command } = require( 'commander' );
 const program = new Command();
@@ -70,7 +71,12 @@ program
 			}
 		);
 
-		getWXRFromWixHAR( fetchFromHAR, JSON.parse( fs.readFileSync( harfile ) ), config ).then(
+		getWXRFromWixHAR(
+			fetchFromHAR,
+			JSON.parse( fs.readFileSync( harfile ) ),
+			config,
+			wixServices
+		).then(
 			( wxr ) => console.log( wxr ) // eslint-disable-line no-console
 		);
 	} );

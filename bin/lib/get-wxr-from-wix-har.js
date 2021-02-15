@@ -1,6 +1,4 @@
-const services = require( '../../source/services' );
-
-async function getWXRFromWixHAR( fetchFromHAR, har, config ) {
+async function getWXRFromWixHAR( fetchFromHAR, har, config, wixServices ) {
 	window.fetch = fetchFromHAR( har, {
 		queryComparison: ( requestValue, harValue, key, url ) => {
 			if (
@@ -43,7 +41,7 @@ async function getWXRFromWixHAR( fetchFromHAR, har, config ) {
 		},
 	} );
 
-	return await services.startExport( 'wix', config );
+	return await wixServices.startExport( config );
 }
 
 module.exports = getWXRFromWixHAR;
