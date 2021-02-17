@@ -47,7 +47,7 @@ test.each( data )( 'extract posts', async ( testData ) => {
 		} )
 		.mock( '*', { body: '[]' } );
 
-	return index.settings
+	return index
 		.extract( {
 			instance: 'test',
 		} )

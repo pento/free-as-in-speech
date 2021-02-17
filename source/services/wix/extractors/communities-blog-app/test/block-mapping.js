@@ -1,13 +1,13 @@
 /**
  * WordPress dependencies
  */
-import { registerCoreBlocks } from '@wordpress/block-library';
-import '@wordpress/format-library';
+const { registerCoreBlocks } = require( '@wordpress/block-library' );
+require( '@wordpress/format-library' );
 
 /**
  * Internal dependencies
  */
-import { serializeWixBlocksToWordPressBlocks } from '../block-mapping';
+const serializeWixBlocksToWordPressBlocks = require( '../block-mapping' );
 
 const testData = {
 	entityMap: {
