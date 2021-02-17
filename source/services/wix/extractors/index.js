@@ -1,11 +1,11 @@
-import { settings as communitiesBlogAppSettings } from './communities-blog-app';
-import { settings as siteMetaSettings } from './site-meta-app';
-import { settings as mediaManagerSettings } from './media-manager';
+const communitiesBlogAppSettings = require( './communities-blog-app' );
+const siteMetaSettings = require( './site-meta-app' );
+const mediaManagerSettings = require( './media-manager' );
 
 /**
  * An array of the defined extractors.
  */
-export const extractors = [
+module.exports = [
 	siteMetaSettings,
 	communitiesBlogAppSettings,
 	mediaManagerSettings,

@@ -1,13 +1,13 @@
 /**
  * WordPress dependencies
  */
-import { registerCoreBlocks } from '@wordpress/block-library';
-import '@wordpress/format-library';
+const { registerCoreBlocks } = require( '@wordpress/block-library' );
+require( '@wordpress/format-library' );
 
 /**
  * Internal dependencies
  */
-import { startExport } from './services';
+const startExport = require( './services' );
 
 /**
  * Store the wix config in memory, so that it's available whenever it's needed,

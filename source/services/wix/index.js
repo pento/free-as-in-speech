@@ -1,19 +1,19 @@
 /**
  * WordPress dependencies
  */
-import WXR from '@wordpress/wxr';
+const WXR = require( '@wordpress/wxr' );
 
 /**
  * Internal dependencies
  */
-import { extractors } from './extractors';
+const extractors = require( './extractors' );
 
 /**
  * Loop through all of the defined extractors, and run them over the content.
  *
  * @param {Object} config The Wix config data.
  */
-export const startExport = async ( config ) => {
+const startExport = async ( config ) => {
 	const wxr = new WXR();
 
 	await Promise.all(
@@ -60,3 +60,5 @@ export const startExport = async ( config ) => {
 
 	return wxr.export();
 };
+
+module.exports = startExport;

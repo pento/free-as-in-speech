@@ -1,4 +1,4 @@
-async function getWXRFromWixHAR( fetchFromHAR, har, config, wixServices ) {
+async function getWXRFromWixHAR( fetchFromHAR, har, config, startExport ) {
 	window.fetch = fetchFromHAR( har, {
 		queryComparison: ( requestValue, harValue, key, url ) => {
 			if (
@@ -41,7 +41,7 @@ async function getWXRFromWixHAR( fetchFromHAR, har, config, wixServices ) {
 		},
 	} );
 
-	return await wixServices.startExport( config );
+	return await startExport( config );
 }
 
 module.exports = getWXRFromWixHAR;
