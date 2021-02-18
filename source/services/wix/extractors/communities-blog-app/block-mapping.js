@@ -1,8 +1,8 @@
 /**
  * WordPress dependencies
  */
-import { createBlock, serialize } from '@wordpress/blocks';
-import { applyFormat, create, toHTMLString } from '@wordpress/rich-text';
+const { createBlock, serialize } = require( '@wordpress/blocks' );
+const { applyFormat, create, toHTMLString } = require( '@wordpress/rich-text' );
 
 /**
  * The definition map for converting Wix blocks to WordPress blocks.
@@ -258,7 +258,7 @@ const formatText = ( block, entityMap ) => {
  *
  * @return {string} The serialized WordPress blocks.
  */
-export const serializeWixBlocksToWordPressBlocks = ( wixBlocks, data ) => {
+module.exports = ( wixBlocks, data ) => {
 	let listType = '';
 	const listBuffer = [];
 

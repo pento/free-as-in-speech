@@ -1,7 +1,7 @@
 /**
  * External dependencies
  */
-import { saveAs } from 'file-saver';
+const { saveAs } = require( 'file-saver' );
 
 // Listen for the message to save the config.
 window.addEventListener( 'message', ( e ) => {

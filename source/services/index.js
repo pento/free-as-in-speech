@@ -1,4 +1,4 @@
-import { startExport as startWixExport } from './wix';
+const startWixExport = require( './wix' );
 
 /**
  * Start the export for the given service.
@@ -6,7 +6,7 @@ import { startExport as startWixExport } from './wix';
  * @param {string} service The service name. 'wix' is the only valid value at this time.
  * @param {Object} config Any config data that needs to be passed to the exporter.
  */
-export const startExport = ( service, config ) => {
+module.exports = ( service, config ) => {
 	if ( service === 'wix' ) {
 		return startWixExport( config );
 	}

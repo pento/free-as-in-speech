@@ -1,9 +1,9 @@
 /**
  * Local dependencies
  */
-import { serializeWixBlocksToWordPressBlocks } from './block-mapping';
+const serializeWixBlocksToWordPressBlocks = require( './block-mapping' );
 
-export const settings = {
+module.exports = {
 	/**
 	 * The Wix application definition ID.
 	 */

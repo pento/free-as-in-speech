@@ -1,4 +1,4 @@
-export const settings = {
+module.exports = {
 	/**
 	 * The Wix application definition ID.
 	 */

@@ -1,4 +1,4 @@
-export const settings = {
+module.exports = {
 	/**
 	 * The media manager doesn't have an app definition ID, we can use a fake one here.
 	 */

@@ -1,8 +1,8 @@
 /**
  * External dependencies
  */
-import moment from 'moment';
-import { create } from 'xmlbuilder2';
+const moment = require( 'moment' );
+const { create } = require( 'xmlbuilder2' );
 
 const DATE_RFC2822 = 'ddd, DD MMM YYYY HH:mm:ss [GMT]';
 const DATE_MYSQL = 'YYYY-MM-DD HH:mm:ss';
@@ -10,7 +10,7 @@ const DATE_MYSQL = 'YYYY-MM-DD HH:mm:ss';
 /**
  * Main WXR class.
  */
-export default class WXR {
+class WXR {
 	/**
 	 * Constructor.
 	 */
@@ -378,3 +378,5 @@ export default class WXR {
 		} );
 	}
 }
+
+module.exports = WXR;
