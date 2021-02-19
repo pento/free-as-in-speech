@@ -16,9 +16,9 @@ const wixServices = require( '../../../source/services/wix' );
 registerCoreBlocks();
 
 test.each( [
-	[ 'wix-basic.har', 'wix-basic.wxr' ],
-	[ 'empty.har', 'empty.wxr' ],
-] )( 'wix: %s -> %s', async ( har, wxr ) => {
+	[ 'empty.har', 'empty.wxr', true ],
+	[ 'wix-basic.har', 'wix-basic.wxr', false ],
+] )( 'wix: %s -> %s', async ( har, wxr, errorsExpected ) => {
 	const inputHAR = fs.readFileSync( path.join( __dirname, 'fixtures', har ) );
 	const outputWXR = fs.readFileSync(
 		path.join( __dirname, 'fixtures', wxr )
@@ -41,9 +41,12 @@ test.each( [
 			extractAll: true,
 		},
 		wixServices
-	).then( ( xml ) =>
+	).then( ( xml ) => {
 		expect( stripFirstPubDate( outputWXR ) ).toEqual(
 			stripFirstPubDate( xml )
-		)
-	);
+		);
+		if ( errorsExpected ) {
+			expect( console ).toHaveErrored();
+		}
+	} );
 } );
