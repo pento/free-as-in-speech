@@ -85,7 +85,7 @@ function fetchFromHAR( HAR, mockOptions ) {
 		typeof HAR.log === 'undefined' ||
 		typeof HAR.log.entries === 'undefined'
 	) {
-		HAR.log = { entries: {} };
+		HAR.log = { entries: [] };
 	}
 
 	HAR.log.entries.forEach( ( e ) => {

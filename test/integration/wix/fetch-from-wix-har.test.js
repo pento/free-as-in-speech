@@ -13,14 +13,18 @@ const fetchFromHAR = require( 'fetch-from-har' );
 const getWXRFromWixHAR = require( '../../../bin/lib/get-wxr-from-wix-har' );
 const wixServices = require( '../../../source/services/wix' );
 
-test( 'wix-basic', () => {
-	registerCoreBlocks();
+registerCoreBlocks();
+
+test.each( [
+	[ 'wix-basic.har', 'wix-basic.wxr' ],
+	[ 'empty.har', 'empty.wxr' ]
+] )( 'wix: %s -> %s ', async ( har, wxr ) => {
 
 	const inputHAR = fs.readFileSync(
-		path.join( __dirname, 'fixtures/wix-basic.har' )
+		path.join( __dirname, 'fixtures', har )
 	);
 	const outputWXR = fs.readFileSync(
-		path.join( __dirname, 'fixtures/wix-basic.wxr' )
+		path.join( __dirname, 'fixtures', wxr )
 	);
 
 	function stripFirstPubDate( wxr ) {

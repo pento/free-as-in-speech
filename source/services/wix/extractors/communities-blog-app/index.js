@@ -28,6 +28,7 @@ module.exports = {
 						}
 					)
 					.then( ( result ) => result.json() )
+					.catch( () => [] )
 			)
 		);
 
@@ -40,14 +41,16 @@ module.exports = {
 					mode: 'same-origin',
 				}
 			)
-			.then( ( result ) => result.json() );
+			.then( ( result ) => result.json() )
+			.catch( () => { return { "assignees": [] }; } )
 
 		const categoriesPromise = window
 			.fetch(
 				'https://manage.wix.com/_api/communities-blog-node-api/_api/categories?offset=0&size=500',
 				{ headers: { instance: config.instance }, mode: 'same-origin' }
 			)
-			.then( ( result ) => result.json() );
+			.then( ( result ) => result.json() )
+					.catch( () => [] );
 
 		const tagsQuery = {
 			paging: {
@@ -66,7 +69,8 @@ module.exports = {
 					body: JSON.stringify( tagsQuery ),
 				}
 			)
-			.then( ( result ) => result.json() );
+			.then( ( result ) => result.json() )
+			.catch( () => { return { "tags": [] }; } );
 
 		const [ posts, authors, categories, tags ] = await Promise.all( [
 			postsPromise,

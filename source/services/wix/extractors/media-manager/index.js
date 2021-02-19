@@ -28,8 +28,10 @@ module.exports = {
 						}
 					)
 					.then( ( result ) => result.json() )
+					.catch( () => { return { "files": [] }; } )
 					.then( ( fileData ) => fileData.files )
 			);
+
 
 			const folders = await window
 				.fetch(
@@ -38,7 +40,8 @@ module.exports = {
 						credentials: 'include',
 					}
 				)
-				.then( ( result ) => result.json() );
+				.then( ( result ) => result.json() )
+				.catch( () => { return { "folders": [] }; } )
 
 			if ( Array.isArray( folders.folders ) ) {
 				folders.folders.forEach( ( folder ) => {
