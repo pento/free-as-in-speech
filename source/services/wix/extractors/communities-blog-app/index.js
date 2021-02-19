@@ -42,7 +42,9 @@ module.exports = {
 				}
 			)
 			.then( ( result ) => result.json() )
-			.catch( () => { return { "assignees": [] }; } )
+			.catch( () => {
+				return { assignees: [] };
+			} );
 
 		const categoriesPromise = window
 			.fetch(
@@ -50,7 +52,7 @@ module.exports = {
 				{ headers: { instance: config.instance }, mode: 'same-origin' }
 			)
 			.then( ( result ) => result.json() )
-					.catch( () => [] );
+			.catch( () => [] );
 
 		const tagsQuery = {
 			paging: {
@@ -70,7 +72,9 @@ module.exports = {
 				}
 			)
 			.then( ( result ) => result.json() )
-			.catch( () => { return { "tags": [] }; } );
+			.catch( () => {
+				return { tags: [] };
+			} );
 
 		const [ posts, authors, categories, tags ] = await Promise.all( [
 			postsPromise,

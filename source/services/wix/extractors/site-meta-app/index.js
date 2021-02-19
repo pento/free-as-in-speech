@@ -19,7 +19,9 @@ module.exports = {
 				}
 			)
 			.then( ( result ) => result.json() )
-			.catch( () => { return { "quickActionsData": {} }; } );
+			.catch( () => {
+				return { quickActionsData: {} };
+			} );
 	},
 
 	/**

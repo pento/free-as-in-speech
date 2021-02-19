@@ -17,18 +17,15 @@ registerCoreBlocks();
 
 test.each( [
 	[ 'wix-basic.har', 'wix-basic.wxr' ],
-	[ 'empty.har', 'empty.wxr' ]
-] )( 'wix: %s -> %s ', async ( har, wxr ) => {
-
-	const inputHAR = fs.readFileSync(
-		path.join( __dirname, 'fixtures', har )
-	);
+	[ 'empty.har', 'empty.wxr' ],
+] )( 'wix: %s -> %s', async ( har, wxr ) => {
+	const inputHAR = fs.readFileSync( path.join( __dirname, 'fixtures', har ) );
 	const outputWXR = fs.readFileSync(
 		path.join( __dirname, 'fixtures', wxr )
 	);
 
-	function stripFirstPubDate( wxr ) {
-		return wxr
+	function stripFirstPubDate( xml ) {
+		return xml
 			.toString()
 			.replace( /<pubDate>[^<]+/, '<pubDate>' )
 			.trim();
@@ -44,9 +41,9 @@ test.each( [
 			extractAll: true,
 		},
 		wixServices
-	).then( ( wxr ) =>
+	).then( ( xml ) =>
 		expect( stripFirstPubDate( outputWXR ) ).toEqual(
-			stripFirstPubDate( wxr )
+			stripFirstPubDate( xml )
 		)
 	);
 } );
