@@ -14,6 +14,9 @@ async function getWXRFromWixHAR( fetchFromHAR, har, config, startExport ) {
 			// Parameters don't need to match.
 			return true;
 		},
+		fallback: ( url ) => {
+			console.error( 'Missing URL in HAR:', url ); // eslint-disable-line no-console
+		},
 	} );
 
 	return await startExport( config );
