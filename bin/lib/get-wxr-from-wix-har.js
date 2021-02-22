@@ -14,30 +14,8 @@ async function getWXRFromWixHAR( fetchFromHAR, har, config, startExport ) {
 			// Parameters don't need to match.
 			return true;
 		},
-		fallback: ( url, entry ) => {
-			console.error( 'Not Found', url ); // eslint-disable-line no-console
-			const u = new URL( url );
-			entry.response.content.text = '[]';
-			// an example of how to hard-code a fallback, this will only be used if the HAR doesn't have such an entry.
-			if (
-				u.pathname === '/_api/communities-blog-node-api/v2/tags/query'
-			) {
-				entry.response.status = 200;
-				entry.response.statusText = 'OK';
-				entry.response.content.text = '{"tags":[]}';
-			} else if (
-				u.pathname === '/_serverless/dashboard-site-details/widget-data'
-			) {
-				entry.response.status = 200;
-				entry.response.statusText = 'OK';
-				entry.response.content.text = '{"quickActionsData":[]}';
-			} else if ( u.pathname === '/go/site/media/files/list' ) {
-				entry.response.status = 200;
-				entry.response.statusText = 'OK';
-				entry.response.content.text = '{"files":[]}';
-			}
-
-			return entry;
+		fallback: ( url ) => {
+			console.error( 'Missing URL in HAR:', url ); // eslint-disable-line no-console
 		},
 	} );
 

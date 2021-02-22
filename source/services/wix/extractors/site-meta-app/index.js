@@ -18,7 +18,10 @@ module.exports = {
 					headers: { Authorization: config.instance },
 				}
 			)
-			.then( ( result ) => result.json() );
+			.then( ( result ) => result.json() )
+			.catch( () => {
+				return { quickActionsData: {} };
+			} );
 	},
 
 	/**

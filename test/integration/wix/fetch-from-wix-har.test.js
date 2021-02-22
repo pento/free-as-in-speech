@@ -13,18 +13,19 @@ const fetchFromHAR = require( 'fetch-from-har' );
 const getWXRFromWixHAR = require( '../../../bin/lib/get-wxr-from-wix-har' );
 const wixServices = require( '../../../source/services/wix' );
 
-test( 'wix-basic', () => {
-	registerCoreBlocks();
+registerCoreBlocks();
 
-	const inputHAR = fs.readFileSync(
-		path.join( __dirname, 'fixtures/wix-basic.har' )
-	);
+test.each( [
+	[ 'empty.har', 'empty.wxr', true ],
+	[ 'wix-basic.har', 'wix-basic.wxr', false ],
+] )( 'wix: %s -> %s', async ( har, wxr, errorsExpected ) => {
+	const inputHAR = fs.readFileSync( path.join( __dirname, 'fixtures', har ) );
 	const outputWXR = fs.readFileSync(
-		path.join( __dirname, 'fixtures/wix-basic.wxr' )
+		path.join( __dirname, 'fixtures', wxr )
 	);
 
-	function stripFirstPubDate( wxr ) {
-		return wxr
+	function stripFirstPubDate( xml ) {
+		return xml
 			.toString()
 			.replace( /<pubDate>[^<]+/, '<pubDate>' )
 			.trim();
@@ -40,9 +41,12 @@ test( 'wix-basic', () => {
 			extractAll: true,
 		},
 		wixServices
-	).then( ( wxr ) =>
+	).then( ( xml ) => {
 		expect( stripFirstPubDate( outputWXR ) ).toEqual(
-			stripFirstPubDate( wxr )
-		)
-	);
+			stripFirstPubDate( xml )
+		);
+		if ( errorsExpected ) {
+			expect( console ).toHaveErrored();
+		}
+	} );
 } );
