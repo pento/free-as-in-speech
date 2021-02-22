@@ -127,7 +127,7 @@ module.exports = {
 			{
 				name: 'meta',
 				type: 'meta',
-				element: 'wp:term_meta',
+				childElement: 'wp:term_meta',
 			},
 		],
 	},
@@ -157,7 +157,7 @@ module.exports = {
 			{
 				name: 'meta',
 				type: 'meta',
-				element: 'wp:term_meta',
+				childElement: 'wp:term_meta',
 			},
 		],
 	},
@@ -198,7 +198,7 @@ module.exports = {
 			{
 				name: 'meta',
 				type: 'meta',
-				element: 'wp:term_meta',
+				childElement: 'wp:term_meta',
 			},
 		],
 	},
@@ -332,6 +332,7 @@ module.exports = {
 			{
 				name: 'meta',
 				type: 'meta',
+				childElement: 'wp:postmeta',
 			},
 		],
 	},

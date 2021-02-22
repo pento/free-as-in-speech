@@ -280,7 +280,7 @@ class WXRDriver {
 
 						await this.write(
 							writer,
-							this.formatValue( value, field.type, tabs )
+							this.formatValue( value, field, tabs )
 						);
 
 						if ( field.element ) {
@@ -314,30 +314,54 @@ class WXRDriver {
 	 * Format a given value for writing to the XHR file.
 	 *
 	 * @param {*}      value The value being written.
-	 * @param {string} type  The of the value, same as used in `castValue()`.
+	 * @param {Object} field The field definition for the value.
 	 * @param {number} tabs  The number of tabs to indent the value, for multiline values.
 	 */
-	formatValue( value, type, tabs ) {
-		switch ( type ) {
+	formatValue( value, field, tabs ) {
+		let xmlChunk = '';
+
+		switch ( field.type ) {
 			case 'string':
 			case 'mysql_date':
 			case 'rfc2822_date':
 				return '<![CDATA[' + xmlSanitizer( value ) + ']]>';
 			case 'meta':
-				return '';
+				if ( value.length === 0 ) {
+					return '';
+				}
+
+				for ( const meta of value ) {
+					xmlChunk += '\t'.repeat( tabs );
+					xmlChunk += `<${ field.childElement }>`;
+
+					xmlChunk += '\n' + '\t'.repeat( tabs + 1 );
+					xmlChunk +=
+						'<wp:meta_key>' +
+						xmlSanitizer( meta.key ) +
+						'</wp:meta_key>';
+
+					xmlChunk += '\n' + '\t'.repeat( tabs + 1 );
+					xmlChunk +=
+						'<wp:meta_value>' +
+						xmlSanitizer( meta.value ) +
+						'</wp:meta_value>';
+
+					xmlChunk += '\n' + '\t'.repeat( tabs );
+					xmlChunk += `</${ field.childElement }>\n`;
+				}
+				return xmlChunk;
 			case 'terms':
 				if ( value.length === 0 ) {
 					return '';
 				}
 
-				let xmlChunk = '\n';
 				for ( const term of value ) {
-					xmlChunk += '\t'.repeat( tabs + 1 );
+					xmlChunk += '\n' + '\t'.repeat( tabs + 1 );
 					xmlChunk += `<category domain="${ term.type }" nicename="${ term.slug }">`;
 					xmlChunk += '<![CDATA[' + xmlSanitizer( term.name ) + ']]>';
-					xmlChunk += '</category>\n';
+					xmlChunk += '</category>';
 				}
-				return xmlChunk;
+				return xmlChunk + '\n';
 			case 'int':
 			case 'number':
 				return value;
