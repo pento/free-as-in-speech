@@ -253,12 +253,7 @@ class WXRDriver {
 					}
 
 					for ( const field of storeDef.fields ) {
-						let value = datum[ field.name ];
-						if ( field.element === 'wp:post_id' ) {
-							value = datum.internalId;
-						}
-
-						if ( value === undefined ) {
+						if ( datum[ field.name ] === undefined ) {
 							continue;
 						}
 
@@ -280,7 +275,7 @@ class WXRDriver {
 
 						await this.write(
 							writer,
-							this.formatValue( value, field, tabs )
+							this.formatValue( datum[ field.name ], field, tabs )
 						);
 
 						if ( field.element ) {

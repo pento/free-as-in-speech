@@ -36,7 +36,6 @@
 		<wp:author_display_name><![CDATA[]]></wp:author_display_name>
 	</wp:author>
 	<item>
-		<wp:post_id>1</wp:post_id>
 		<title><![CDATA[Hello World]]></title>
 		<pubDate><![CDATA[Wed, 27 Jan 2021 08:20:41 GMT]]></pubDate>
 		<dc:creator><![CDATA[admin]]></dc:creator>
@@ -52,7 +51,6 @@
 		<wp:is_sticky>0</wp:is_sticky>
 	</item>
 	<item>
-		<wp:post_id>2</wp:post_id>
 		<title><![CDATA[Draft]]></title>
 		<pubDate><![CDATA[]]></pubDate>
 		<dc:creator><![CDATA[admin]]></dc:creator>
