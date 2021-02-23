@@ -336,4 +336,82 @@ module.exports = {
 			},
 		],
 	},
+	comments: {
+		indexes: [ 'post_id' ],
+		fields: [
+			{
+				name: 'id',
+				type: 'int',
+				element: 'wp:comment_id',
+			},
+			{
+				name: 'post_id',
+				type: 'int',
+				writeable: false,
+				// To avoid adding a special case when validating the data,
+				// we give this field a default value of itself.
+				default: ( validatedData, data ) => data.post_id,
+			},
+			{
+				name: 'author',
+				type: 'string',
+				element: 'wp:comment_author',
+			},
+			{
+				name: 'author_email',
+				type: 'string',
+				element: 'wp:comment_author_email',
+			},
+			{
+				name: 'author_url',
+				type: 'string',
+				element: 'wp:comment_author_url',
+			},
+			{
+				name: 'author_IP',
+				type: 'string',
+				element: 'wp:comment_author_IP',
+			},
+			{
+				name: 'date',
+				type: 'mysql_date',
+				element: 'wp:comment_date',
+			},
+			{
+				name: 'date_gmt',
+				type: 'mysql_date',
+				element: 'wp:comment_date_gmt',
+			},
+			{
+				name: 'content',
+				type: 'string',
+				element: 'wp:comment_content',
+			},
+			{
+				name: 'approved',
+				type: 'string',
+				element: 'wp:comment_approved',
+			},
+			{
+				name: 'type',
+				type: 'string',
+				element: 'wp:comment_type',
+			},
+			{
+				name: 'parent',
+				type: 'int',
+				element: 'wp:comment_parent',
+			},
+			{
+				name: 'user_id',
+				type: 'int',
+				element: 'wp:comment_user_id',
+			},
+			{
+				name: 'meta',
+				type: 'meta',
+				childElement: 'wp:commentmeta',
+			},
+		],
+	},
 };

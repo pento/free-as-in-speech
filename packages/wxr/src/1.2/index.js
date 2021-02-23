@@ -26,11 +26,18 @@ class WXRDriver {
 
 		this.db = await openDB( 'WXR-1.2', 1, {
 			upgrade: ( db ) => {
-				storesNames.forEach( ( store ) => {
-					db.createObjectStore( store, {
+				storesNames.forEach( ( storeName ) => {
+					const store = db.createObjectStore( storeName, {
 						keyPath: 'internalId',
 						autoIncrement: true,
 					} );
+
+					// If this store has indexes, add them to the store definition.
+					if ( schema[ storeName ].indexes ) {
+						schema[ storeName ].indexes.map( ( index ) =>
+							store.createIndex( index, index )
+						);
+					}
 				} );
 			},
 		} );
@@ -52,8 +59,9 @@ class WXRDriver {
 	 *
 	 * @param {string} dataType The type of data passed in the `data` blob.
 	 * @param {Object} data     The data to store.
+	 * @return {number} The autoincrement id of the data just stored.
 	 */
-	storeData( dataType, data ) {
+	async storeData( dataType, data ) {
 		// If we don't know about this dataType, bail.
 		if ( ! schema[ dataType ] ) {
 			return;
@@ -71,7 +79,10 @@ class WXRDriver {
 
 			// If the field is read-only, get the default value.
 			if ( field.hasOwnProperty( 'writeable' ) && ! field.writeable ) {
-				validatedData[ field.name ] = field.default( validatedData );
+				validatedData[ field.name ] = field.default(
+					validatedData,
+					data
+				);
 				return;
 			}
 
@@ -81,7 +92,7 @@ class WXRDriver {
 			if ( data.hasOwnProperty( field.name ) ) {
 				value = data[ field.name ];
 			} else if ( field.default ) {
-				value = field.default( validatedData );
+				value = field.default( validatedData, data );
 			}
 
 			if ( value === undefined ) {
@@ -91,7 +102,7 @@ class WXRDriver {
 			validatedData[ field.name ] = this.castValue( value, field.type );
 		} );
 
-		this.db.add( dataType, validatedData );
+		return await this.db.add( dataType, validatedData );
 	}
 
 	/**
@@ -198,9 +209,17 @@ class WXRDriver {
 	 * Add a post to the export.
 	 *
 	 * @param {Object} post The post object.
+	 * @return {number} The internal ID of the post (this ID is not output to the WXR file).
 	 */
-	addPost( post ) {
-		this.storeData( 'posts', post );
+	async addPost( post ) {
+		return await this.storeData( 'posts', post );
+	}
+
+	addComment( postId, comment ) {
+		this.storeData( 'comments', {
+			...comment,
+			post_id: postId,
+		} );
 	}
 
 	async export() {
@@ -237,9 +256,17 @@ class WXRDriver {
 			async ( lock, [ store, storeDef ] ) => {
 				await lock;
 
-				const tx = this.db.transaction( store );
+				const txStores = [ store ];
+				// Comments are handled inside individual posts.
+				if ( store === 'comments' ) {
+					return;
+				} else if ( store === 'posts' ) {
+					txStores.push( 'comments' );
+				}
 
-				for await ( const cursor of tx.store ) {
+				const tx = this.db.transaction( txStores );
+
+				for await ( const cursor of tx.objectStore( store ) ) {
 					const datum = cursor.value;
 
 					if ( storeDef.containerElement ) {
@@ -286,6 +313,16 @@ class WXRDriver {
 						}
 					}
 
+					if ( store === 'posts' ) {
+						// Add the comments associated with this post.
+						await this.streamComments(
+							tx,
+							writer,
+							datum.internalId,
+							tabs
+						);
+					}
+
 					if ( storeDef.containerElement ) {
 						tabs--;
 						await this.write( writer, '\t'.repeat( tabs ) );
@@ -303,6 +340,66 @@ class WXRDriver {
 		await this.writeFooter( writer );
 
 		await writer.close();
+	}
+
+	/**
+	 * Stream the comments for a given post into the WXR output stream.
+	 *
+	 * @param {IDBTransaction}              tx     An IndexedDB transaction which includes the 'comments' object store.
+	 * @param {WritableStreamDefaultWriter} writer The writable stream writer.
+	 * @param {number}                      postId The post ID to grab comments for.
+	 * @param {number}                      tabs   The indent level to use when writing the output.
+	 */
+	async streamComments( tx, writer, postId, tabs ) {
+		const index = tx.objectStore( 'comments' ).index( 'post_id' );
+
+		for await ( const cursor of index.iterate( postId ) ) {
+			const comment = cursor.value;
+
+			await this.write( writer, '\t'.repeat( tabs ) );
+			tabs++;
+
+			await this.write( writer, '<wp:comment>\n' );
+
+			for ( const field of schema.comments.fields ) {
+				if (
+					field.name === 'post_id' ||
+					comment[ field.name ] === undefined
+				) {
+					continue;
+				}
+
+				if ( field.element ) {
+					await this.write( writer, '\t'.repeat( tabs ) );
+					await this.write( writer, `<${ field.element }` );
+
+					if ( field.attributes ) {
+						for ( const attrKey in field.attributes ) {
+							await this.write(
+								writer,
+								` ${ attrKey }="${ field.attributes[ attrKey ] }"`
+							);
+						}
+					}
+
+					await this.write( writer, '>' );
+				}
+
+				await this.write(
+					writer,
+					this.formatValue( comment[ field.name ], field, tabs )
+				);
+
+				if ( field.element ) {
+					await this.write( writer, `</${ field.element }>\n` );
+				}
+			}
+
+			tabs--;
+			await this.write( writer, '\t'.repeat( tabs ) );
+
+			await this.write( writer, '</wp:comment>\n' );
+		}
 	}
 
 	/**
