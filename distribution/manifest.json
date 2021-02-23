@@ -16,6 +16,7 @@
 	},
 	"permissions": [
 		"activeTab",
+		"https://easy-blog-production.myeasyappsserver.com/*",
 		"https://*.wix.com/*"
 	],
 	"browser_action": {
