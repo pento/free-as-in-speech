@@ -69,7 +69,9 @@ module.exports = {
 							images:
 								$post
 									.find( '.post-photo' )
-									.map( ( img ) => $( img ).attr( 'src' ) )
+									.map( ( index, el ) =>
+										$( el ).attr( 'src' )
+									)
 									.get() || [],
 							video:
 								$post
@@ -77,8 +79,8 @@ module.exports = {
 									.attr( 'src' ) || null,
 							tags: $post
 								.find( '.tags .tag' )
-								.map( ( tag ) =>
-									$( tag ).text().trim().replace( /^\#/, '' )
+								.map( ( index, el ) =>
+									$( el ).text().trim().replace( /^\#/, '' )
 								)
 								.get(),
 							date: parseDateString(
@@ -101,9 +103,15 @@ module.exports = {
 	 */
 	save: async ( data, wxr ) => {
 		data.forEach( ( post ) => {
+			const postTags = post.tags.map( ( postTag ) => ( {
+				type: 'tag',
+				slug: postTag,
+				name: postTag,
+			} ) );
+
 			wxr.addPost( {
-				// guid: post.id,
-				// author: postAuthor.slug,
+				// guid: post.id, // No unique ids.
+				// author: postAuthor.slug, // No support for authors.
 				date: post.date,
 				title: post.title,
 				content: pasteHandler( { HTML: post.content } )
@@ -114,7 +122,7 @@ module.exports = {
 				sticky: 0,
 				type: 'post',
 				comment_status: 'closed',
-				terms: [],
+				terms: [ ...postTags ],
 			} );
 		} );
 	},

@@ -44,6 +44,8 @@
 			<wp:post_type><![CDATA[post]]></wp:post_type>
 			<wp:is_sticky>0</wp:is_sticky>
 			<wp:comment_status><![CDATA[closed]]></wp:comment_status>
+			<category domain="tag" nicename="tag2"><![CDATA[tag2]]></category>
+			<category domain="tag" nicename="tag1"><![CDATA[tag1]]></category>
 		</item>
 	</channel>
 </rss>
