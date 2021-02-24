@@ -47,8 +47,8 @@ class WXRDriver {
 	 * Clear any data that's currently stored in the tables. This should usually be called
 	 * when starting a new export, to ensure there's no residual data left from previous exports.
 	 */
-	clear() {
-		return Promise.all(
+	async clear() {
+		await Promise.all(
 			Object.keys( schema ).map( ( store ) => this.db.clear( store ) )
 		);
 	}
@@ -215,6 +215,12 @@ class WXRDriver {
 		return await this.storeData( 'posts', post );
 	}
 
+	/**
+	 * Add a comment to the export.
+	 *
+	 * @param {number} postId The internal ID of the post this comment belongs to.
+	 * @param {Object} comment The comment object.
+	 */
 	addComment( postId, comment ) {
 		this.storeData( 'comments', {
 			...comment,
@@ -222,6 +228,11 @@ class WXRDriver {
 		} );
 	}
 
+	/**
+	 * Generates the entire WXR file, and returns it as a string.
+	 *
+	 * @return {string} The WXR file content.
+	 */
 	async export() {
 		let buffer = '';
 
@@ -239,7 +250,7 @@ class WXRDriver {
 	}
 
 	/**
-	 * Given a WritableStream, generate the XHR file, and write it to that stream.
+	 * Given a WritableStream, generate the WXR file, and write it to that stream.
 	 *
 	 * @param {WritableStream} writableStream The stream to write to.
 	 */
@@ -252,20 +263,34 @@ class WXRDriver {
 
 		let tabs = 1;
 
+		// We want to process each part of the schema in sequence. However, since the
+		// processing function is asynchronous, we can't just use forEach(), as that will
+		// move on as soon as the processing function is called, rather than waiting for it
+		// to finish.
+		//
+		// Instead, we make use of reduce()'s behaviour, where it passes the result of the previous
+		// function call to the next function. As the previous function call is asynchronous, we can
+		// just wait for it to finish before proceeding.
 		await Object.entries( schema ).reduce(
 			async ( lock, [ store, storeDef ] ) => {
+				// Wait for the previous store processing to finish.
 				await lock;
 
+				// We'll need to at least lock the current data store.
 				const txStores = [ store ];
-				// Comments are handled inside individual posts.
+
 				if ( store === 'comments' ) {
+					// Comments are handled inside individual posts, we can skip them.
 					return;
 				} else if ( store === 'posts' ) {
+					// We're in posts, so we need to lock the comments data store, too.
 					txStores.push( 'comments' );
 				}
 
+				// Start a transaction against the database.
 				const tx = this.db.transaction( txStores );
 
+				// Loop over every item in the current data store.
 				for await ( const cursor of tx.objectStore( store ) ) {
 					const datum = cursor.value;
 
@@ -279,6 +304,8 @@ class WXRDriver {
 						);
 					}
 
+					// Loop over every field in the current data store, and print it
+					// out of the current item has any data for it.
 					for ( const field of storeDef.fields ) {
 						if ( datum[ field.name ] === undefined ) {
 							continue;
@@ -362,6 +389,7 @@ class WXRDriver {
 			await this.write( writer, '<wp:comment>\n' );
 
 			for ( const field of schema.comments.fields ) {
+				// We can skip the post_id field, as that's an internal reference.
 				if (
 					field.name === 'post_id' ||
 					comment[ field.name ] === undefined
