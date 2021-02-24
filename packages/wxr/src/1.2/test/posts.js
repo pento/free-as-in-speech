@@ -79,4 +79,25 @@ describe( 'Posts', () => {
 
 		expect( xml ).toMatchSnapshot();
 	} );
+
+	test( 'attachment_url is only included for the attachment post type', async () => {
+		const wxr = new WXRDriver();
+		await wxr.connect();
+
+		wxr.addPost( {
+			title: 'A Page Title',
+			type: 'page',
+			attachment_url: 'https://make.wordpress.org', // Won't be written for this post type.
+		} );
+
+		wxr.addPost( {
+			title: 'An Attachment Title',
+			type: 'attachment',
+			attachment_url: 'https://make.wordpress.org',
+		} );
+
+		const xml = await wxr.export();
+
+		expect( xml ).toMatchSnapshot();
+	} );
 } );

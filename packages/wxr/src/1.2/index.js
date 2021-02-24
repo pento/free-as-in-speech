@@ -77,6 +77,11 @@ class WXRDriver {
 				return;
 			}
 
+			// Skip any fields that have a filter which fails for this data blob.
+			if ( field.filter && ! field.filter( data ) ) {
+				return;
+			}
+
 			// If the field is read-only, get the default value.
 			if ( field.hasOwnProperty( 'writeable' ) && ! field.writeable ) {
 				validatedData[ field.name ] = field.default(

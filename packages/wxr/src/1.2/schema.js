@@ -324,6 +324,7 @@ module.exports = {
 				name: 'attachment_url',
 				type: 'string',
 				element: 'wp:attachment_url',
+				filter: ( data ) => data.type === 'attachment',
 			},
 			{
 				name: 'terms',
