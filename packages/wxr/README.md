@@ -16,9 +16,11 @@ npm install @wordpress/wxr --save-dev
 /**
  * WordPress dependencies
  */
-const { getWXRDriver } = require( '@wordpress/wxr' );
+import { getWXRDriver } from '@wordpress/wxr';
 
-const wxr = await getWXRDriver( '1.2' );
+const myExporter = async () => {
+	const wxr = await getWXRDriver( '1.2' );
+};
 ```
 
 ## API
