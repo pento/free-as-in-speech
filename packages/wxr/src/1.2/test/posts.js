@@ -17,6 +17,22 @@ describe( 'Posts', () => {
 		const wxr = new WXRDriver();
 		await wxr.connect();
 
+		wxr.addCategory( {
+			slug: 'some-cat',
+			name: 'Some Category',
+		} );
+
+		wxr.addTag( {
+			slug: 'some-tag',
+			name: 'Some Tag',
+		} );
+
+		wxr.addTerm( {
+			taxonomy: 'my-tax',
+			slug: 'some-term',
+			name: 'Some Term',
+		} );
+
 		wxr.addPost( {
 			id: 1,
 			title: 'A Post Title',
@@ -39,8 +55,24 @@ describe( 'Posts', () => {
 			password: 'a-strong-password',
 			sticky: true,
 			attachment_url: 'https://make.wordpress.org', // Won't be written for this post type.
-			terms: [],
-			meta: [],
+			terms: [
+				{
+					type: 'category',
+					slug: 'some-cat',
+					name: 'Some Category',
+				},
+				{
+					type: 'tag',
+					slug: 'some-tag',
+					name: 'Some Tag',
+				},
+				{
+					type: 'my-tax',
+					slug: 'some-term',
+					name: 'Some Term',
+				},
+			],
+			meta: [ { key: 'talk about', value: 'pop music' } ],
 		} );
 
 		const xml = await wxr.export();

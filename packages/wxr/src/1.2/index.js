@@ -476,12 +476,13 @@ class WXRDriver {
 				}
 
 				for ( const term of value ) {
-					xmlChunk += '\n' + '\t'.repeat( tabs + 1 );
-					xmlChunk += `<category domain="${ term.type }" nicename="${ term.slug }">`;
-					xmlChunk += '<![CDATA[' + xmlSanitizer( term.name ) + ']]>';
-					xmlChunk += '</category>';
+					xmlChunk += '\t'.repeat( tabs );
+					xmlChunk +=
+						`<category domain="${ term.type }" nicename="${ term.slug }">` +
+						xmlSanitizer( term.name ) +
+						'</category>\n';
 				}
-				return xmlChunk + '\n';
+				return xmlChunk;
 			case 'int':
 			case 'number':
 				return value;

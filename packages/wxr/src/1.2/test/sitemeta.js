@@ -21,7 +21,6 @@ describe( 'Site Meta', () => {
 			title: 'A Title',
 			link: 'https://wordpress.org/',
 			description: 'A description',
-			pubDate: expect.any( Date ),
 			language: 'art-x-emoji',
 			wxrVersion: '1.2.3.4.5', // Should not be writable, test with a fake value.
 			siteUrl: 'https://make.wordpress.org/',

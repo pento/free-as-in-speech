@@ -28,6 +28,21 @@ exports[`Posts All fields are written as expected 1`] = `
 	xmlns:wp=\\"http://wordpress.org/export/1.2/\\"
 >
 <channel>
+	<wp:category>
+		<wp:category_nicename><![CDATA[some-cat]]></wp:category_nicename>
+		<wp:category_parent><![CDATA[]]></wp:category_parent>
+		<wp:cat_name><![CDATA[Some Category]]></wp:cat_name>
+	</wp:category>
+	<wp:tag>
+		<wp:tag_slug><![CDATA[some-tag]]></wp:tag_slug>
+		<wp:tag_name><![CDATA[Some Tag]]></wp:tag_name>
+	</wp:tag>
+	<wp:term>
+		<wp:tag_taxonomy><![CDATA[my-tax]]></wp:tag_taxonomy>
+		<wp:term_slug><![CDATA[some-term]]></wp:term_slug>
+		<wp:term_parent><![CDATA[]]></wp:term_parent>
+		<wp:term_name><![CDATA[Some Term]]></wp:term_name>
+	</wp:term>
 	<item>
 		<wp:post_id>1</wp:post_id>
 		<title><![CDATA[A Post Title]]></title>
@@ -50,6 +65,13 @@ exports[`Posts All fields are written as expected 1`] = `
 		<wp:post_password><![CDATA[a-strong-password]]></wp:post_password>
 		<wp:is_sticky>NaN</wp:is_sticky>
 		<wp:attachment_url><![CDATA[https://make.wordpress.org]]></wp:attachment_url>
+		<category domain=\\"category\\" nicename=\\"some-cat\\">Some Category</category>
+		<category domain=\\"tag\\" nicename=\\"some-tag\\">Some Tag</category>
+		<category domain=\\"my-tax\\" nicename=\\"some-term\\">Some Term</category>
+		<wp:postmeta>
+			<wp:meta_key>talk about</wp:meta_key>
+			<wp:meta_value>pop music</wp:meta_value>
+		</wp:postmeta>
 	</item>
 </channel>
 </rss>"
