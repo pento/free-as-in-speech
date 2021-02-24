@@ -25,7 +25,9 @@ const startExport = async ( config ) => {
 				extractorConfig = config.mediaToken;
 			} else {
 				extractorConfig = Object.values(
-					config.initialState.embeddedServices
+					( config.initialState &&
+						config.initialState.embeddedServices ) ||
+						{}
 				).reduce( ( found, appConfig ) => {
 					if ( found ) {
 						return found;

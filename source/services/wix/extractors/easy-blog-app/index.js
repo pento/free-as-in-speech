@@ -1,3 +1,40 @@
+const cheerio = require( 'cheerio' );
+const moment = require( 'moment' );
+const { pasteHandler, serialize } = require( '@wordpress/blocks' );
+
+const parseDateString = ( str ) => {
+	const lowerCaseStr = str.toLowerCase().trim();
+
+	const today = moment().startOf( 'day' ).utcOffset( 0, true );
+
+	switch ( lowerCaseStr ) {
+		case 'today':
+			return today;
+		case 'yesterday':
+			return today.subtract( 1, 'day' );
+	}
+
+	const parsedRelativeDate = lowerCaseStr.match( /^last ([a-z]+)$/ );
+	if ( parsedRelativeDate ) {
+		const thisDay = today.isoWeekday();
+		const parsedDay = moment()
+			.isoWeekday( parsedRelativeDate[ 1 ] )
+			.isoWeekday();
+		const isLastWeek = parsedDay >= thisDay;
+		return today.isoWeekday( parsedDay - ( isLastWeek ? 7 : 0 ) );
+	}
+
+	const parsedProperDate = moment( new Date( lowerCaseStr ) ).utcOffset(
+		0,
+		true
+	);
+	if ( parsedProperDate.isValid() ) {
+		return parsedProperDate;
+	}
+
+	return 0;
+};
+
 module.exports = {
 	/**
 	 * The Wix application definition ID.
@@ -10,12 +47,50 @@ module.exports = {
 	 * @param {Object} config The app-specific config extracted from the Wix page.
 	 */
 	extract: async ( config ) => {
-		const url = new URL( config.dashboardUrl );
-		url.pathname = '';
+		const url = new URL(
+			'https://easy-blog-production.myeasyappsserver.com/'
+		);
 		url.searchParams.set( 'instance', config.instance );
+		// We are here switching to a premium theme that supports tags.
+		url.searchParams.set( 'theme', 'Photogram' );
 		return await window
 			.fetch( url )
-			.then( ( result ) => console.log );
+			.then( ( result ) => result.text() )
+			.then( ( html ) => {
+				const $ = cheerio.load( html );
+				return $( '.blog-post' )
+					.map( ( i, post ) => {
+						const $post = $( post );
+						return {
+							title:
+								$post.find( '.post-title' ).text().trim() || '',
+							content:
+								$post.find( '.post-text' ).html().trim() || '',
+							images:
+								$post
+									.find( '.post-photo' )
+									.map( ( img ) => $( img ).attr( 'src' ) )
+									.get() || [],
+							video:
+								$post
+									.find( 'iframe.embed-responsive-item' )
+									.attr( 'src' ) || null,
+							tags: $post
+								.find( '.tags .tag' )
+								.map( ( tag ) =>
+									$( tag ).text().trim().replace( /^\#/, '' )
+								)
+								.get(),
+							date: parseDateString(
+								$post
+									.find( '.post-meta li:first-child' )
+									.text()
+									.trim()
+							),
+						};
+					} )
+					.get();
+			} );
 	},
 
 	/**
@@ -25,5 +100,22 @@ module.exports = {
 	 * @param {Object} wxr The WXR encoder.
 	 */
 	save: async ( data, wxr ) => {
+		data.forEach( ( post ) => {
+			wxr.addPost( {
+				// guid: post.id,
+				// author: postAuthor.slug,
+				date: post.date,
+				title: post.title,
+				content: pasteHandler( { HTML: post.content } )
+					.filter( ( blockContent ) => blockContent !== false )
+					.map( ( wpBlock ) => serialize( wpBlock ) )
+					.join( '\n\n' ),
+				status: 'publish',
+				sticky: 0,
+				type: 'post',
+				comment_status: 'closed',
+				terms: [],
+			} );
+		} );
 	},
 };
