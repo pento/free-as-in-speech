@@ -1,6 +1,7 @@
 /**
  * WordPress dependencies
  */
+const FDBFactory = require( 'fake-indexeddb/lib/FDBFactory' );
 const { registerCoreBlocks } = require( '@wordpress/block-library' );
 require( '@wordpress/format-library' );
 
@@ -14,6 +15,10 @@ const getWXRFromWixHAR = require( '../../../bin/lib/get-wxr-from-wix-har' );
 const wixServices = require( '../../../source/services/wix' );
 
 registerCoreBlocks();
+
+beforeEach( () => {
+	window.indexedDB = new FDBFactory();
+} );
 
 test.each( [
 	[

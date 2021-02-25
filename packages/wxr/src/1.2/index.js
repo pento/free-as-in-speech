@@ -22,7 +22,7 @@ class WXRDriver {
 	 *
 	 * @param {boolean} reset Whether to reset the data store when connecting.
 	 */
-	async connect( { reset = false } ) {
+	async connect( { reset = false } = {} ) {
 		// Extract the store name and index info from the schema.
 		const storesNames = Object.keys( schema );
 
@@ -237,10 +237,12 @@ class WXRDriver {
 	async export() {
 		let buffer = '';
 
+		const decoder = new TextDecoder();
+
 		const writableStream = new WritableStream( {
 			write: ( chunk ) =>
 				new Promise( ( resolve ) => {
-					buffer += chunk;
+					buffer += decoder.decode( chunk );
 					resolve();
 				} ),
 		} );
@@ -276,6 +278,7 @@ class WXRDriver {
 			async ( lock, [ store, storeDef ] ) => {
 				// Wait for the previous store processing to finish.
 				await lock;
+				await writer.ready;
 
 				// We'll need to at least lock the current data store.
 				const txStores = [ store ];
@@ -340,7 +343,7 @@ class WXRDriver {
 
 					if ( store === 'posts' ) {
 						// Add the comments associated with this post.
-						this.streamComments(
+						await this.streamComments(
 							tx,
 							writer,
 							datum.internalId,
@@ -381,10 +384,10 @@ class WXRDriver {
 		for await ( const cursor of index.iterate( postId ) ) {
 			const comment = cursor.value;
 
-			await this.write( writer, '\t'.repeat( tabs ) );
+			this.write( writer, '\t'.repeat( tabs ) );
 			tabs++;
 
-			await this.write( writer, '<wp:comment>\n' );
+			this.write( writer, '<wp:comment>\n' );
 
 			for ( const field of schema.comments.fields ) {
 				// We can skip the post_id field, as that's an internal reference.
@@ -396,35 +399,35 @@ class WXRDriver {
 				}
 
 				if ( field.element ) {
-					await this.write( writer, '\t'.repeat( tabs ) );
-					await this.write( writer, `<${ field.element }` );
+					this.write( writer, '\t'.repeat( tabs ) );
+					this.write( writer, `<${ field.element }` );
 
 					if ( field.attributes ) {
 						for ( const attrKey in field.attributes ) {
-							await this.write(
+							this.write(
 								writer,
 								` ${ attrKey }="${ field.attributes[ attrKey ] }"`
 							);
 						}
 					}
 
-					await this.write( writer, '>' );
+					this.write( writer, '>' );
 				}
 
-				await this.write(
+				this.write(
 					writer,
 					this.formatValue( comment[ field.name ], field, tabs )
 				);
 
 				if ( field.element ) {
-					await this.write( writer, `</${ field.element }>\n` );
+					this.write( writer, `</${ field.element }>\n` );
 				}
 			}
 
 			tabs--;
-			await this.write( writer, '\t'.repeat( tabs ) );
+			this.write( writer, '\t'.repeat( tabs ) );
 
-			await this.write( writer, '</wp:comment>\n' );
+			this.write( writer, '</wp:comment>\n' );
 		}
 	}
 
