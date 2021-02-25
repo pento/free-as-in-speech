@@ -14,8 +14,7 @@ const extractors = require( './extractors' );
  * @param {Object} config The Wix config data.
  */
 const startExport = async ( config ) => {
-	const wxr = await getWXRDriver( '1.2' );
-	await wxr.clear();
+	const wxr = await getWXRDriver( '1.2', true );
 
 	await Promise.all(
 		extractors.map( async ( extractor ) => {

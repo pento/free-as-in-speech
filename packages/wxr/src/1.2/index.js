@@ -2,7 +2,7 @@
  * External dependencies
  */
 const moment = require( 'moment' );
-const { openDB } = require( 'idb/with-async-ittr-cjs' );
+const { openDB, deleteDB } = require( 'idb/with-async-ittr-cjs' );
 const { WritableStream } = require( 'web-streams-polyfill/ponyfill/es6' );
 const xmlSanitizer = require( 'xml-sanitizer' );
 
@@ -19,10 +19,16 @@ const WXR_VERSION = '1.2';
 class WXRDriver {
 	/**
 	 * Connect to the DB.
+	 *
+	 * @param {boolean} reset Whether to reset the data store when connecting.
 	 */
-	async connect() {
+	async connect( { reset = false } ) {
 		// Extract the store name and index info from the schema.
 		const storesNames = Object.keys( schema );
+
+		if ( reset ) {
+			await deleteDB( 'WXR-1.2' );
+		}
 
 		this.db = await openDB( 'WXR-1.2', 1, {
 			upgrade: ( db ) => {
@@ -41,16 +47,6 @@ class WXRDriver {
 				} );
 			},
 		} );
-	}
-
-	/**
-	 * Clear any data that's currently stored in the tables. This should usually be called
-	 * when starting a new export, to ensure there's no residual data left from previous exports.
-	 */
-	async clear() {
-		await Promise.all(
-			Object.keys( schema ).map( ( store ) => this.db.clear( store ) )
-		);
 	}
 
 	/**
@@ -300,10 +296,10 @@ class WXRDriver {
 					const datum = cursor.value;
 
 					if ( storeDef.containerElement ) {
-						await this.write( writer, '\t'.repeat( tabs ) );
+						this.write( writer, '\t'.repeat( tabs ) );
 						tabs++;
 
-						await this.write(
+						this.write(
 							writer,
 							`<${ storeDef.containerElement }>\n`
 						);
@@ -317,37 +313,34 @@ class WXRDriver {
 						}
 
 						if ( field.element ) {
-							await this.write( writer, '\t'.repeat( tabs ) );
-							await this.write( writer, `<${ field.element }` );
+							this.write( writer, '\t'.repeat( tabs ) );
+							this.write( writer, `<${ field.element }` );
 
 							if ( field.attributes ) {
 								for ( const attrKey in field.attributes ) {
-									await this.write(
+									this.write(
 										writer,
 										` ${ attrKey }="${ field.attributes[ attrKey ] }"`
 									);
 								}
 							}
 
-							await this.write( writer, '>' );
+							this.write( writer, '>' );
 						}
 
-						await this.write(
+						this.write(
 							writer,
 							this.formatValue( datum[ field.name ], field, tabs )
 						);
 
 						if ( field.element ) {
-							await this.write(
-								writer,
-								`</${ field.element }>\n`
-							);
+							this.write( writer, `</${ field.element }>\n` );
 						}
 					}
 
 					if ( store === 'posts' ) {
 						// Add the comments associated with this post.
-						await this.streamComments(
+						this.streamComments(
 							tx,
 							writer,
 							datum.internalId,
@@ -357,9 +350,9 @@ class WXRDriver {
 
 					if ( storeDef.containerElement ) {
 						tabs--;
-						await this.write( writer, '\t'.repeat( tabs ) );
+						this.write( writer, '\t'.repeat( tabs ) );
 
-						await this.write(
+						this.write(
 							writer,
 							`</${ storeDef.containerElement }>\n`
 						);
@@ -506,7 +499,7 @@ class WXRDriver {
 	 */
 	async write( writer, content ) {
 		await writer.ready;
-		await writer.write( content );
+		await writer.write( new TextEncoder().encode( content ) );
 	}
 
 	/**

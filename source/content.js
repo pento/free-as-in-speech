@@ -1,36 +1,9 @@
-/**
- * External dependencies
- */
-const { createWriteStream } = require( 'streamsaver' );
-
 // Listen for the message to save the config.
 window.addEventListener( 'message', ( e ) => {
 	switch ( e.data.type ) {
 		case 'save_wix_config':
 			browser.runtime.sendMessage( e.data );
 			break;
-	}
-} );
-
-let fileStream;
-let writer;
-
-// Listen for the message to create the download.
-browser.runtime.onMessage.addListener( async ( message ) => {
-	switch ( message.type ) {
-		case 'start_download':
-			fileStream = createWriteStream( 'wix-export.wxr' );
-			writer = fileStream.getWriter();
-
-			break;
-		case 'download_data':
-			await writer.ready;
-			await writer.write( message.data );
-
-			break;
-		case 'finish_download':
-			await writer.ready;
-			writer.close();
 	}
 } );
 

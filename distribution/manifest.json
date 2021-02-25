@@ -36,7 +36,6 @@
 			"matches": [ "https://manage.wix.com/dashboard/*" ],
 			"js": [
 				"build/polyfills/webextension.js",
-				"build/polyfills/web-streams.js",
 				"build/content.js"
 			],
 			"run_at": "document_start"
