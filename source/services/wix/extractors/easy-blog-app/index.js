@@ -110,11 +110,9 @@ module.exports = {
 			} ) );
 
 			wxr.addPost( {
-				// guid: post.id, // No unique ids.
-				// author: postAuthor.slug, // No support for authors.
 				date: post.date,
 				title: post.title,
-				content: pasteHandler( { HTML: post.content } )
+				content: pasteHandler( { HTML: post.content, mode: 'BLOCKS' } )
 					.filter( ( blockContent ) => blockContent !== false )
 					.map( ( wpBlock ) => serialize( wpBlock ) )
 					.join( '\n\n' ),
