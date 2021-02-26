@@ -43,7 +43,8 @@ const getExtractorConfig = ( config, appDefinitionId ) => {
 
 	if ( extractor.appDefinitionId === 'static-pages' ) {
 		return {
-			viewUrl: 'https://928917.wixsite.com/meinewebsite',
+			viewUrl: config.initialState.liveSite.viewUrl,
+			metaSiteId: config.initialState.siteMetaData.metaSiteId,
 		};
 	}
 
