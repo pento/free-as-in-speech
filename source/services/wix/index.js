@@ -41,6 +41,12 @@ const getExtractorConfig = ( config, appDefinitionId ) => {
 		return config.mediaToken;
 	}
 
+	if ( extractor.appDefinitionId === 'static-pages' ) {
+		return {
+			viewUrl: 'https://928917.wixsite.com/meinewebsite',
+		};
+	}
+
 	return Object.values(
 		( config.initialState && config.initialState.embeddedServices ) || {}
 	).reduce( ( found, appConfig ) => {

@@ -6,24 +6,7 @@ const CopyWebpackPlugin = require( 'copy-webpack-plugin' );
 const { DefinePlugin } = require( 'webpack' );
 const TerserPlugin = require( 'terser-webpack-plugin' );
 
-const cliConfig = {
-	stats: 'errors-only',
-	entry: {
-		'export-from-har': './bin/export-from-har',
-		'fetch-from-har': './packages/fetch-from-har',
-	},
-	output: {
-		path: path.join( __dirname, 'build' ),
-		filename: '[name].js',
-	},
-	target: 'node',
-	mode: 'development',
-	externals: {
-		canvas: 'util', // https://github.com/jsdom/jsdom/issues/2508
-	},
-};
-
-const extensionConfig = {
+module.exports = {
 	devtool: 'source-map',
 	stats: 'errors-only',
 	entry: {
@@ -94,5 +77,3 @@ const extensionConfig = {
 		],
 	},
 };
-
-module.exports = [ extensionConfig, cliConfig ];

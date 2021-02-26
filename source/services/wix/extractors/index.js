@@ -1,14 +1,16 @@
-const communitiesBlogAppSettings = require( './communities-blog-app' );
+const communitiesBlogApp = require( './communities-blog-app' );
 const siteMetaSettings = require( './site-meta-app' );
-const easyBlogSettings = require( './easy-blog-app' );
+const easyBlogApp = require( './easy-blog-app' );
 const mediaManagerSettings = require( './media-manager' );
+const staticPages = require( './static-pages' );
 
 /**
  * An array of the defined extractors.
  */
 module.exports = [
 	siteMetaSettings,
-	communitiesBlogAppSettings,
+	communitiesBlogApp,
 	mediaManagerSettings,
-	easyBlogSettings,
+	easyBlogApp,
+	staticPages,
 ];
