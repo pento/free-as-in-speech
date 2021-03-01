@@ -12,9 +12,11 @@ module.exports = {
 	 * @param {Object} config The app-specific config extracted from the Wix page.
 	 */
 	extract: async ( config ) => {
+
 		const url = new URL(
-			'https://manage.wix.com/editor/' + config.metaSiteId
+			'https://editor.wix.com/html/editor/web/renderer/render/document/' + config.editorSiteId
 		);
+
 		url.searchParams.set( 'metaSiteId', config.metaSiteId );
 		url.searchParams.set( 'editorSessionId', uuidv4() );
 		url.searchParams.set( 'referralInfo', 'my-account' );
