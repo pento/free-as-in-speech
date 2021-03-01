@@ -34,6 +34,7 @@
 		"dayjs": "1.10.4",
 		"react": "16.14.0",
 		"react-dom": "16.14.0",
+		"uuid": "8.3.2",
 		"web-streams-polyfill": "3.0.2",
 		"webextension-polyfill": "0.7.0"
 	},

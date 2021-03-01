@@ -9,7 +9,6 @@ const { getWXRDriver } = require( '@wordpress/wxr' );
 const extractors = require( './extractors' );
 const siteMetaSettings = require( './extractors/site-meta-app' );
 
-
 /**
  * Returns an array of the installed apps.
  *

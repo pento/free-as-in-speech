@@ -28,7 +28,6 @@ function findRequestInHar( HAR, requestUrl, options ) {
 
 	let results = entries;
 	if ( results.length > 1 ) {
-
 		// first lets filter on query params
 		const withSameQueryString = results.filter( ( e ) => {
 			for ( const [ name, value ] of req.searchParams ) {
@@ -77,16 +76,21 @@ function findRequestInHar( HAR, requestUrl, options ) {
 		}
 
 		if ( results.length > 1 ) {
-
 		}
 	}
 	if ( results.length > 0 ) {
-		const response = results[0].response;
+		const response = results[ 0 ].response;
 		if ( 302 === response.status || 301 === response.status ) {
 			if ( response.redirectURL ) {
-				options.redirects = options.redirects ? options.redirects + 1 : 1;
+				options.redirects = options.redirects
+					? options.redirects + 1
+					: 1;
 				if ( options.redirects < 10 ) {
-					return findRequestInHar( HAR, response.redirectURL, options );
+					return findRequestInHar(
+						HAR,
+						response.redirectURL,
+						options
+					);
 				}
 			}
 		}
