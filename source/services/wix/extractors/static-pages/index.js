@@ -12,12 +12,9 @@ module.exports = {
 	 * @param {Object} config The app-specific config extracted from the Wix page.
 	 */
 	extract: async ( config ) => {
-
 		const url = new URL(
-			'https://editor.wix.com/html/editor/web/renderer/render/document/' + config.editorSiteId
+			'https://manage.wix.com/editor/' + config.metaSiteId
 		);
-
-		url.searchParams.set( 'metaSiteId', config.metaSiteId );
 		url.searchParams.set( 'editorSessionId', uuidv4() );
 		url.searchParams.set( 'referralInfo', 'my-account' );
 		return await window
@@ -31,10 +28,36 @@ module.exports = {
 				}
 			} )
 			.then( ( result ) => result.text() )
-			.then( ( html ) => {
-				console.log(html)
-			} );
-	},
+	 	 	.then( ( html ) => {
+		 		const $ = cheerio.load( html );
+				$( 'script' ).each( ( idx, scriptTag ) => {
+					const currentTag = $( scriptTag );
+					console.log(currentTag.html())
+					if ( currentTag.attr( 'id' ) === 'wix-viewer-model' ) {
+						metaConfigurations.publicModel = JSON.parse( currentTag.html() );
+						return;
+					}
+
+					if ( currentTag.attr( 'src' ) !== undefined ) {
+						return;
+					}
+
+					const scriptBody = currentTag.html();
+					const metaConfigurationRegExp = /(warmupData|serviceTopology|rendererModel|publicModel)\s*=\s*(\{.*\});\s*(?:var|$)/g;
+
+					let match;
+					while ( ( match = metaConfigurationRegExp.exec( scriptBody ) ) ) {
+						const metaName = match[ 1 ];
+						const metaConfigRawJSON = match[ 2 ];
+
+						metaConfigurations[ metaName ] = JSON.parse( metaConfigRawJSON );
+					}
+				} );
+
+				console.log(metaConfigurations.publicModel.siteAssets.siteScopeParams.pageJsonFileNames.masterPage)
+		 		return metaConfigurations;
+		 	} );
+},
 
 	/**
 	 * This function is called once we're ready to start generating the WXR file.

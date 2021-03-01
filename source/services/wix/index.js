@@ -43,8 +43,6 @@ const getExtractorConfig = ( config, appDefinitionId ) => {
 
 	if ( extractor.appDefinitionId === 'static-pages' ) {
 		return {
-			editorSiteId: config.initialState.liveSite.editorSiteId,
-			viewUrl: config.initialState.liveSite.viewUrl,
 			metaSiteId: config.initialState.siteMetaData.metaSiteId,
 		};
 	}
