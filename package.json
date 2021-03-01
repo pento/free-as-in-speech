@@ -24,8 +24,8 @@
 		"@wordpress/rich-text": "3.24.5",
 		"@wordpress/wxr": "file:packages/wxr",
 		"cheerio": "1.0.0-rc.5",
+		"dayjs": "1.10.4",
 		"file-saver": "2.0.5",
-		"moment": "2.29.1",
 		"webextension-polyfill": "0.7.0"
 	},
 	"devDependencies": {
