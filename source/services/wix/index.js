@@ -9,6 +9,7 @@ const { getWXRDriver } = require( '@wordpress/wxr' );
 const extractors = require( './extractors' );
 const siteMetaSettings = require( './extractors/site-meta-app' );
 
+
 /**
  * Returns an array of the installed apps.
  *
@@ -72,9 +73,9 @@ const getExtractorConfig = ( config, appDefinitionId ) => {
 const startExport = async ( config, statusReport ) => {
 	const wxr = await getWXRDriver( '1.2', true );
 
-	// We'll need the meta data for some other extractors, so let's download it first.
-	const siteMeta = await siteMetaSettings.extract( config );
-	await siteMetaSettings.save( siteMeta, wxr );
+	const extractData = async ( extractor ) => {
+		// Grab the config data for this extractor.
+		let extractorConfig;
 
 	if ( siteMeta ) {
 		if ( ! config.initialState ) {
