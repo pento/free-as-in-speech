@@ -80,13 +80,14 @@ function findRequestInHar( HAR, requestUrl, options ) {
 
 		}
 	}
-
-	const response = entries[0].response;
-	if ( 302 === response.status || 301 === response.status ) {
-		if ( response.redirectURL ) {
-			options.redirects = options.redirects ? options.redirects + 1 : 1;
-			if ( options.redirects < 10 ) {
-				return findRequestInHar( HAR, response.redirectURL, options );
+	if ( results.length > 0 ) {
+		const response = results[0].response;
+		if ( 302 === response.status || 301 === response.status ) {
+			if ( response.redirectURL ) {
+				options.redirects = options.redirects ? options.redirects + 1 : 1;
+				if ( options.redirects < 10 ) {
+					return findRequestInHar( HAR, response.redirectURL, options );
+				}
 			}
 		}
 	}
