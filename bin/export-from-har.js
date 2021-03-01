@@ -52,7 +52,7 @@ program
 	.option(
 		'-m, --metaSiteId <metaSiteId>',
 		'The UUID representing',
-		'meta-site-id-missing'
+		null
 	)
 	.arguments( '<harfile>', 'The file to import' )
 	.description( 'Extract from Wix' )
