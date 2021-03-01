@@ -49,11 +49,20 @@ program
 		'Which Wix module to extract',
 		'all'
 	)
+	.option(
+		'-m, --metaSiteId <metaSiteId>',
+		'The UUID representing',
+		'meta-site-id-missing'
+	)
 	.arguments( '<harfile>', 'The file to import' )
 	.description( 'Extract from Wix' )
 	.action( ( harfile, options ) => {
 		const config = {
-			initialState: {},
+			initialState: {
+				siteMetaData: {
+					metaSiteId: options.metaSiteId
+				}
+			},
 		};
 
 		if ( typeof options.appDefinitionId === 'string' ) {
