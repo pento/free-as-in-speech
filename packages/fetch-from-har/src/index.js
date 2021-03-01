@@ -26,11 +26,11 @@ function findRequestInHar( HAR, requestUrl, options ) {
 		return true;
 	} );
 
-	if ( entries.length > 1 ) {
-		let results = entries;
+	let results = entries;
+	if ( results.length > 1 ) {
 
 		// first lets filter on query params
-		const withSameQueryString = entries.filter( ( e ) => {
+		const withSameQueryString = results.filter( ( e ) => {
 			for ( const [ name, value ] of req.searchParams ) {
 				if ( value !== e.request.url.searchParams.get( name ) ) {
 					return false;
@@ -42,7 +42,7 @@ function findRequestInHar( HAR, requestUrl, options ) {
 		if ( withSameQueryString.length > 0 ) {
 			results = withSameQueryString;
 		} else if ( options && 'function' === typeof options.queryComparison ) {
-			const withAllowedDeviatingQueryString = entries.filter( ( e ) => {
+			const withAllowedDeviatingQueryString = results.filter( ( e ) => {
 				for ( const [ name, value ] of req.searchParams ) {
 					if (
 						! options.queryComparison(
@@ -64,7 +64,7 @@ function findRequestInHar( HAR, requestUrl, options ) {
 
 		if ( results.length > 1 && req.body ) {
 			// then try to filter on body
-			const withTheSameBody = entries.filter( ( e ) => {
+			const withTheSameBody = results.filter( ( e ) => {
 				const data = e.request.postData;
 				if ( data ) {
 					return req.body === data.text;
@@ -75,9 +75,23 @@ function findRequestInHar( HAR, requestUrl, options ) {
 				results = withTheSameBody;
 			}
 		}
-		return results;
+
+		if ( results.length > 1 ) {
+
+		}
 	}
-	return entries;
+
+	const response = entries[0].response;
+	if ( 302 === response.status || 301 === response.status ) {
+		if ( response.redirectURL ) {
+			options.redirects = options.redirects ? options.redirects + 1 : 1;
+			if ( options.redirects < 10 ) {
+				return findRequestInHar( HAR, response.redirectURL, options );
+			}
+		}
+	}
+
+	return results;
 }
 
 function fetchFromHAR( HAR, mockOptions ) {
