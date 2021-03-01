@@ -1,6 +1,6 @@
 const cheerio = require( 'cheerio' );
 const dayjs = require( 'dayjs' );
-var utc = require( 'dayjs/plugin/utc' )
+const utc = require( 'dayjs/plugin/utc' );
 const { pasteHandler, serialize } = require( '@wordpress/blocks' );
 
 dayjs.extend( utc );
@@ -21,7 +21,7 @@ const parseDateString = ( str ) => {
 	if ( parsedRelativeDate ) {
 		const thisDay = today.day();
 		const parsedDay = dayjs.en.weekdays.findIndex(
-			weekday => weekday.toLowerCase() === parsedRelativeDate[ 1 ]
+			( weekday ) => weekday.toLowerCase() === parsedRelativeDate[ 1 ]
 		);
 		const isLastWeek = parsedDay >= thisDay;
 		return today.day( parsedDay - ( isLastWeek ? 7 : 0 ) ).format();
