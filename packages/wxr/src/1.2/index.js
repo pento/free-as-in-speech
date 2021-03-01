@@ -1,7 +1,8 @@
 /**
  * External dependencies
  */
-const moment = require( 'moment' );
+const dayjs = require( 'dayjs' );
+const utc = require( 'dayjs/plugin/utc' );
 const { openDB, deleteDB } = require( 'idb/with-async-ittr-cjs' );
 const { WritableStream } = require( 'web-streams-polyfill/ponyfill/es6' );
 const xmlSanitizer = require( 'xml-sanitizer' );
@@ -13,6 +14,7 @@ const schema = require( './schema' );
 
 const WXR_VERSION = '1.2';
 
+dayjs.extend( utc );
 /**
  * WXR version 1.2 driver.
  */
@@ -125,13 +127,13 @@ class WXRDriver {
 			case 'number':
 				return Number( value );
 			case 'mysql_date':
-				return moment( value ).isValid()
-					? moment( value ).utc().format( 'YYYY-MM-DD HH:mm:ss' )
+				return dayjs.utc( value ).isValid()
+					? dayjs.utc( value ).format( 'YYYY-MM-DD HH:mm:ss' )
 					: '';
 			case 'rfc2822_date':
-				return moment( value ).isValid()
-					? moment( value )
-							.utc()
+				return dayjs.utc( value ).isValid()
+					? dayjs
+							.utc( value )
 							.format( 'ddd, DD MMM YYYY HH:mm:ss [GMT]' )
 					: '';
 			case 'meta':

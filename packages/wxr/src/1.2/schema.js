@@ -1,7 +1,6 @@
 /**
  * External dependencies
  */
-const moment = require( 'moment' );
 
 /**
  * Internal dependencies
@@ -31,7 +30,7 @@ module.exports = {
 				name: 'pubDate',
 				type: 'rfc2822_date',
 				element: 'pubDate',
-				default: () => moment.utc().toString(),
+				default: () => new Date().toGMTString(),
 				writeable: false,
 			},
 			{

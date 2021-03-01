@@ -21,8 +21,8 @@
 	"main": "build/index.js",
 	"module": "build-module/index.js",
 	"dependencies": {
+		"dayjs": "^1.10.4",
 		"idb": "6.0.0",
-		"moment": "2.29.1",
 		"web-streams-polyfill": "3.0.2",
 		"xml-sanitizer": "1.1.6"
 	},
