@@ -45,7 +45,7 @@ test.each( [
 				} ),
 			},
 		},
-		false,
+		true,
 		false,
 	],
 	[
@@ -60,7 +60,7 @@ test.each( [
 			},
 		},
 		false,
-		true,
+		false,
 	],
 ] )( 'wix: %s', async ( har, config, errorsExpected, logExpected ) => {
 	const input = fs.readFileSync( path.join( __dirname, 'fixtures', har ) );

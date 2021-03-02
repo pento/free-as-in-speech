@@ -16,6 +16,12 @@ const fetchPage = ( topology, editorUrl ) => ( page ) => {
 			},
 		} )
 		.then( ( result ) => result.json() )
+		.catch( () => {
+			return {
+				data: { document_data: {} },
+				structure: { components: [] },
+			};
+		} )
 		.then( ( json ) => {
 			page.config = json;
 			page.data = page.config.structure.components.map( ( component ) => {
@@ -102,7 +108,12 @@ module.exports = {
 
 				return configData;
 			} );
-
+		if (
+			undefined === metaConfigurations.siteHeader ||
+			undefined === metaConfigurations.siteHeader.pageIdList
+		) {
+			return [];
+		}
 		const topology = metaConfigurations.siteHeader.pageIdList.topology[ 0 ];
 		metaConfigurations.masterPage = await window
 			.fetch(
