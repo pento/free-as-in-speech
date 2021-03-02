@@ -2,7 +2,7 @@ const cheerio = require( 'cheerio' );
 const { v4: uuidv4 } = require( 'uuid' );
 const { pasteHandler, serialize } = require( '@wordpress/blocks' );
 
-let mainMenu;
+// let mainMenu;
 
 const fetchPage = ( topology, editorUrl ) => ( page ) => {
 	return window
@@ -215,10 +215,11 @@ module.exports = {
 		const menuItem =
 			metaConfigurations.masterPage.data.document_data.CUSTOM_MAIN_MENU;
 		if ( menuItem ) {
-			mainMenu = {
-				role: 'main',
-				...parseMenu( menuItem ),
-			};
+			// mainMenu = {
+			// 	role: 'main',
+			// 	...parseMenu( menuItem ),
+			// };
+			parseMenu( menuItem ),
 		}
 
 		return posts;
