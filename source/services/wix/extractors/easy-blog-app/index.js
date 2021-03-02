@@ -1,35 +1,35 @@
 const cheerio = require( 'cheerio' );
-const moment = require( 'moment' );
+const dayjs = require( 'dayjs' );
+const utc = require( 'dayjs/plugin/utc' );
 const { pasteHandler, serialize } = require( '@wordpress/blocks' );
+
+dayjs.extend( utc );
 
 const parseDateString = ( str ) => {
 	const lowerCaseStr = str.toLowerCase().trim();
 
-	const today = moment().startOf( 'day' ).utcOffset( 0, true );
+	const today = dayjs.utc().startOf( 'day' );
 
 	switch ( lowerCaseStr ) {
 		case 'today':
-			return today;
+			return today.format();
 		case 'yesterday':
-			return today.subtract( 1, 'day' );
+			return today.subtract( 1, 'day' ).format();
 	}
 
 	const parsedRelativeDate = lowerCaseStr.match( /^last ([a-z]+)$/ );
 	if ( parsedRelativeDate ) {
-		const thisDay = today.isoWeekday();
-		const parsedDay = moment()
-			.isoWeekday( parsedRelativeDate[ 1 ] )
-			.isoWeekday();
+		const thisDay = today.day();
+		const parsedDay = dayjs.en.weekdays.findIndex(
+			( weekday ) => weekday.toLowerCase() === parsedRelativeDate[ 1 ]
+		);
 		const isLastWeek = parsedDay >= thisDay;
-		return today.isoWeekday( parsedDay - ( isLastWeek ? 7 : 0 ) );
+		return today.day( parsedDay - ( isLastWeek ? 7 : 0 ) ).format();
 	}
 
-	const parsedProperDate = moment( new Date( lowerCaseStr ) ).utcOffset(
-		0,
-		true
-	);
+	const parsedProperDate = dayjs.utc( lowerCaseStr + ' UTC' );
 	if ( parsedProperDate.isValid() ) {
-		return parsedProperDate;
+		return parsedProperDate.format();
 	}
 
 	return 0;
