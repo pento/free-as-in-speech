@@ -16,6 +16,7 @@ else
 fi
 
 wp core install --url=$URL --title=wxr --admin_user=admin --skip-email --admin_email=example@example.com --path=wordpress
+wp option set permalink_structure "/%year%/%monthnum%/%day%/%postname%/" --path=wordpress
 wp plugin activate wordpress-importer --path=wordpress
 wp import "$1" --authors=create --path=wordpress
 php -S $URL -t wordpress
