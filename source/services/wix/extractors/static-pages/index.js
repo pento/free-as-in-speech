@@ -219,7 +219,7 @@ module.exports = {
 			// 	role: 'main',
 			// 	...parseMenu( menuItem ),
 			// };
-			parseMenu( menuItem ),
+			parseMenu( menuItem );
 		}
 
 		return posts;
