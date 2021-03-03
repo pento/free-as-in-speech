@@ -18,7 +18,7 @@ const siteMetaSettings = require( './extractors/site-meta-app' );
 const getInstalledApps = ( config ) => {
 	const installed = [];
 
-	extractors.forEach( ( extractor ) => {
+	extractors.concat( siteMetaSettings ).forEach( ( extractor ) => {
 		if ( getExtractorConfig( config, extractor.appDefinitionId ) ) {
 			installed.push( {
 				id: extractor.appDefinitionId,
@@ -72,11 +72,16 @@ const getExtractorConfig = ( config, appDefinitionId ) => {
 const startExport = async ( config, statusReport ) => {
 	const wxr = await getWXRDriver( '1.2', true );
 
-	const extractData = async ( extractor ) => {
-		// Grab the config data for this extractor.
-		let extractorConfig;
+	const siteMetaConfig = getExtractorConfig( config, siteMetaSettings.appDefinitionId );
+	const siteMeta = await siteMetaSettings.extract( siteMetaConfig || { instance: null } );
+	if (
+		siteMeta &&
+		siteMeta.quickActionsData &&
+		siteMeta.quickActionsData.displayName
+	) {
+		await siteMetaSettings.save( siteMeta, wxr );
 
-	if ( siteMeta ) {
+		// Backfill the metadata when none available (e.g. in CLI).
 		if ( ! config.initialState ) {
 			config.initialState = {};
 		}
