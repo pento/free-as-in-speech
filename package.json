@@ -75,7 +75,6 @@
 		"test": "run-s lint build test-unit",
 		"test-unit": "wp-scripts test-unit-js --config jest.config.js",
 		"test-unit:watch": "npm run test-unit -- --watch",
-		"extract-wix": "node ./build/export-from-har.js wix",
 		"watch:packages": "node ./bin/packages/watch.js",
 		"watch:source": "wp-scripts start",
 		"watch": "npm-run-all build:packages --parallel watch:*"
