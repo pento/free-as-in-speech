@@ -44,12 +44,13 @@ Now return to the network tab of the inspector window and save the HAR file as d
 
 We have a CLI script called [export-from-har.js](/bin/export-from-har.js) which can be executed like this:
 
-```
+```bash
 node bin/export-from-har.js <exporter> [options] <harfile>
 ```
 
 You can see the available exporters in the help screen:
-```
+
+```bash
 node bin/export-from-har.js -h
 ```
 

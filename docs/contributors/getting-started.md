@@ -27,7 +27,7 @@ Whilst you can run the extension within your normal browser, it's usually better
 
 If you have a HAR file available, you can also develop from the command-line only. You can directly execute the `bin/export-from-har.js` using node like this:
 
-```
+```bash
 node bin/export-from-har.js <exporter> [options] <harfile>
 ```
 
@@ -44,5 +44,3 @@ We recommend configuring your editor to automatically check for syntax and lint 
 ### ESLint
 
 [ESLint](https://eslint.org/) statically analyzes the code to find problems. The lint rules are integrated in the continuous integration process and must pass to be able to commit.
-
-
