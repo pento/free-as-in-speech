@@ -1,9 +1,12 @@
 const cheerio = require( 'cheerio' );
 const { v4: uuidv4 } = require( 'uuid' );
 const { pasteHandler, serialize } = require( '@wordpress/blocks' );
+const slug = require( 'slugify' );
 
-// let mainMenu;
-
+let currentObjectId = 0;
+const getNextObjectId = () => {
+	return ( currentObjectId += 10 );
+};
 const fetchPage = ( topology, editorUrl ) => ( page ) => {
 	return window
 		.fetch( topology.replace( '{filename}', page.pageJsonFileName ), {
@@ -217,21 +220,75 @@ module.exports = {
 			return input;
 		};
 
+		const handleMenuItemsRecursively = ( menu, items, parent = 0 ) => {
+			const results = [];
+			items.forEach( ( item ) => {
+				const id = getNextObjectId();
+
+				if ( ! item.type ) {
+					item.type = 'custom';
+					item.object = 'custom';
+					item.objectId = id;
+				}
+
+				results.push( {
+					id,
+					title: item.title || '',
+					date: Date.now(),
+					name: item.title ? slug( item.title, { lower: true } ) : '',
+					type: 'nav_menu_item',
+					menuOrder: menu.counter++,
+					meta: {
+						_menu_item_type: item.type,
+						_menu_item_menu_item_parent: parent,
+						_menu_item_object_id: item.objectId,
+						_menu_item_object: item.object,
+						_menu_item_target: item.target || '',
+						_menu_item_classes: item.classes || '',
+						_menu_item_url: item.url || '',
+						_menu_item_xfn: '',
+					},
+					terms: [ { type: 'nav_menu', ...menu } ],
+				} );
+
+				if ( Array.isArray( item.items ) ) {
+					results.push(
+						...handleMenuItemsRecursively( menu, item.items, id )
+					);
+				}
+			} );
+			return results;
+		};
+
 		const posts = await Promise.all(
 			metaConfigurations.siteHeader.pageIdList.pages.map(
 				fetchPage( topology, editorUrl )
 			)
 		);
 
+		const menus = [];
 		const menuItem =
 			metaConfigurations.masterPage.data.document_data.CUSTOM_MAIN_MENU;
 		if ( menuItem ) {
-			// mainMenu = {
-			// 	role: 'main',
-			// 	...parseMenu( menuItem ),
-			// };
-			parseMenu( menuItem );
+			menus.push( {
+				role: 'main',
+				...parseMenu( menuItem ),
+			} );
 		}
+
+		menus.forEach( ( menu ) => {
+			const term = {
+				id: getNextObjectId(),
+				name: menu.title,
+				slug: slug( `${ menu.title }-1`, { lower: true } ),
+				counter: 0,
+				meta: {
+					menu_role: menu.role || null,
+					parsing_session_id: 1,
+				},
+			};
+			posts.push( ...handleMenuItemsRecursively( term, menu.items ) );
+		} );
 
 		return posts;
 	},
@@ -244,6 +301,19 @@ module.exports = {
 	 */
 	save: async ( data, wxr ) => {
 		data.forEach( ( post ) => {
+			if ( post.type === 'nav_menu_item' ) {
+				wxr.addPost( {
+					title: post.title,
+					type: post.type,
+					menu_order: post.menuOrder,
+					terms: post.terms,
+					meta: Object.entries( post.meta ).map( ( meta ) => ( {
+						key: meta[ 0 ],
+						value: meta[ 1 ],
+					} ) ),
+				} );
+				return;
+			}
 			wxr.addPost( {
 				title: post.title,
 				content: pasteHandler( {
