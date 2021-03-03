@@ -9,46 +9,45 @@ The package only exposes one method that acts as a generator of a function that 
 ```javascript
 // @param  har  object  The JSON representing the HAR file (you need to run JSON.parse() on the string)
 window.fetch = fetchFromHAR( har, {
- // When multiple matching requests (for method + hostname + pathname)
- // exist, we'll compare the GET parameters using this callback
- // to select the desired one.
- queryComparison: ( requestValue, harValue, key, url ) => {
-  if ( '/index' === url.pathname ) {
-   if ( 'status' === key && requestValue !== harValue ) {
-    // The values for the GET parameter "status" must be equal,
-    // so this mismatch means the request shouldn't match.
-    return false;
-   }
-  }
+	// When multiple matching requests (for method + hostname + pathname)
+	// exist, we'll compare the GET parameters using this callback
+	// to select the desired one.
+	queryComparison: ( requestValue, harValue, key, url ) => {
+		if ( '/index' === url.pathname ) {
+			if ( 'status' === key && requestValue !== harValue ) {
+				// The values for the GET parameter "status" must be equal,
+				// so this mismatch means the request shouldn't match.
+				return false;
+			}
+		}
 
-  // A mismatch of the GET parameter values don't need to match.
-  return true;
- },
+		// A mismatch of the GET parameter values don't need to match.
+		return true;
+	},
 
- // When no matching request can be found in the HAR, this callback will
- // be invoked.
- fallback: ( url, entry ) => {
-  // Can be used for logging missing URLs:
-  debug( 'Missing URL in HAR:', url );
+	// When no matching request can be found in the HAR, this callback will
+	// be invoked.
+	fallback: ( url, entry ) => {
+		// Can be used for logging missing URLs:
+		debug( 'Missing URL in HAR:', url );
 
-  // But also to provide fallback responses:
-  const u = new URL( url );
-  if ( u.pathname === '/tags' ) {
-   entry.response.status = 200;
-   entry.response.statusText = 'OK';
-   entry.response.content.text = '{"tags":[]}';
-  }
+		// But also to provide fallback responses:
+		const u = new URL( url );
+		if ( u.pathname === '/tags' ) {
+			entry.response.status = 200;
+			entry.response.statusText = 'OK';
+			entry.response.content.text = '{"tags":[]}';
+		}
 
-  return entry;
- },
+		return entry;
+	},
 } );
 
 // Example invocation:
 window
- .fetch( 'http://example.com/tags' )
- .then( ( result ) => result.json() )
- .then( ( text ) => debug );
-
+	.fetch( 'http://example.com/tags' )
+	.then( ( result ) => result.json() )
+	.then( ( text ) => debug );
 ```
 
 ## `queryComparison` Callback
@@ -65,10 +64,10 @@ If the callback is omitted any combination of parameter values is considered acc
 
 ### `queryComparison` Parameters
 
-- `key`  the name of the GET parameter.
-- `requestValue`  the value that has been requested in the `fetch()` call.
-- `harValue` a request in the HAR file is available with this value (it might match, or not).
-- `url` a `URL` object of the whole URL that was requested via `fetch()`
+-   `key` the name of the GET parameter.
+-   `requestValue` the value that has been requested in the `fetch()` call.
+-   `harValue` a request in the HAR file is available with this value (it might match, or not).
+-   `url` a `URL` object of the whole URL that was requested via `fetch()`
 
 ### `queryComparison` Return value
 
@@ -86,8 +85,8 @@ If the callback is omitted, then a 404 response will be generated.
 
 ### `fallback` Parameters
 
-- `url` the string value of the URL that was requested via `fetch()`
-- `entry` a generated 404 entry that would be returned.
+-   `url` the string value of the URL that was requested via `fetch()`
+-   `entry` a generated 404 entry that would be returned.
 
 ### `fallback` Return value
 
