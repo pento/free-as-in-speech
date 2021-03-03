@@ -64,10 +64,10 @@ If the callback is omitted any combination of parameter values is considered acc
 
 ### `queryComparison` Parameters
 
--   `key` the name of the GET parameter.
--   `requestValue` the value that has been requested in the `fetch()` call.
--   `harValue` a request in the HAR file is available with this value (it might match, or not).
--   `url` a `URL` object of the whole URL that was requested via `fetch()`
+- `key` the name of the GET parameter.
+- `requestValue` the value that has been requested in the `fetch()` call.
+- `harValue` a request in the HAR file is available with this value (it might match, or not).
+- `url` a `URL` object of the whole URL that was requested via `fetch()`
 
 ### `queryComparison` Return value
 
@@ -85,8 +85,8 @@ If the callback is omitted, then a 404 response will be generated.
 
 ### `fallback` Parameters
 
--   `url` the string value of the URL that was requested via `fetch()`
--   `entry` a generated 404 entry that would be returned.
+- `url` the string value of the URL that was requested via `fetch()`
+- `entry` a generated 404 entry that would be returned.
 
 ### `fallback` Return value
 

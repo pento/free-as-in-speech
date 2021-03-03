@@ -3,6 +3,7 @@
     "MD003": { "style": "atx" },
     "MD004": { "style": "dash" },
     "MD007": { "indent": 4 },
+    "MD010": { "code_blocks": false },
     "MD013": { "line_length": 9999 },
     "MD029": { "style": "ordered" },
     "MD033": { "allowed_elements": [ "span" ] },
