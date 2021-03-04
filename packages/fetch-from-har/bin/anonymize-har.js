@@ -62,7 +62,7 @@ const valueRegex = ( key, flags ) => {
 
 let firstTime;
 const anonymizers = {
-	datetime: {
+	timestamp: {
 		// ISO 8601
 		regex: /\b((?:[1-9]\d{3}-(?:(?:0[1-9]|1[0-2])-(?:0[1-9]|1\d|2[0-8])|(?:0[13-9]|1[0-2])-(?:29|30)|(?:0[13578]|1[02])-31)|(?:[1-9]\d(?:0[48]|[2468][048]|[13579][26])|(?:[2468][048]|[13579][26])00)-02-29)T(?:[01]\d|2[0-3]):[0-5]\d:[0-5]\d(?:[.]\d{1,5})?(?:Z|[+-][01]\d:[0-5]\d))/g,
 		replacement: ( m ) => {
@@ -137,7 +137,7 @@ Object.keys( anonymizers ).forEach(
 // Safe-guard well-defined variables by finding them in our source.
 Object.entries( anonymizers ).forEach( ( anonymizer ) => {
 	fileseek(
-		path.join( __dirname, '../source/services' ),
+		path.join( __dirname, '../../../source/services' ),
 		anonymizer[ 1 ].regex,
 		( m ) => {
 			replacements[ m ] = m;
@@ -159,19 +159,24 @@ Object.entries( anonymizers ).forEach(
 			anonymizer[ 1 ].regex,
 			( m, toAnonymize ) => {
 				if ( undefined === replacements[ toAnonymize ] ) {
+					// We'll want to replace a value with the same value throughout the file.
 					replacements[ toAnonymize ] = anonymizer[ 1 ].replacement(
 						toAnonymize
 					);
-					if (
-						typeof replacements[ toAnonymize ] === 'string' &&
-						replacements[ toAnonymize ].length > 43
-					) {
-						logReplacements[ anonymizer[ 0 ] ][
-							toAnonymize.substr( 0, 40 ) + '...'
-						] = replacements[ toAnonymize ].substr( 0, 40 ) + '...';
-					} else {
-						logReplacements[ anonymizer[ 0 ] ][ toAnonymize ] =
-							replacements[ toAnonymize ];
+					if ( replacements[ toAnonymize ] !== toAnonymize ) {
+						if (
+							typeof replacements[ toAnonymize ] === 'string' &&
+							replacements[ toAnonymize ].length > 43
+						) {
+							logReplacements[ anonymizer[ 0 ] ][
+								toAnonymize.substr( 0, 40 ) + '...'
+							] =
+								replacements[ toAnonymize ].substr( 0, 40 ) +
+								'...';
+						} else {
+							logReplacements[ anonymizer[ 0 ] ][ toAnonymize ] =
+								replacements[ toAnonymize ];
+						}
 					}
 				}
 				return m.replace( toAnonymize, replacements[ toAnonymize ] );
@@ -192,13 +197,13 @@ console.error( 'The following number of items were replaced:' );
 Object.entries( logReplacements ).forEach(
 	( category ) =>
 		Object.keys( category[ 1 ] ).length &&
-		console.log( category[ 0 ], Object.keys( category[ 1 ] ).length )
+		console.log( ' -', Object.keys( category[ 1 ] ).length, category[ 0 ] )
 );
-console.error( logReplacements );
+// console.error( logReplacements );
 
 const outfile = path.join(
 	path.dirname( infile ),
 	'anonymized-' + path.basename( infile )
 );
 fs.writeFileSync( outfile, anonymizedFile );
-console.error( 'Wrote ' + outfile + '...' );
+console.error( 'Wrote ' + outfile + '.' );
