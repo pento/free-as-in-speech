@@ -25,7 +25,7 @@ const fileseek = ( directory, regex, callback ) => {
 	} );
 };
 
-const now = dayjs();
+// This maintains several counters for different keys.
 const counter = ( () => {
 	const counters = {};
 	return ( key ) => {
@@ -38,7 +38,7 @@ const counter = ( () => {
 
 const randBase62 = ( key ) => {
 	let out = '';
-	// This is not very strong but we need just something. Don't use for crypto.
+	// This is very basic but we'd like to create a random string of the same length. Don't use for crypto.
 	const c = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
 	for ( let i = key.length - 1; i > 0; i-- ) {
 		out += c[ Math.floor( Math.random() * c.length ) ];
@@ -46,8 +46,9 @@ const randBase62 = ( key ) => {
 	return out;
 };
 
+// Create a new random number of a similar length.
 const randNum = ( num ) =>
-	Math.floor( Math.random() * Math.pow( 10, Math.log10( num ) ) );
+	Math.floor( Math.random() * Math.pow( 10, 1 + Math.log10( num ) ) );
 
 const valueRegex = ( key, flags ) => {
 	return new RegExp(
@@ -60,7 +61,9 @@ const valueRegex = ( key, flags ) => {
 	);
 };
 
+const now = dayjs();
 let firstTime;
+
 const anonymizers = {
 	timestamp: {
 		// ISO 8601
@@ -69,6 +72,7 @@ const anonymizers = {
 			if ( ! firstTime ) {
 				firstTime = dayjs( m );
 			}
+			// To maintain the timing between the events, we're calculating the relative timestamps here.
 			return now.subtract( firstTime.diff( m ), 'ms' ).toISOString();
 		},
 	},
@@ -163,6 +167,7 @@ Object.entries( anonymizers ).forEach(
 					replacements[ toAnonymize ] = anonymizer[ 1 ].replacement(
 						toAnonymize
 					);
+					// We're keeping a separate object to output these later.
 					if ( replacements[ toAnonymize ] !== toAnonymize ) {
 						if (
 							typeof replacements[ toAnonymize ] === 'string' &&
@@ -199,7 +204,7 @@ Object.entries( logReplacements ).forEach(
 		Object.keys( category[ 1 ] ).length &&
 		console.log( ' -', Object.keys( category[ 1 ] ).length, category[ 0 ] )
 );
-// console.error( logReplacements );
+// console.error( logReplacements ); // For debugging you might want to see the full list of replacements.
 
 const outfile = path.join(
 	path.dirname( infile ),
