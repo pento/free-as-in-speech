@@ -103,7 +103,7 @@ const anonymizers = {
 		replacement: uuidv4,
 	},
 	wixSite: {
-		regex: /([a-z0-9]+)[.]wixsite[.]com/gi,
+		regex: /(?:\/|u002F)([a-z0-9]+)[.]wixsite[.]com/gi,
 		replacement: randNum,
 	},
 	_wixUIDX: {
