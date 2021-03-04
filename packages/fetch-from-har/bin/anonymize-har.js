@@ -102,6 +102,10 @@ const anonymizers = {
 		regex: /\b([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})\b/g,
 		replacement: uuidv4,
 	},
+	wixSite: {
+		regex: /([a-z0-9]+)[.]wixsite[.]com/gi,
+		replacement: randNum,
+	},
 	_wixUIDX: {
 		regex: /_wixUIDX=(\d+)/g,
 		replacement: randNum,
@@ -128,6 +132,10 @@ const anonymizers = {
 	},
 	session_id: {
 		regex: valueRegex( 'session_id', 'g' ),
+		replacement: randBase62,
+	},
+	request_id: {
+		regex: valueRegex( 'x-wix-request-id', 'g' ),
 		replacement: randBase62,
 	},
 };
