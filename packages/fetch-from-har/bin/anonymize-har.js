@@ -153,7 +153,6 @@ Object.entries( anonymizers ).forEach( ( anonymizer ) => {
 		anonymizer[ 1 ].regex,
 		( m ) => {
 			replacements[ m ] = m;
-			logReplacements[ anonymizer[ 0 ] ][ m ] = m;
 		}
 	);
 } );
