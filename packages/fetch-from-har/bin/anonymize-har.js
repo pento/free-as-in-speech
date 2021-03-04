@@ -36,9 +36,9 @@ const counter = ( () => {
 	};
 } )();
 
-const randBase62 = ( key ) => {
+// This is very basic but we'd like to create a random string of the same length. Don't use for crypto.
+const randomBase62String = ( key ) => {
 	let out = '';
-	// This is very basic but we'd like to create a random string of the same length. Don't use for crypto.
 	const c = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
 	for ( let i = key.length - 1; i > 0; i-- ) {
 		out += c[ Math.floor( Math.random() * c.length ) ];
@@ -47,9 +47,10 @@ const randBase62 = ( key ) => {
 };
 
 // Create a new random number of a similar length.
-const randNum = ( num ) =>
+const randomNumber = ( num ) =>
 	Math.floor( Math.random() * Math.pow( 10, 1 + Math.log10( num ) ) );
 
+// This covers variables used as URL parameters and as cookies.
 const valueRegex = ( key, flags ) => {
 	return new RegExp(
 		'(?:"name": "' +
@@ -104,53 +105,55 @@ const anonymizers = {
 	},
 	wixSite: {
 		regex: /(?:\/|u002F)([a-z0-9]+)[.]wixsite[.]com/gi,
-		replacement: randNum,
+		replacement: randomNumber,
 	},
 	_wixUIDX: {
 		regex: /_wixUIDX=(\d+)/g,
-		replacement: randNum,
+		replacement: randomNumber,
 	},
 	mediaToken: {
 		regex: /__MEDIA_TOKEN__ = '([^']+)/g,
-		replacement: randBase62,
+		replacement: randomBase62String,
 	},
 	wixClient: {
 		regex: /wixClient=(\d+)/g,
-		replacement: randNum,
+		replacement: randomNumber,
 	},
 	wixSession2: {
 		regex: /wixSession2=(JWT[.][^&;]+)/g,
-		replacement: randBase62,
+		replacement: randomBase62String,
 	},
 	siteToken: {
 		regex: valueRegex( 'site_token', 'g' ),
-		replacement: randBase62,
+		replacement: randomBase62String,
 	},
 	authorization: {
 		regex: valueRegex( 'Authorization', 'gi' ),
-		replacement: randBase62,
+		replacement: randomBase62String,
 	},
 	session_id: {
 		regex: valueRegex( 'session_id', 'g' ),
-		replacement: randBase62,
+		replacement: randomBase62String,
 	},
 	request_id: {
 		regex: valueRegex( 'x-wix-request-id', 'g' ),
-		replacement: randBase62,
+		replacement: randomBase62String,
 	},
 };
 
 const replacements = {};
+
+// This object logs replacements for user output later.
 const logReplacements = {};
 Object.keys( anonymizers ).forEach(
 	( key ) => ( logReplacements[ key ] = {} )
 );
 
 // Safe-guard well-defined variables by finding them in our source.
-Object.entries( anonymizers ).forEach( ( anonymizer ) => {
+Object.keys( anonymizers ).forEach( ( regex ) => {
 	fileseek(
 		path.join( __dirname, '../../../source/services' ),
-		anonymizer[ 1 ].regex,
+		regex,
 		( m ) => {
 			replacements[ m ] = m;
 		}
@@ -164,45 +167,43 @@ const file = fs.readFileSync( infile );
 
 let anonymizedFile = file.toString();
 
-Object.entries( anonymizers ).forEach(
-	( anonymizer ) =>
-		( anonymizedFile = anonymizedFile.replace(
-			anonymizer[ 1 ].regex,
-			( m, toAnonymize ) => {
-				if ( undefined === replacements[ toAnonymize ] ) {
-					// We'll want to replace a value with the same value throughout the file.
-					replacements[ toAnonymize ] = anonymizer[ 1 ].replacement(
-						toAnonymize
-					);
-					// We're keeping a separate object to output these later.
-					if ( replacements[ toAnonymize ] !== toAnonymize ) {
-						if (
-							typeof replacements[ toAnonymize ] === 'string' &&
-							replacements[ toAnonymize ].length > 43
-						) {
-							logReplacements[ anonymizer[ 0 ] ][
-								toAnonymize.substr( 0, 40 ) + '...'
-							] =
-								replacements[ toAnonymize ].substr( 0, 40 ) +
-								'...';
-						} else {
-							logReplacements[ anonymizer[ 0 ] ][ toAnonymize ] =
-								replacements[ toAnonymize ];
-						}
+Object.entries( anonymizers ).forEach( ( anonymizer ) => {
+	anonymizedFile = anonymizedFile.replace(
+		anonymizer[ 1 ].regex,
+		( m, toAnonymize ) => {
+			if ( undefined === replacements[ toAnonymize ] ) {
+				// We'll want to replace a value with the same value throughout the file.
+				replacements[ toAnonymize ] = anonymizer[ 1 ].replacement(
+					toAnonymize
+				);
+
+				// We're keeping a separate object to output these later.
+				if ( replacements[ toAnonymize ] !== toAnonymize ) {
+					if (
+						typeof replacements[ toAnonymize ] === 'string' &&
+						replacements[ toAnonymize ].length > 43
+					) {
+						logReplacements[ anonymizer[ 0 ] ][
+							toAnonymize.substr( 0, 40 ) + '...'
+						] = replacements[ toAnonymize ].substr( 0, 40 ) + '...';
+					} else {
+						logReplacements[ anonymizer[ 0 ] ][ toAnonymize ] =
+							replacements[ toAnonymize ];
 					}
 				}
-				return m.replace( toAnonymize, replacements[ toAnonymize ] );
 			}
-		) )
-);
+
+			return m.replace( toAnonymize, replacements[ toAnonymize ] );
+		}
+	);
+} );
 
 // Let's replace all of our replacement strings again in case they are used elsewhere in the file.
-Object.entries( replacements ).forEach(
-	( replacement ) =>
-		( anonymizedFile = anonymizedFile
-			.split( replacement[ 0 ] )
-			.join( replacement[ 1 ] ) )
-);
+Object.entries( replacements ).forEach( ( replacement ) => {
+	anonymizedFile = anonymizedFile
+		.split( replacement[ 0 ] )
+		.join( replacement[ 1 ] );
+} );
 
 // Display what was replaced.
 console.error( 'The following number of items were replaced:' );
