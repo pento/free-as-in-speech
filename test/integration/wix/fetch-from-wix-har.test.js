@@ -23,7 +23,6 @@ beforeEach( () => {
 test.each( [
 	[
 		'empty.har',
-		'empty.wxr',
 		{
 			initialState: {
 				embeddedServices: {},
@@ -35,7 +34,6 @@ test.each( [
 	],
 	[
 		'wix-basic.har',
-		'wix-basic.wxr',
 		{
 			initialState: {
 				embeddedServices: [
@@ -52,7 +50,6 @@ test.each( [
 	],
 	[
 		'easyblog.har',
-		'easyblog.wxr',
 		{
 			initialState: {
 				embeddedServices: [
@@ -65,32 +62,26 @@ test.each( [
 		false,
 		true,
 	],
-] )(
-	'wix: %s -> %s',
-	async ( har, wxr, config, errorsExpected, logExpected ) => {
-		const input = fs.readFileSync(
-			path.join( __dirname, 'fixtures', har )
-		);
-		const output = fs.readFileSync(
-			path.join( __dirname, 'fixtures', wxr )
-		);
+] )( 'wix: %s', async ( har, config, errorsExpected, logExpected ) => {
+	const input = fs.readFileSync( path.join( __dirname, 'fixtures', har ) );
 
-		function stripFirstPubDate( xml ) {
-			return xml
-				.toString()
-				.replace( /<pubDate>[^<]+/, '<pubDate>' )
-				.trim();
-		}
+	function stripFirstPubDate( xml ) {
+		return xml
+			.toString()
+			.replace( /<pubDate>.*?<\/pubDate>/, '<pubDate></pubDate>' )
+			.trim();
+	}
 
-		return getWXRFromWixHAR(
-			fetchFromHAR,
-			JSON.parse( input ),
-			config,
-			wixServices
-		).then( ( xml ) => {
-			expect( stripFirstPubDate( output ) ).toEqual(
-				stripFirstPubDate( xml )
-			);
+	return getWXRFromWixHAR(
+		fetchFromHAR,
+		JSON.parse( input ),
+		config,
+		wixServices
+	)
+		.then( ( wxrDriver ) => wxrDriver.export() )
+		.then( ( xml ) => {
+			expect( stripFirstPubDate( xml ) ).toMatchSnapshot();
+
 			if ( logExpected ) {
 				expect( console ).toHaveLogged();
 			}
@@ -98,5 +89,4 @@ test.each( [
 				expect( console ).toHaveErrored();
 			}
 		} );
-	}
-);
+} );
