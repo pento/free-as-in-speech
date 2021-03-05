@@ -1,9 +1,4 @@
 /**
- * External dependencies
- */
-const { createWriteStream } = require( 'streamsaver' );
-
-/**
  * WordPress dependencies
  */
 const { registerCoreBlocks } = require( '@wordpress/block-library' );
@@ -19,6 +14,8 @@ const startExport = require( './services' );
  * but will be lost when the background process dies.
  */
 let wixConfig;
+
+const downloadObjects = new Map();
 
 /**
  * Listen for messages coming from other parts of the extension.
@@ -36,11 +33,28 @@ browser.runtime.onMessage.addListener( async ( message ) => {
 			// Start the export.
 			const wxr = await startExport( 'wix', wixConfig );
 
-			const writableStream = createWriteStream( 'wix-export.xhr' );
+			// Present the export as a download.
+			const url = URL.createObjectURL(
+				new Blob( [ await wxr.export() ], { type: 'text/xml+wxr' } )
+			);
 
-			wxr.stream( writableStream );
+			const id = await browser.downloads.download( {
+				url,
+				filename: 'wix-export.wxr',
+			} );
+
+			downloadObjects.set( id, url );
 
 			break;
+	}
+} );
+
+browser.downloads.onChanged.addListener( ( delta ) => {
+	if ( delta.state && delta.state.current === 'complete' ) {
+		if ( downloadObjects.has( delta.id ) ) {
+			URL.revokeObjectURL( downloadObjects.get( delta.id ) );
+			downloadObjects.delete( delta.id );
+		}
 	}
 } );
 
