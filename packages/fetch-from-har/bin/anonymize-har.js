@@ -51,13 +51,13 @@ const randomNumber = ( num ) =>
 	Math.floor( Math.random() * Math.pow( 10, 1 + Math.log10( num ) ) );
 
 // This covers variables used as URL parameters and as cookies.
-const valueRegex = ( key, flags ) => {
+const valueRegex = ( key, flags, value ) => {
 	return new RegExp(
 		'(?:"name": "' +
 			key +
 			'",\\s+"value": "|\b' +
 			key +
-			'=)([a-zA-Z0-9._-]{4,})',
+			'=)(' + ( value || '[a-zA-Z0-9._-]{4,}' ) + ')',
 		flags
 	);
 };
@@ -138,6 +138,10 @@ const anonymizers = {
 	request_id: {
 		regex: valueRegex( 'x-wix-request-id', 'g' ),
 		replacement: randomBase62String,
+	},
+	userAgent: {
+		regex: valueRegex( 'User-Agent', 'g', '[^"]+' ),
+		replacement: () => 'Mozilla',
 	},
 };
 
