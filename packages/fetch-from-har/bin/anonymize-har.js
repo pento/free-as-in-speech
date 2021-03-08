@@ -57,7 +57,9 @@ const valueRegex = ( key, flags, value ) => {
 			key +
 			'",\\s+"value": "|\b' +
 			key +
-			'=)(' + ( value || '[a-zA-Z0-9._-]{4,}' ) + ')',
+			'=)(' +
+			( value || '[a-zA-Z0-9._-]{4,}' ) +
+			')',
 		flags
 	);
 };
