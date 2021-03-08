@@ -115,12 +115,36 @@ const anonymizers = {
 		regex: /__MEDIA_TOKEN__ = '([^']+)/g,
 		replacement: randomBase62String,
 	},
+	_wixAB3: {
+		regex: /_wixAB3=([^&;]+)/g,
+		replacement: randomBase62String,
+	},
+	googleAnalytics: {
+		regex: /_ga=([^&;]+)/g,
+		replacement: randomBase62String,
+	},
+	googleTagManager: {
+		regex: /_gcl_au=([^&;]+)/g,
+		replacement: randomBase62String,
+	},
 	wixClient: {
 		regex: /wixClient=(\d+)/g,
 		replacement: randomNumber,
 	},
 	wixSession2: {
 		regex: /wixSession2=(JWT[.][^&;]+)/g,
+		replacement: randomBase62String,
+	},
+	svSession: {
+		regex: /svSession=([^&;]+)/g,
+		replacement: randomBase62String,
+	},
+	xsrfToken: {
+		regex: /XSRF-TOKEN=([^&;]+)/g,
+		replacement: randomBase62String,
+	},
+	tsToken: {
+		regex: /TS[0-9a-f]+=([^&;]+)/g,
 		replacement: randomBase62String,
 	},
 	siteToken: {
