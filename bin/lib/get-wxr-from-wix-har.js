@@ -20,7 +20,10 @@ async function getWXRFromWixHAR( fetchFromHAR, har, config, startExport ) {
 		},
 	} );
 
-	return await startExport( config );
+	// We're ignoring the status reports in these tests for now.
+	const statusReport = () => {};
+
+	return await startExport( config, statusReport );
 }
 
 module.exports = getWXRFromWixHAR;
