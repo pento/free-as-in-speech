@@ -1,5 +1,10 @@
 module.exports = {
 	/**
+	 * A name for the app, displayed to the user.
+	 */
+	appName: 'Site Meta',
+
+	/**
 	 * The Wix application definition ID.
 	 */
 	appDefinitionId: '22bef345-3c5b-4c18-b782-74d4085112ff',

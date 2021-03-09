@@ -1,5 +1,10 @@
 module.exports = {
 	/**
+	 * A name for the app, displayed to the user.
+	 */
+	appName: 'Media',
+
+	/**
 	 * The media manager doesn't have an app definition ID, we can use a fake one here.
 	 */
 	appDefinitionId: 'media-manager',

@@ -21,13 +21,24 @@ browser.tabs
 		}
 	} );
 
+browser.runtime.onMessage.addListener( ( message ) => {
+	switch ( message.type ) {
+		case 'export_progress_update':
+			document.getElementById( 'wix-current-export-status' ).innerHTML =
+				message.data;
+			break;
+	}
+} );
+
 /**
  * Event listener for when the Wix Export button is clicked in the popup.
  */
 document.addEventListener( 'DOMContentLoaded', () => {
-	document.getElementById( 'wix-export' ).addEventListener( 'click', () =>
+	document.getElementById( 'wix-export' ).addEventListener( 'click', () => {
+		document.body.classList.remove( 'wix-site' );
+		document.body.classList.add( 'wix-export-in-progress' );
 		browser.runtime.sendMessage( {
 			type: 'start_wix_export',
-		} )
-	);
+		} );
+	} );
 } );
