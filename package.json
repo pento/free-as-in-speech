@@ -24,11 +24,15 @@
 	"dependencies": {
 		"@wordpress/block-library": "2.28.7",
 		"@wordpress/blocks": "7.0.6",
+		"@wordpress/element": "2.19.1",
 		"@wordpress/format-library": "1.26.10",
 		"@wordpress/rich-text": "3.24.8",
 		"@wordpress/wxr": "file:packages/wxr",
 		"cheerio": "1.0.0-rc.5",
 		"dayjs": "1.10.4",
+		"htm": "3.0.4",
+		"react": "16.14.0",
+		"react-dom": "16.14.0",
 		"web-streams-polyfill": "3.0.2",
 		"webextension-polyfill": "0.7.0"
 	},
