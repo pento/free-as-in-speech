@@ -16,6 +16,7 @@
 	},
 	"permissions": [
 		"activeTab",
+		"downloads",
 		"https://easy-blog-production.myeasyappsserver.com/*",
 		"https://*.wix.com/*"
 	],
@@ -26,7 +27,8 @@
 	},
 	"background": {
 		"scripts": [
-			"build/browser-polyfill.min.js",
+			"build/polyfills/webextension.js",
+			"build/polyfills/web-streams.js",
 			"build/background.js"
 		]
 	},
@@ -34,7 +36,7 @@
 		{
 			"matches": [ "https://manage.wix.com/dashboard/*" ],
 			"js": [
-				"build/browser-polyfill.min.js",
+				"build/polyfills/webextension.js",
 				"build/content.js"
 			],
 			"run_at": "document_start"

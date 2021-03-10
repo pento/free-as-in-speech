@@ -4,6 +4,7 @@ const eslintConfig = {
 	globals: {
 		browser: 'readonly',
 		Blob: 'readonly',
+		WritableStreamDefaultWriter: 'readonly',
 	},
 	rules: {
 		'@wordpress/no-global-event-listener': 'off',

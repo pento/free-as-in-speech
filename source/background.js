@@ -15,34 +15,46 @@ const startExport = require( './services' );
  */
 let wixConfig;
 
-/**
- * Store which browser tab Wix is open in.
- */
-let wixTabId;
+const downloadObjects = new Map();
 
 /**
  * Listen for messages coming from other parts of the extension.
  */
-browser.runtime.onMessage.addListener( async ( message, sender ) => {
+browser.runtime.onMessage.addListener( async ( message ) => {
 	switch ( message.type ) {
 		case 'save_wix_config':
 			// Save the config data sent from content.js.
 			wixConfig = message.data;
-			wixTabId = sender.tab.id;
 			break;
 		case 'get_wix_config':
 			// Return the config data requested by other parts of the extension.
 			return new Promise( ( resolve ) => resolve( wixConfig ) );
 		case 'start_wix_export':
 			// Start the export.
-			const exportData = await startExport( 'wix', wixConfig );
+			const wxr = await startExport( 'wix', wixConfig );
 
-			browser.tabs.sendMessage( wixTabId, {
-				type: 'generate_download',
-				data: exportData,
+			// Present the export as a download.
+			const url = URL.createObjectURL(
+				new Blob( [ await wxr.export() ], { type: 'text/xml+wxr' } )
+			);
+
+			const id = await browser.downloads.download( {
+				url,
+				filename: 'wix-export.wxr',
 			} );
 
+			downloadObjects.set( id, url );
+
 			break;
+	}
+} );
+
+browser.downloads.onChanged.addListener( ( delta ) => {
+	if ( delta.state && delta.state.current === 'complete' ) {
+		if ( downloadObjects.has( delta.id ) ) {
+			URL.revokeObjectURL( downloadObjects.get( delta.id ) );
+			downloadObjects.delete( delta.id );
+		}
 	}
 } );
 

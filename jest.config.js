@@ -16,12 +16,14 @@ module.exports = {
 		) })$` ]: 'packages/$1/src',
 	},
 	preset: '@wordpress/jest-preset-default',
+	setupFiles: [ 'fake-indexeddb/auto', './test/setup-env.js' ],
 	testURL: 'http://localhost',
 	testPathIgnorePatterns: [
 		'/.git/',
 		'/node_modules/',
 		'<rootDir>/.*/build/',
 		'<rootDir>/.*/build-module/',
+		'<rootDir>/test/setup-env.js',
 	],
 	watchPlugins: [
 		'jest-watch-typeahead/filename',

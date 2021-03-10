@@ -128,13 +128,13 @@ module.exports = {
 		posts.forEach( ( post ) => {
 			const postAuthor = post.owner;
 			// If we haven't already added this author, we need to add them now.
-			if ( ! addedAuthors.includes( postAuthor.siteMemberId ) ) {
-				addedAuthors.push( postAuthor.siteMemberId );
+			if ( ! addedAuthors.includes( postAuthor.slug ) ) {
+				addedAuthors.push( postAuthor.slug );
 
 				wxr.addAuthor( {
 					login: postAuthor.slug,
 					display_name: authors.reduce( ( displayName, author ) => {
-						if ( author.userId === postAuthor.siteMemberId ) {
+						if ( author.userId === postAuthor.slug ) {
 							return author.displayName;
 						}
 
