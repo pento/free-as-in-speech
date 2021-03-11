@@ -29,6 +29,11 @@ class WXRDriver {
 		const storesNames = Object.keys( schema );
 
 		if ( reset ) {
+			// An error can sometimes be thrown if we're deleting a DB that doesn't
+			// exist. Quickly opening and closing it avoids that issue.
+			const handle = await openDB( 'WXR-1.2' );
+			handle.close();
+
 			await deleteDB( 'WXR-1.2' );
 		}
 

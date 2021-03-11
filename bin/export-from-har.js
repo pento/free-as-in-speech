@@ -1,3 +1,5 @@
+require( 'fake-indexeddb/auto' );
+
 const noop = function () {};
 const { JSDOM, ResourceLoader } = require( 'jsdom' );
 class Window {
@@ -76,9 +78,11 @@ program
 			JSON.parse( fs.readFileSync( harfile ) ),
 			config,
 			startExport
-		).then(
-			( wxr ) => console.log( wxr ) // eslint-disable-line no-console
-		);
+		)
+			.then( ( WXRDriver ) => WXRDriver.export() )
+			.then(
+				( wxr ) => console.log( wxr ) // eslint-disable-line no-console
+			);
 	} );
 
 program.parse( process.argv );
