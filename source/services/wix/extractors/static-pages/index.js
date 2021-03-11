@@ -229,6 +229,8 @@ module.exports = {
 					item.type = 'custom';
 					item.object = 'custom';
 					item.objectId = id;
+				} else if ( 'PageLink' === item.type ) {
+					item.type = 'post_type';
 				}
 
 				results.push( {
@@ -302,16 +304,19 @@ module.exports = {
 	save: async ( data, wxr ) => {
 		data.forEach( ( post ) => {
 			if ( post.type === 'nav_menu_item' ) {
+				post.terms.forEach( ( term ) => {term.taxonomy = term.type; wxr.addTerm( term );} );
+
 				wxr.addPost( {
 					title: post.title,
 					type: post.type,
-					menu_order: post.menuOrder,
 					terms: post.terms,
+					menu_order: post.menuOrder,
 					meta: Object.entries( post.meta ).map( ( meta ) => ( {
 						key: meta[ 0 ],
 						value: meta[ 1 ],
 					} ) ),
 				} );
+
 				return;
 			}
 			wxr.addPost( {

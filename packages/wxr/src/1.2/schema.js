@@ -171,7 +171,7 @@ module.exports = {
 			{
 				name: 'taxonomy',
 				type: 'string',
-				element: 'wp:tag_taxonomy',
+				element: 'wp:term_taxonomy',
 			},
 			{
 				name: 'slug',
