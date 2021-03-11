@@ -304,7 +304,10 @@ module.exports = {
 	save: async ( data, wxr ) => {
 		data.forEach( ( post ) => {
 			if ( post.type === 'nav_menu_item' ) {
-				post.terms.forEach( ( term ) => {term.taxonomy = term.type; wxr.addTerm( term );} );
+				post.terms.forEach( ( term ) => {
+					term.taxonomy = term.type;
+					wxr.addTerm( term );
+				} );
 
 				wxr.addPost( {
 					title: post.title,
