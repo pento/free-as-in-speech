@@ -38,7 +38,7 @@ exports[`Posts All fields are written as expected 1`] = `
 		<wp:tag_name><![CDATA[Some Tag]]></wp:tag_name>
 	</wp:tag>
 	<wp:term>
-		<wp:tag_taxonomy><![CDATA[my-tax]]></wp:tag_taxonomy>
+		<wp:term_taxonomy><![CDATA[my-tax]]></wp:term_taxonomy>
 		<wp:term_slug><![CDATA[some-term]]></wp:term_slug>
 		<wp:term_parent><![CDATA[]]></wp:term_parent>
 		<wp:term_name><![CDATA[Some Term]]></wp:term_name>
