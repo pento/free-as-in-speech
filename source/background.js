@@ -31,7 +31,12 @@ browser.runtime.onMessage.addListener( async ( message ) => {
 			return new Promise( ( resolve ) => resolve( wixConfig ) );
 		case 'start_wix_export':
 			// Start the export.
-			const wxr = await startExport( 'wix', wixConfig );
+			const wxr = await startExport( 'wix', wixConfig, ( status ) =>
+				browser.runtime.sendMessage( {
+					type: 'export_progress_update',
+					data: status,
+				} )
+			);
 
 			// Present the export as a download.
 			const url = URL.createObjectURL(

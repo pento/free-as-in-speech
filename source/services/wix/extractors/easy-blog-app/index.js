@@ -37,6 +37,11 @@ const parseDateString = ( str ) => {
 
 module.exports = {
 	/**
+	 * A name for the app, displayed to the user.
+	 */
+	appName: 'EasyBlog',
+
+	/**
 	 * The Wix application definition ID.
 	 */
 	appDefinitionId: '13d7e48f-0739-6252-8018-457a75beae4b',

@@ -5,6 +5,11 @@ const serializeWixBlocksToWordPressBlocks = require( './block-mapping' );
 
 module.exports = {
 	/**
+	 * A name for the app, displayed to the user.
+	 */
+	appName: 'Blog',
+
+	/**
 	 * The Wix application definition ID.
 	 */
 	appDefinitionId: '14bcded7-0066-7c35-14d7-466cb3f09103',

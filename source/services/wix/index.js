@@ -12,8 +12,10 @@ const extractors = require( './extractors' );
  * Loop through all of the defined extractors, and run them over the content.
  *
  * @param {Object} config The Wix config data.
+ * @param {Function} statusReport A callback to show a message in the popup.
  */
-const startExport = async ( config ) => {
+const startExport = async ( config, statusReport ) => {
+	statusReport( 'Starting Export...' );
 	const wxr = await getWXRDriver( '1.2', true );
 
 	await Promise.all(
@@ -51,15 +53,20 @@ const startExport = async ( config ) => {
 					return;
 				}
 			}
+			statusReport( 'Exporting ' + ( extractor.appName || '' ) + '...' );
 
 			// Run the extractor.
 			const extractedData = await extractor.extract( extractorConfig );
 
 			// Convert the extracted data to WXR.
 			await extractor.save( extractedData, wxr );
+			statusReport(
+				'Exported ' + ( extractor.appName || '' ) + '... finished'
+			);
 		} )
 	);
 
+	statusReport( 'Export finished. Offering WXR for download.' );
 	return wxr;
 };
 

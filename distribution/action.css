@@ -13,3 +13,7 @@ body:not(.wix-site) #wix-content {
 body:not(.wix-site-no-config) #wix-no-config {
 	display: none;
 }
+
+body:not(.wix-export-in-progress) #wix-export-in-progress {
+	display: none;
+}
