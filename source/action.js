@@ -86,9 +86,12 @@ class App extends Component {
 				return (
 					<div id="intro-content">
 						<p>
-							{ createInterpolateElement( __(
-								"Welcome to WordPress' <em>Free (as in Speech)</em> extension!"
-							), { em: <em /> } ) }
+							{ createInterpolateElement(
+								__(
+									"Welcome to WordPress' <em>Free (as in Speech)</em> extension!"
+								),
+								{ em: <em /> }
+							) }
 						</p>
 						<p>
 							{ __(

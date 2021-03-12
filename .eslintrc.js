@@ -4,6 +4,7 @@ const eslintConfig = {
 	globals: {
 		browser: 'readonly',
 		Blob: 'readonly',
+		i18n: 'readonly',
 		WritableStreamDefaultWriter: 'readonly',
 	},
 	rules: {

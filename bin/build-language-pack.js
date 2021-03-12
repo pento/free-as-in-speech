@@ -9,7 +9,9 @@ let languagePackData = 'const i18n = {};\n';
 languageFiles.forEach( ( file ) => {
 	const languageJson = parseFileSync( file, { format: 'jed1.x' } );
 
-	languagePackData += `i18n.${ languageJson.locale_data.messages[''].lang } = ${ JSON.stringify( languageJson.locale_data.messages) };\n`;
+	languagePackData += `i18n.${
+		languageJson.locale_data.messages[ '' ].lang
+	} = ${ JSON.stringify( languageJson.locale_data.messages ) };\n`;
 } );
 
 writeFileSync( 'distribution/build/language-pack.js', languagePackData );
