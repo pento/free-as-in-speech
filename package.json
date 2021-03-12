@@ -68,9 +68,9 @@
 	},
 	"scripts": {
 		"build": "run-p build:*",
+		"build:language-pack": "node ./bin/build-language-pack.js",
 		"build:packages": "node ./bin/packages/build.js",
 		"build:source": "wp-scripts build",
-		"build:language-pack": "node ./bin/build-language-pack.js",
 		"lint": "run-p lint:*",
 		"lint-fix": "run-p 'lint:* -- --fix'",
 		"lint:css": "wp-scripts lint-style **/*.scss **/*.css",
