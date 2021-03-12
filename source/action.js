@@ -8,11 +8,14 @@ if ( i18n[ uiLanguage ] ) {
 }
 
 class App extends Component {
-	constructor( props ) {
-		super( props );
+	constructor() {
+		super( ...arguments );
+
+		this.startWixExport = this.startWixExport.bind( this );
 
 		this.state = {
 			page: '',
+			exportStatus: '',
 		};
 	}
 
@@ -39,16 +42,25 @@ class App extends Component {
 					}
 				}
 			} );
+
+		browser.runtime.onMessage.addListener( ( message ) => {
+			switch ( message.type ) {
+				case 'export_progress_update':
+					this.setState( { exportStatus: message.data } );
+					break;
+			}
+		} );
 	}
 
 	startWixExport() {
+		this.setState( { page: 'wix-export-in-progress' } );
 		browser.runtime.sendMessage( {
 			type: 'start_wix_export',
 		} );
 	}
 
 	render() {
-		const { page } = this.state;
+		const { page, exportStatus } = this.state;
 
 		switch ( page ) {
 			case 'wix-site':
@@ -70,6 +82,15 @@ class App extends Component {
 						</p>
 					</div>
 				);
+
+			case 'wix-export-in-progress':
+				return (
+					<div id="wix-export-in-progress">
+						<p>{ __( 'The export is on its way.' ) }</p>
+						<p id="wix-current-export-status">{ exportStatus }</p>
+					</div>
+				);
+
 			case 'wix-site-no-config':
 				return (
 					<div id="wix-no-config">
@@ -82,6 +103,7 @@ class App extends Component {
 						<p>{ __( 'Please refresh the page to try again.' ) }</p>
 					</div>
 				);
+
 			default:
 				return (
 					<div id="intro-content">
@@ -99,8 +121,11 @@ class App extends Component {
 							) }
 						</p>
 						<p>
-							{ __(
-								'Currently, <strong>Wix</strong> is supported.'
+							{ createInterpolateElement(
+								__(
+									'Currently, <strong>Wix</strong> is supported.'
+								),
+								{ strong: <strong /> }
 							) }
 						</p>
 						<p>
