@@ -17,10 +17,6 @@
 	"bugs": {
 		"url": "https://github.com/pento/free-as-in-speech/issues"
 	},
-	"engines": {
-		"node": ">=10.0.0",
-		"npm": ">=6.9.0 <7"
-	},
 	"dependencies": {
 		"@wordpress/block-library": "2.28.7",
 		"@wordpress/blocks": "7.0.6",
