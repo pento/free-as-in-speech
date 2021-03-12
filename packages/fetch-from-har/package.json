@@ -19,6 +19,10 @@
 	},
 	"main": "build/index.js",
 	"module": "build-module/index.js",
+	"dependencies": {
+		"dayjs": "^1.10.4",
+		"uuid": "^8.3.2"
+	},
 	"publishConfig": {
 		"access": "public"
 	}

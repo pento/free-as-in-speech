@@ -13,7 +13,7 @@ This list of requests can be saved as a HAR file:
 
 The resulting file is a text file with JSON content. You can now use this to work with the command-line.
 
-*Warning: the HAR file might contain private information. You can use a text editor to inspect the contained JSON and possibly modify it (make sure it remains a valid JSON file).*
+**Warning: the HAR file might contain private information. You can use the [anonymize-har.js](/packages/fetch-from-har/bin/anonymize-har.js) tool to anonymize it before sharing.**
 
 Tools like [Charles proxy](https://www.charlesproxy.com/) can be used to manipulate HAR files with a UI.
 
