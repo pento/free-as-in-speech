@@ -1,5 +1,11 @@
 const ReactDOM = require( 'react-dom' );
-const { Component } = require( '@wordpress/element' );
+const { Component, createInterpolateElement } = require( '@wordpress/element' );
+const { __, setLocaleData } = require( '@wordpress/i18n' );
+
+const uiLanguage = browser.i18n.getUILanguage();
+if ( i18n[ uiLanguage ] ) {
+	setLocaleData( i18n[ uiLanguage ], 'default' );
+}
 
 class App extends Component {
 	constructor( props ) {
@@ -9,6 +15,7 @@ class App extends Component {
 			page: '',
 		};
 	}
+
 	componentDidMount() {
 		browser.tabs
 			.query( { active: true, currentWindow: true } )
@@ -47,17 +54,18 @@ class App extends Component {
 			case 'wix-site':
 				return (
 					<div id="wix-content">
-						<p>You can export your site now!</p>
+						<p>{ __( 'You can export your site now!' ) }</p>
 						<p>
-							If you're ready to export this site, click the
-							export button.
+							{ __(
+								"If you're ready to export this site, click the export button."
+							) }
 						</p>
 						<p>
 							<button
 								id="wix-export"
 								onClick={ this.startWixExport }
 							>
-								Export
+								{ __( 'Export' ) }
 							</button>
 						</p>
 					</div>
@@ -65,29 +73,37 @@ class App extends Component {
 			case 'wix-site-no-config':
 				return (
 					<div id="wix-no-config">
-						<p>We were unable to retrieve Wix config data.</p>
+						<p>
+							{ __(
+								'We were unable to retrieve Wix config data.'
+							) }
+						</p>
 
-						<p>Please refresh the page to try again.</p>
+						<p>{ __( 'Please refresh the page to try again.' ) }</p>
 					</div>
 				);
 			default:
 				return (
 					<div id="intro-content">
 						<p>
-							Welcome to WordPress'
-							<em>Free (as in Speech)</em> extension!
+							{ createInterpolateElement( __(
+								"Welcome to WordPress' <em>Free (as in Speech)</em> extension!"
+							), { em: <em /> } ) }
 						</p>
 						<p>
-							This extension helps you get control of your content
-							back from services that otherwise prevent you from
-							choosing to export the content that you own.
+							{ __(
+								'This extension helps you get control of your content back from services that otherwise prevent you from choosing to export the content that you own.'
+							) }
 						</p>
 						<p>
-							Currently, <strong>Wix</strong> is supported.
+							{ __(
+								'Currently, <strong>Wix</strong> is supported.'
+							) }
 						</p>
 						<p>
-							To get started, login to your account on Wix.com,
-							then click this button again!
+							{ __(
+								'To get started, login to your account on Wix.com, then click this button again!'
+							) }
 						</p>
 					</div>
 				);

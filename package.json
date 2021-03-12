@@ -26,6 +26,7 @@
 		"@wordpress/blocks": "7.0.6",
 		"@wordpress/element": "2.19.1",
 		"@wordpress/format-library": "1.26.10",
+		"@wordpress/i18n": "3.19.1-next.53e2173694.0",
 		"@wordpress/rich-text": "3.24.8",
 		"@wordpress/wxr": "file:packages/wxr",
 		"cheerio": "1.0.0-rc.5",
@@ -58,6 +59,7 @@
 		"jsdom": "16.5.1",
 		"node-watch": "0.7.1",
 		"npm-run-all": "4.1.5",
+		"po2json": "0.4.5",
 		"terser-webpack-plugin": "5.1.1",
 		"web-ext": "6.0.0",
 		"web-ext-submit": "6.0.0",
@@ -68,6 +70,7 @@
 		"build": "run-p build:*",
 		"build:packages": "node ./bin/packages/build.js",
 		"build:source": "wp-scripts build",
+		"build:language-pack": "node ./bin/build-language-pack.js",
 		"lint": "run-p lint:*",
 		"lint-fix": "run-p 'lint:* -- --fix'",
 		"lint:css": "wp-scripts lint-style **/*.scss **/*.css",
@@ -85,7 +88,7 @@
 		"test-unit:watch": "npm run test-unit -- --watch",
 		"watch:packages": "node ./bin/packages/watch.js",
 		"watch:source": "wp-scripts start",
-		"watch": "npm-run-all build:packages --parallel watch:*"
+		"watch": "npm-run-all build:packages build:language-pack --parallel watch:*"
 	},
 	"webExt": {
 		"sourceDir": "distribution",
