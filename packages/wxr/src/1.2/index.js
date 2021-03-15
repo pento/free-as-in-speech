@@ -471,7 +471,7 @@ class WXRDriver {
 					xmlChunk += '\n' + '\t'.repeat( tabs + 1 );
 					xmlChunk +=
 						'<wp:meta_value>' +
-						xmlSanitizer( meta.value ) +
+						xmlSanitizer( String( meta.value ) ) +
 						'</wp:meta_value>';
 
 					xmlChunk += '\n' + '\t'.repeat( tabs );

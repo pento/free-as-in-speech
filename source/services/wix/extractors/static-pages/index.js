@@ -2,11 +2,8 @@ const cheerio = require( 'cheerio' );
 const { v4: uuidv4 } = require( 'uuid' );
 const { pasteHandler, serialize } = require( '@wordpress/blocks' );
 const slug = require( 'slugify' );
+const IdFactory = require( '../../../../utils/idfactory.js' );
 
-let currentObjectId = 0;
-const getNextObjectId = () => {
-	return ( currentObjectId += 10 );
-};
 const fetchPage = ( topology, editorUrl ) => ( page ) => {
 	return window
 		.fetch( topology.replace( '{filename}', page.pageJsonFileName ), {
@@ -26,12 +23,13 @@ const fetchPage = ( topology, editorUrl ) => ( page ) => {
 			};
 		} )
 		.then( ( json ) => {
+			page.postId = IdFactory.get( page.pageId );
 			page.config = json;
 			page.data = page.config.structure.components.map( ( component ) => {
 				if ( ! component.dataQuery ) {
 					return null;
 				}
-				return page.config.data.document_data[
+				return json.data.document_data[
 					component.dataQuery.replace( /^#/, '' )
 				];
 			} );
@@ -138,6 +136,7 @@ module.exports = {
 			)
 			.then( ( result ) => result.json() )
 			.catch( () => {} );
+
 		const parseMenu = ( menuItem ) => {
 			menuItem = resolveQueries(
 				menuItem,
@@ -223,26 +222,30 @@ module.exports = {
 		const handleMenuItemsRecursively = ( menu, items, parent = 0 ) => {
 			const results = [];
 			items.forEach( ( item ) => {
-				const id = getNextObjectId();
+				const id = IdFactory.get( item.title );
 
 				if ( ! item.type ) {
 					item.type = 'custom';
 					item.object = 'custom';
-					item.objectId = id;
+					item.objectId = IdFactory.get( item.title );
 				} else if ( 'PageLink' === item.type ) {
 					item.type = 'post_type';
+					item.objectId = IdFactory.get( item.pageId.id );
+					item.object = 'page';
 				}
 
 				results.push( {
-					id,
+					postId: id,
 					title: item.title || '',
 					date: Date.now(),
 					name: item.title ? slug( item.title, { lower: true } ) : '',
 					type: 'nav_menu_item',
+					parent: parent ? parent : '',
+					status: 'publish',
 					menuOrder: menu.counter++,
 					meta: {
 						_menu_item_type: item.type,
-						_menu_item_menu_item_parent: parent,
+						_menu_item_menu_item_parent: String( parent ? parent : '' ),
 						_menu_item_object_id: item.objectId,
 						_menu_item_object: item.object,
 						_menu_item_target: item.target || '',
@@ -280,7 +283,7 @@ module.exports = {
 
 		menus.forEach( ( menu ) => {
 			const term = {
-				id: getNextObjectId(),
+				id: IdFactory.get( menu.title ),
 				name: menu.title,
 				slug: slug( `${ menu.title }-1`, { lower: true } ),
 				counter: 0,
@@ -310,9 +313,12 @@ module.exports = {
 				} );
 
 				wxr.addPost( {
+					id: post.postId,
 					title: post.title,
 					type: post.type,
 					terms: post.terms,
+					parent: post.parent,
+					status: 'publish',
 					menu_order: post.menuOrder,
 					meta: Object.entries( post.meta ).map( ( meta ) => ( {
 						key: meta[ 0 ],
@@ -323,6 +329,7 @@ module.exports = {
 				return;
 			}
 			wxr.addPost( {
+				id: post.postId,
 				title: post.title,
 				content: pasteHandler( {
 					HTML: post.data
