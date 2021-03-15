@@ -12,7 +12,7 @@ const fs = require( 'fs' );
 const path = require( 'path' );
 const fetchFromHAR = require( 'fetch-from-har' );
 const getWXRFromWixHAR = require( '../../../bin/lib/get-wxr-from-wix-har' );
-const wixServices = require( '../../../source/services/wix' );
+const { startExport } = require( '../../../source/services/wix' );
 
 registerCoreBlocks();
 
@@ -76,7 +76,7 @@ test.each( [
 		fetchFromHAR,
 		JSON.parse( input ),
 		config,
-		wixServices
+		startExport
 	)
 		.then( ( wxrDriver ) => wxrDriver.export() )
 		.then( ( xml ) => {

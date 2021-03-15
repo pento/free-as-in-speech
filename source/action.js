@@ -1,5 +1,6 @@
 const ReactDOM = require( 'react-dom' );
 const { Component, createInterpolateElement } = require( '@wordpress/element' );
+const { Spinner } = require( '@wordpress/components' );
 const { __, setLocaleData } = require( '@wordpress/i18n' );
 
 const uiLanguage = browser.i18n.getUILanguage();
@@ -15,7 +16,7 @@ class App extends Component {
 
 		this.state = {
 			page: '',
-			exportStatus: '',
+			exportStatus: {},
 		};
 	}
 
@@ -31,14 +32,21 @@ class App extends Component {
 					)
 				) {
 					// Get the config that's stored in the background.js process.
-					const config = await browser.runtime.sendMessage( {
-						type: 'get_wix_config',
+					const apps = await browser.runtime.sendMessage( {
+						type: 'get_wix_apps',
 					} );
 
-					if ( config ) {
-						this.setState( { page: 'wix-site' } );
+					if ( apps && apps.length > 0 ) {
+						this.setState( {
+							page: 'wix-site',
+							apps,
+							exportStatus: apps.reduce( ( status, app ) => {
+								status[ app.id ] = 'not-started';
+								return status;
+							}, {} ),
+						} );
 					} else {
-						this.setState( { page: 'wix-site-no-config' } );
+						this.setState( { page: 'wix-site-no-apps' } );
 					}
 				}
 			} );
@@ -46,57 +54,86 @@ class App extends Component {
 		browser.runtime.onMessage.addListener( ( message ) => {
 			switch ( message.type ) {
 				case 'export_progress_update':
-					this.setState( { exportStatus: message.data } );
+					const newExportStatus = { ...this.state.exportStatus };
+					newExportStatus[ message.data.id ] = message.data.state;
+					this.setState( { exportStatus: newExportStatus } );
 					break;
 			}
 		} );
 	}
 
 	startWixExport() {
-		this.setState( { page: 'wix-export-in-progress' } );
 		browser.runtime.sendMessage( {
 			type: 'start_wix_export',
 		} );
 	}
 
 	render() {
-		const { page, exportStatus } = this.state;
+		const { page, exportStatus, apps } = this.state;
+
+		const exportInProgress = Object.values( exportStatus ).includes(
+			'in-progress'
+		);
+
+		const exportFinished = Object.values( exportStatus ).reduce(
+			( finished, status ) => finished && status === 'done',
+			true
+		);
 
 		switch ( page ) {
 			case 'wix-site':
 				return (
 					<div id="wix-content">
-						<p>{ __( 'You can export your site now!' ) }</p>
+						<p>
+							{ __(
+								'You can export your site now! The following Wix apps will be exported:'
+							) }
+						</p>
+						<ul>
+							{ apps.map( ( app ) => {
+								return (
+									<li key={ app.id }>
+										{ app.name }{ ' ' }
+										{ exportStatus[ app.id ] ===
+										'in-progress' ? (
+											<Spinner />
+										) : (
+											''
+										) }
+										{ exportStatus[ app.id ] === 'done'
+											? '✅'
+											: '' }
+									</li>
+								);
+							} ) }
+						</ul>
 						<p>
 							{ __(
 								"If you're ready to export this site, click the export button."
 							) }
 						</p>
 						<p>
-							<button
-								id="wix-export"
-								onClick={ this.startWixExport }
-							>
-								{ __( 'Export' ) }
-							</button>
+							{ exportFinished ? (
+								__( 'Export finished.' )
+							) : (
+								<button
+									id="wix-export"
+									onClick={ this.startWixExport }
+									disabled={ exportInProgress }
+								>
+									{ __( 'Export' ) }
+								</button>
+							) }
 						</p>
 					</div>
 				);
 
-			case 'wix-export-in-progress':
+			case 'wix-site-no-apps':
 				return (
-					<div id="wix-export-in-progress">
-						<p>{ __( 'The export is on its way.' ) }</p>
-						<p id="wix-current-export-status">{ exportStatus }</p>
-					</div>
-				);
-
-			case 'wix-site-no-config':
-				return (
-					<div id="wix-no-config">
+					<div id="wix-no-apps">
 						<p>
 							{ __(
-								'We were unable to retrieve Wix config data.'
+								'We were unable to retrieve a list of the installed Wix apps.'
 							) }
 						</p>
 
