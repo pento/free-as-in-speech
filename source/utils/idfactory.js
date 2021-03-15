@@ -7,7 +7,6 @@ module.exports = {
 		if ( undefined === ids[ key ] ) {
 			ids[ key ] = ++counter;
 		}
-console.log(key, ids[key]);
 		return ids[ key ];
 	},
 };

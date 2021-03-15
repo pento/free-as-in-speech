@@ -245,7 +245,9 @@ module.exports = {
 					menuOrder: menu.counter++,
 					meta: {
 						_menu_item_type: item.type,
-						_menu_item_menu_item_parent: String( parent ? parent : '' ),
+						_menu_item_menu_item_parent: String(
+							parent ? parent : ''
+						),
 						_menu_item_object_id: item.objectId,
 						_menu_item_object: item.object,
 						_menu_item_target: item.target || '',
