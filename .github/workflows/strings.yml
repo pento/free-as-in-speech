@@ -16,11 +16,7 @@ jobs:
       - name: Generate the POT file
         run: |
           docker run -v $PWD:/var/www/html --user 1001 --rm wordpress:cli i18n make-pot --ignore-domain ./source languages/free-as-in-speech.pot
-          git diff --quiet -G'(msgid|msgstr)'
-
-      - name: Revert changes if there are no strings changed
-        if: ${{ failure() }}
-        run: git reset --hard
+          ! git diff --quiet -G'(msgid|msgstr)' || git reset --hard
 
       - name: Merge changes into the PO files
         if: steps.auto-commit-action.outputs.changes_detected == 'true'
