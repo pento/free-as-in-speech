@@ -15,9 +15,7 @@ jobs:
           ref: ${{ github.head_ref }}
 
       - name: Generate the POT file
-        run: |
-          docker run -v $PWD:/var/www/html --user 33:33 --rm wordpress:cli id
-          docker run -v $PWD:/var/www/html --user 33:33 --rm wordpress:cli ls -lahn languages/free-as-in-speech.pot
+        run: docker run -v $PWD:/var/www/html --user 1001 --rm wordpress:cli ls -lahn languages/free-as-in-speech.pot
 
       - name: Display diff
         run: git diff
