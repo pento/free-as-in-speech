@@ -2,7 +2,6 @@ name: update-translation-strings
 
 on:
   - pull_request
-  - push
 
 jobs:
   update-translation-strings:
@@ -16,6 +15,14 @@ jobs:
 
       - name: Generate the POT file
         run: docker run -v $PWD:/var/www/html --user 1001 --rm wordpress:cli i18n make-pot --ignore-domain ./source languages/free-as-in-speech.pot
+
+      - name: Merge changes into the PO files
+        run: |
+          for po in languages/*.po; do
+            echo $po;
+            msgmerge -NUv --no-wrap --backup=none $po languages/free-as-in-speech.pot;
+            printf '%s\n' "$(cat $po | sed '/^#~ msgid/,/^\s*$/d')" > $po;
+          done
 
       - name: Display diff
         run: git diff
