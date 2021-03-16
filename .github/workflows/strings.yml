@@ -1,0 +1,22 @@
+name: update-translation-strings
+
+on:
+  - pull_request
+  - push
+
+jobs:
+  update-translation-strings:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out the code
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ github.head_ref }}
+
+      - name: Generate the POT file
+        uses: docker
+        run: docker run -it -v ./:/var/www --rm wordpress:cli i18n make-pot --ignore-domain ./source languages/free-as-in-speech.pot
+
+      - name: Display diff
+        run: git diff
