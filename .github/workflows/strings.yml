@@ -22,6 +22,7 @@ jobs:
           fi
 
       - name: Merge changes into the PO files
+        if: steps.auto-commit-action.outputs.changes_detected == 'true'
         run: |
           sudo apt-get install gettext
           for po in languages/*.po; do
@@ -30,5 +31,7 @@ jobs:
             printf '%s\n' "$(cat $po | sed '/^#~ msgid/,/^\s*$/d')" > $po;
           done
 
-      - name: Display diff
-        run: git diff
+      - name: Commit changes
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: Update translation string files.
