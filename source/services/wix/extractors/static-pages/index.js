@@ -231,6 +231,7 @@ module.exports = {
 				} else if ( 'PageLink' === item.type ) {
 					item.type = 'post_type';
 					item.objectId = IdFactory.get( item.pageId.id );
+					item.status = item.pageId.hidePage ? 'pending' : 'publish';
 					item.object = 'page';
 				}
 
@@ -241,7 +242,7 @@ module.exports = {
 					name: item.title ? slug( item.title, { lower: true } ) : '',
 					type: 'nav_menu_item',
 					parent: parent ? parent : '',
-					status: 'publish',
+					status: item.status || 'publish',
 					menuOrder: menu.counter++,
 					meta: {
 						_menu_item_type: item.type,
