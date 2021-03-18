@@ -7,7 +7,7 @@ require( '@wordpress/format-library' );
 /**
  * Internal dependencies
  */
-const startExport = require( './services' );
+const { getInstalledApps, startExport } = require( './services' );
 
 /**
  * Store the wix config in memory, so that it's available whenever it's needed,
@@ -29,6 +29,14 @@ browser.runtime.onMessage.addListener( async ( message ) => {
 		case 'get_wix_config':
 			// Return the config data requested by other parts of the extension.
 			return new Promise( ( resolve ) => resolve( wixConfig ) );
+		case 'get_wix_apps':
+			return new Promise( ( resolve ) => {
+				if ( wixConfig ) {
+					resolve( getInstalledApps( 'wix', wixConfig ) );
+				} else {
+					resolve( false );
+				}
+			} );
 		case 'start_wix_export':
 			// Start the export.
 			const wxr = await startExport( 'wix', wixConfig, ( status ) =>

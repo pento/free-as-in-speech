@@ -1,0 +1,4 @@
+{
+	"presets": [ "@wordpress/default" ],
+	"sourceType": "unambiguous"
+}

@@ -1,0 +1,52 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2021-03-16T03:56:04+00:00\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"X-Generator: WP-CLI 2.4.0\n"
+
+#: action.js:88
+msgid "You can export your site now! The following Wix apps will be exported:"
+msgstr ""
+
+#: action.js:111
+msgid "If you're ready to export this site, click the export button."
+msgstr ""
+
+#: action.js:117
+msgid "Export finished."
+msgstr ""
+
+#: action.js:124
+msgid "Export"
+msgstr ""
+
+#: action.js:135
+msgid "We were unable to retrieve a list of the installed Wix apps."
+msgstr ""
+
+#: action.js:140
+msgid "Please refresh the page to try again."
+msgstr ""
+
+#: action.js:149
+msgid "Welcome to WordPress' <em>Free (as in Speech)</em> extension!"
+msgstr ""
+
+#: action.js:156
+msgid "This extension helps you get control of your content back from services that otherwise prevent you from choosing to export the content that you own."
+msgstr ""
+
+#: action.js:162
+msgid "Currently, <strong>Wix</strong> is supported."
+msgstr ""
+
+#: action.js:169
+msgid "To get started, login to your account on Wix.com, then click this button again!"
+msgstr ""

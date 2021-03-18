@@ -29,7 +29,7 @@ const extensionConfig = {
 	entry: {
 		background: './source/background',
 		content: './source/content',
-		popup: './source/popup',
+		action: './source/action',
 		'@wordpress/wxr': './packages/wxr',
 	},
 	output: {
