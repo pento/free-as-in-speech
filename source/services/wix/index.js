@@ -108,11 +108,7 @@ const startExport = async ( config, statusReport ) => {
 	const siteMeta = await extractData( { instance: null } )(
 		siteMetaSettings
 	);
-	if (
-		siteMeta &&
-		siteMeta.quickActionsData &&
-		siteMeta.quickActionsData.displayName
-	) {
+	if ( siteMeta && siteMeta.quickActionsData ) {
 		// Backfill the metadata when none available (e.g. in CLI).
 		if ( ! config.initialState ) {
 			config.initialState = {};

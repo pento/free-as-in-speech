@@ -28,9 +28,11 @@ exports[`wix: easyblog.har 1`] = `
 	xmlns:wp=\\"http://wordpress.org/export/1.2/\\"
 >
 <channel>
+	<pubDate></pubDate>
+	<wp:wxr_version>1.2</wp:wxr_version>
 	<item>
 		<title><![CDATA[hello blog]]></title>
-		<pubDate></pubDate>
+		<pubDate><![CDATA[Thu, 18 Feb 2021 00:00:00 GMT]]></pubDate>
 		<description></description>
 		<content:encoded><![CDATA[<!-- wp:paragraph -->
 <p>easyblog test</p>
