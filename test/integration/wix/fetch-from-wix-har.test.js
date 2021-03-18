@@ -45,7 +45,7 @@ test.each( [
 				} ),
 			},
 		},
-		false,
+		true,
 		false,
 	],
 	[
@@ -59,7 +59,7 @@ test.each( [
 				} ),
 			},
 		},
-		false,
+		true,
 		true,
 	],
 ] )( 'wix: %s', async ( har, config, errorsExpected, logExpected ) => {

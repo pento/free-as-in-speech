@@ -7,6 +7,7 @@ const { getWXRDriver } = require( '@wordpress/wxr' );
  * Internal dependencies
  */
 const extractors = require( './extractors' );
+const siteMetaSettings = require( './extractors/site-meta-app' );
 
 /**
  * Returns an array of the installed apps.
@@ -17,7 +18,7 @@ const extractors = require( './extractors' );
 const getInstalledApps = ( config ) => {
 	const installed = [];
 
-	extractors.forEach( ( extractor ) => {
+	[ siteMetaSettings ].concat( extractors ).forEach( ( extractor ) => {
 		if ( getExtractorConfig( config, extractor.appDefinitionId ) ) {
 			installed.push( {
 				id: extractor.appDefinitionId,
@@ -39,6 +40,12 @@ const getInstalledApps = ( config ) => {
 const getExtractorConfig = ( config, appDefinitionId ) => {
 	if ( appDefinitionId === 'media-manager' ) {
 		return config.mediaToken;
+	}
+
+	if ( appDefinitionId === 'static-pages' ) {
+		return {
+			metaSiteId: config.initialState.siteMetaData.metaSiteId,
+		};
 	}
 
 	return Object.values(
@@ -65,37 +72,58 @@ const getExtractorConfig = ( config, appDefinitionId ) => {
 const startExport = async ( config, statusReport ) => {
 	const wxr = await getWXRDriver( '1.2', true );
 
-	await Promise.all(
-		extractors.map( async ( extractor ) => {
-			// Grab the config data for this extractor.
-			let extractorConfig = getExtractorConfig(
-				config,
-				extractor.appDefinitionId
-			);
+	const extractData = ( fallbackConfig ) => async ( extractor ) => {
+		// Grab the config data for this extractor.
+		let extractorConfig = getExtractorConfig(
+			config,
+			extractor.appDefinitionId
+		);
 
-			// If we couldn't find any app config for this extractor, the app isn't enabled.
+		// If we couldn't find any app config for this extractor, the app isn't enabled.
+		if ( ! extractorConfig ) {
+			extractorConfig = fallbackConfig;
 			if ( ! extractorConfig ) {
-				if ( config.extractAll ) {
-					extractorConfig = {};
-				} else {
-					return;
-				}
+				return;
 			}
-			statusReport( {
-				id: extractor.appDefinitionId,
-				state: 'in-progress',
-			} );
+		}
+		statusReport( {
+			id: extractor.appDefinitionId,
+			state: 'in-progress',
+		} );
 
-			// Run the extractor.
-			const extractedData = await extractor.extract( extractorConfig );
+		// Run the extractor.
+		const extractedData = await extractor.extract( extractorConfig );
 
-			// Convert the extracted data to WXR.
-			await extractor.save( extractedData, wxr );
-			statusReport( {
-				id: extractor.appDefinitionId,
-				state: 'done',
-			} );
-		} )
+		// Convert the extracted data to WXR.
+		await extractor.save( extractedData, wxr );
+		statusReport( {
+			id: extractor.appDefinitionId,
+			state: 'done',
+		} );
+
+		return extractedData;
+	};
+
+	// We need to extract the site meta first.
+	const siteMeta = await extractData( { instance: null } )(
+		siteMetaSettings
+	);
+	if ( siteMeta && siteMeta.quickActionsData ) {
+		// Backfill the metadata when none available (e.g. in CLI).
+		if ( ! config.initialState ) {
+			config.initialState = {};
+		}
+		if ( ! config.initialState.siteMetaData ) {
+			config.initialState.siteMetaData = {};
+		}
+		if ( ! config.initialState.siteMetaData.metaSiteId ) {
+			config.initialState.siteMetaData.metaSiteId =
+				siteMeta.quickActionsData.metaSiteId;
+		}
+	}
+
+	await Promise.all(
+		extractors.map( extractData( config.extractAll ? {} : null ) )
 	);
 
 	return wxr;

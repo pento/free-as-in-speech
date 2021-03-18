@@ -136,7 +136,7 @@ exports[`Terms and Taxonomies All custom taxonomy fields are written as expected
 <channel>
 	<wp:term>
 		<wp:term_id>1</wp:term_id>
-		<wp:tag_taxonomy><![CDATA[my-tax]]></wp:tag_taxonomy>
+		<wp:term_taxonomy><![CDATA[my-tax]]></wp:term_taxonomy>
 		<wp:term_slug><![CDATA[some-term]]></wp:term_slug>
 		<wp:term_parent><![CDATA[]]></wp:term_parent>
 		<wp:term_name><![CDATA[Some Term]]></wp:term_name>
@@ -152,7 +152,7 @@ exports[`Terms and Taxonomies All custom taxonomy fields are written as expected
 	</wp:term>
 	<wp:term>
 		<wp:term_id>2</wp:term_id>
-		<wp:tag_taxonomy><![CDATA[my-tax]]></wp:tag_taxonomy>
+		<wp:term_taxonomy><![CDATA[my-tax]]></wp:term_taxonomy>
 		<wp:term_slug><![CDATA[some-other-term]]></wp:term_slug>
 		<wp:term_parent><![CDATA[]]></wp:term_parent>
 		<wp:term_name><![CDATA[Some Other Term]]></wp:term_name>
@@ -160,7 +160,7 @@ exports[`Terms and Taxonomies All custom taxonomy fields are written as expected
 	</wp:term>
 	<wp:term>
 		<wp:term_id>3</wp:term_id>
-		<wp:tag_taxonomy><![CDATA[my-other-tax]]></wp:tag_taxonomy>
+		<wp:term_taxonomy><![CDATA[my-other-tax]]></wp:term_taxonomy>
 		<wp:term_slug><![CDATA[some-term]]></wp:term_slug>
 		<wp:term_parent><![CDATA[]]></wp:term_parent>
 		<wp:term_name><![CDATA[Some Term]]></wp:term_name>
