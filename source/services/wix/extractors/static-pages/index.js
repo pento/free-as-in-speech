@@ -222,6 +222,11 @@ const fetchPageJson = ( topology, editorUrl ) => ( page ) => {
 
 module.exports = {
 	/**
+	 * A name for the app, displayed to the user.
+	 */
+	appName: 'Static Pages',
+
+	/**
 	 * The Wix application definition ID.
 	 */
 	appDefinitionId: 'static-pages',

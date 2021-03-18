@@ -32,6 +32,8 @@
 		"@wordpress/wxr": "file:packages/wxr",
 		"cheerio": "1.0.0-rc.5",
 		"dayjs": "1.10.4",
+		"react": "16.14.0",
+		"react-dom": "16.14.0",
 		"slugify": "1.4.7",
 		"uuid": "8.3.2",
 		"web-streams-polyfill": "3.0.2",

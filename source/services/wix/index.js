@@ -42,7 +42,7 @@ const getExtractorConfig = ( config, appDefinitionId ) => {
 		return config.mediaToken;
 	}
 
-	if ( extractor.appDefinitionId === 'static-pages' ) {
+	if ( appDefinitionId === 'static-pages' ) {
 		return {
 			metaSiteId: config.initialState.siteMetaData.metaSiteId,
 		};
@@ -72,15 +72,47 @@ const getExtractorConfig = ( config, appDefinitionId ) => {
 const startExport = async ( config, statusReport ) => {
 	const wxr = await getWXRDriver( '1.2', true );
 
-	const siteMetaConfig = getExtractorConfig( config, siteMetaSettings.appDefinitionId );
-	const siteMeta = await siteMetaSettings.extract( siteMetaConfig || { instance: null } );
+	const extractData = ( fallbackConfig ) => async ( extractor ) => {
+		// Grab the config data for this extractor.
+		let extractorConfig = getExtractorConfig(
+			config,
+			extractor.appDefinitionId
+		);
+
+		// If we couldn't find any app config for this extractor, the app isn't enabled.
+		if ( ! extractorConfig ) {
+			extractorConfig = fallbackConfig;
+			if ( ! extractorConfig ) {
+				return;
+			}
+		}
+		statusReport( {
+			id: extractor.appDefinitionId,
+			state: 'in-progress',
+		} );
+
+		// Run the extractor.
+		const extractedData = await extractor.extract( extractorConfig );
+
+		// Convert the extracted data to WXR.
+		await extractor.save( extractedData, wxr );
+		statusReport( {
+			id: extractor.appDefinitionId,
+			state: 'done',
+		} );
+
+		return extractedData;
+	};
+
+	// We need to extract the site meta first.
+	const siteMeta = await extractData( { instance: null } )(
+		siteMetaSettings
+	);
 	if (
 		siteMeta &&
 		siteMeta.quickActionsData &&
 		siteMeta.quickActionsData.displayName
 	) {
-		await siteMetaSettings.save( siteMeta, wxr );
-
 		// Backfill the metadata when none available (e.g. in CLI).
 		if ( ! config.initialState ) {
 			config.initialState = {};
@@ -89,41 +121,13 @@ const startExport = async ( config, statusReport ) => {
 			config.initialState.siteMetaData = {};
 		}
 		if ( ! config.initialState.siteMetaData.metaSiteId ) {
-			config.initialState.siteMetaData.metaSiteId = siteMeta.quickActionsData.metaSiteId;
+			config.initialState.siteMetaData.metaSiteId =
+				siteMeta.quickActionsData.metaSiteId;
 		}
 	}
 
 	await Promise.all(
-		extractors.map( async ( extractor ) => {
-			// Grab the config data for this extractor.
-			let extractorConfig = getExtractorConfig(
-				config,
-				extractor.appDefinitionId
-			);
-
-			// If we couldn't find any app config for this extractor, the app isn't enabled.
-			if ( ! extractorConfig ) {
-				if ( config.extractAll ) {
-					extractorConfig = {};
-				} else {
-					return;
-				}
-			}
-			statusReport( {
-				id: extractor.appDefinitionId,
-				state: 'in-progress',
-			} );
-
-			// Run the extractor.
-			const extractedData = await extractor.extract( extractorConfig );
-
-			// Convert the extracted data to WXR.
-			await extractor.save( extractedData, wxr );
-			statusReport( {
-				id: extractor.appDefinitionId,
-				state: 'done',
-			} );
-		} )
+		extractors.map( extractData( config.extractAll ? {} : null ) )
 	);
 
 	return wxr;

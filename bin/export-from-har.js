@@ -37,7 +37,7 @@ registerCoreBlocks();
 const fetchFromHAR = require( 'fetch-from-har' );
 const getWXRFromWixHAR = require( './lib/get-wxr-from-wix-har' );
 const fs = require( 'fs' );
-const startExport = require( '../source/services/wix' );
+const { startExport } = require( '../source/services/wix' );
 
 const { Command } = require( 'commander' );
 const program = new Command();
