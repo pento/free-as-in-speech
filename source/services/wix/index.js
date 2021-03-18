@@ -18,7 +18,7 @@ const siteMetaSettings = require( './extractors/site-meta-app' );
 const getInstalledApps = ( config ) => {
 	const installed = [];
 
-	extractors.concat( siteMetaSettings ).forEach( ( extractor ) => {
+	[ siteMetaSettings ].concat( extractors ).forEach( ( extractor ) => {
 		if ( getExtractorConfig( config, extractor.appDefinitionId ) ) {
 			installed.push( {
 				id: extractor.appDefinitionId,
