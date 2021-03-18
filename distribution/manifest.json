@@ -18,7 +18,6 @@
 		"activeTab",
 		"downloads",
 		"https://easy-blog-production.myeasyappsserver.com/*",
-		"https://*.wixsite.com/*",
 		"https://*.wix.com/*"
 	],
 	"browser_action": {
