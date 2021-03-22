@@ -349,7 +349,7 @@ module.exports = {
 					.filter( ( blockContent ) => blockContent !== false )
 					.map( ( wpBlock ) => serialize( wpBlock ) )
 					.join( '\n\n' ),
-				status: post.hidePage ? 'publish' : 'private',
+				status: post.hidePage ? 'private' : 'publish',
 				sticky: 0,
 				type: 'page',
 				comment_status: 'closed',
