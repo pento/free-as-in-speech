@@ -58,8 +58,10 @@
 		"fetch-from-har": "file:packages/fetch-from-har",
 		"fetch-mock-jest": "1.5.1",
 		"glob": "7.1.6",
+		"husky": "5.2.0",
 		"jest-watch-typeahead": "0.6.1",
 		"jsdom": "16.5.1",
+		"lint-staged": "10.5.4",
 		"node-watch": "0.7.1",
 		"npm-run-all": "4.1.5",
 		"po2json": "0.4.5",
@@ -91,7 +93,8 @@
 		"test-unit:watch": "npm run test-unit -- --watch",
 		"watch:packages": "node ./bin/packages/watch.js",
 		"watch:source": "wp-scripts start",
-		"watch": "npm-run-all build:packages build:language-pack --parallel watch:*"
+		"watch": "npm-run-all build:packages build:language-pack --parallel watch:*",
+		"prepare": "husky install"
 	},
 	"webExt": {
 		"sourceDir": "distribution",
