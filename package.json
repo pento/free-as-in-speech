@@ -58,8 +58,11 @@
 		"fetch-from-har": "file:packages/fetch-from-har",
 		"fetch-mock-jest": "1.5.1",
 		"glob": "7.1.6",
+		"husky": "5.2.0",
+		"is-ci": "2.0.0",
 		"jest-watch-typeahead": "0.6.1",
 		"jsdom": "16.5.1",
+		"lint-staged": "10.5.4",
 		"node-watch": "0.7.1",
 		"npm-run-all": "4.1.5",
 		"po2json": "0.4.5",
@@ -85,13 +88,13 @@
 		"release:firefox": "cd distribution && web-ext-submit",
 		"start:chrome": "web-ext run --target=chromium",
 		"start:firefox": "web-ext run",
-		"pretest": "npm run build:packages",
-		"test": "run-s lint build test-unit",
+		"test": "npm run test-unit",
 		"test-unit": "wp-scripts test-unit-js --config jest.config.js",
 		"test-unit:watch": "npm run test-unit -- --watch",
 		"watch:packages": "node ./bin/packages/watch.js",
 		"watch:source": "wp-scripts start",
-		"watch": "npm-run-all build:packages build:language-pack --parallel watch:*"
+		"watch": "npm-run-all build:packages build:language-pack --parallel watch:*",
+		"prepare": "is-ci || husky install"
 	},
 	"webExt": {
 		"sourceDir": "distribution",
