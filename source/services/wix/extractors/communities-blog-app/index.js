@@ -23,18 +23,41 @@ module.exports = {
 		const statuses = [ 'published', 'unpublished', 'scheduled' ];
 
 		const postsPromise = Promise.all(
-			statuses.map( ( status ) =>
-				window
-					.fetch(
-						`https://manage.wix.com/_api/communities-blog-node-api/_api/posts?offset=0&size=500&fieldsets=categories,owner,likes,content,subscriptions,tags&status=${ status }`,
-						{
-							headers: { instance: config.instance },
-							mode: 'same-origin',
-						}
-					)
-					.then( ( result ) => result.json() )
-					.catch( () => [] )
-			)
+			statuses.map( async ( status ) => {
+				const posts = [];
+
+				let offset = 0;
+				const pageSize = 500;
+
+				let page;
+				let totalPosts;
+
+				do {
+					try {
+						const response = await window.fetch(
+							`https://manage.wix.com/_api/communities-blog-node-api/_api/posts?offset=${ offset }&size=${ pageSize }&fieldsets=categories,owner,likes,content,subscriptions,tags&status=${ status }`,
+							{
+								headers: { instance: config.instance },
+								mode: 'same-origin',
+							}
+						);
+
+						totalPosts = response.headers.get(
+							'wix-socialblog-totalresults'
+						);
+
+						page = await response.json();
+					} catch ( error ) {
+						page = [];
+					}
+
+					Array.prototype.push.apply( posts, page );
+
+					offset += pageSize;
+				} while ( offset + pageSize <= totalPosts );
+
+				return posts;
+			} )
 		);
 
 		const authorsPromise = window
