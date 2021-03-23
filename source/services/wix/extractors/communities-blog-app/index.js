@@ -29,10 +29,11 @@ module.exports = {
 				let offset = 0;
 				const pageSize = 500;
 
-				let page;
 				let totalPosts;
 
 				do {
+					let page;
+
 					try {
 						const response = await window.fetch(
 							`https://manage.wix.com/_api/communities-blog-node-api/_api/posts?offset=${ offset }&size=${ pageSize }&fieldsets=categories,owner,likes,content,subscriptions,tags&status=${ status }`,
@@ -74,35 +75,97 @@ module.exports = {
 				return { assignees: [] };
 			} );
 
-		const categoriesPromise = window
-			.fetch(
-				'https://manage.wix.com/_api/communities-blog-node-api/_api/categories?offset=0&size=500',
-				{ headers: { instance: config.instance }, mode: 'same-origin' }
-			)
-			.then( ( result ) => result.json() )
-			.catch( () => [] );
+		// const categoriesPromise = window
+		// 	.fetch(
+		// 		'https://manage.wix.com/_api/communities-blog-node-api/_api/categories?offset=0&size=500',
+		// 		{ headers: { instance: config.instance }, mode: 'same-origin' }
+		// 	)
+		// 	.then( ( result ) => result.json() )
+		// 	.catch( () => [] );
 
-		const tagsQuery = {
-			paging: {
-				offset: 0,
-				limit: 500,
-			},
-		};
+		const categoriesPromise = ( async () => {
+			const categories = [];
 
-		const tagsPromise = window
-			.fetch(
-				'https://manage.wix.com/_api/communities-blog-node-api/v2/tags/query',
-				{
-					method: 'POST',
-					headers: { instance: config.instance },
-					mode: 'same-origin',
-					body: JSON.stringify( tagsQuery ),
+			let offset = 0;
+			const pageSize = 500;
+
+			let totalCategories;
+
+			do {
+				let page;
+
+				try {
+					const response = await window.fetch(
+						`https://manage.wix.com/_api/communities-blog-node-api/_api/categories?offset=${ offset }&size=${ pageSize }`,
+						{
+							headers: { instance: config.instance },
+							mode: 'same-origin',
+						}
+					);
+
+					totalCategories = response.headers.get(
+						'wix-socialblog-totalresults'
+					);
+
+					page = await response.json();
+				} catch ( error ) {
+					page = [];
 				}
-			)
-			.then( ( result ) => result.json() )
-			.catch( () => {
-				return { tags: [] };
-			} );
+
+				Array.prototype.push.apply( categories, page );
+
+				offset += pageSize;
+			} while ( offset + pageSize <= totalCategories );
+
+			return categories;
+		} )();
+
+		const tagsPromise = ( async () => {
+			const tags = [];
+
+			let offset = 0;
+			const pageSize = 500;
+
+			let totalTags;
+
+			do {
+				let page;
+
+				const tagsQuery = {
+					paging: {
+						offset: 0,
+						limit: pageSize,
+					},
+				};
+
+				try {
+					const response = await window.fetch(
+						'https://manage.wix.com/_api/communities-blog-node-api/v2/tags/query',
+						{
+							method: 'POST',
+							headers: {
+								instance: config.instance,
+								'Content-Type': 'application/json',
+							},
+							mode: 'same-origin',
+							body: JSON.stringify( tagsQuery ),
+						}
+					);
+
+					page = await response.json();
+				} catch ( error ) {
+					page = { tags: [], metaData: { total: 0 } };
+				}
+
+				totalTags = page.metaData.total;
+
+				Array.prototype.push.apply( tags, page.tags );
+
+				offset += pageSize;
+			} while ( offset + pageSize <= totalTags );
+
+			return tags;
+		} )();
 
 		const [ posts, authors, categories, tags ] = await Promise.all( [
 			postsPromise,
@@ -115,7 +178,7 @@ module.exports = {
 			posts: posts.flat(),
 			authors: authors.assignees,
 			categories,
-			tags: tags.tags,
+			tags,
 		};
 	},
 

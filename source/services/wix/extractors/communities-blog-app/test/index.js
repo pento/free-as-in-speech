@@ -14,7 +14,10 @@ const data = [
 				name: 'bob',
 			},
 		],
-		tags: [],
+		tags: {
+			tags: [],
+			metaData: { total: 0 },
+		},
 		categories: [],
 		extracted: {},
 	},
@@ -22,7 +25,7 @@ const data = [
 data[ 0 ].extracted.posts = data[ 0 ].posts;
 data[ 0 ].extracted.authors = data[ 0 ].authors;
 data[ 0 ].extracted.categories = data[ 0 ].categories;
-data[ 0 ].extracted.tags = data[ 0 ].tags;
+data[ 0 ].extracted.tags = data[ 0 ].tags.tags;
 
 test.each( data )( 'extract posts', async ( testData ) => {
 	fetchMock
@@ -43,7 +46,7 @@ test.each( data )( 'extract posts', async ( testData ) => {
 			matcher:
 				'https://manage.wix.com/_api/communities-blog-node-api/v2/tags/query',
 			method: 'post',
-			response: JSON.stringify( { tags: testData.tags } ),
+			response: JSON.stringify( testData.tags ),
 		} )
 		.mock( '*', { body: '[]' } );
 
