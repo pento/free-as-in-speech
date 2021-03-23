@@ -1,66 +1,58 @@
 const fetchMock = require( 'fetch-mock-jest' );
 const index = require( '../index' );
 
-const data = [
-	{
-		posts: [
+describe( 'extract()', () => {
+	beforeEach( () => fetchMock.reset() );
+
+	test( 'extracts posts', async () => {
+		const posts = [
 			{
 				owner: 1,
 			},
-		],
-		authors: [
+		];
+		const authors = [
 			{
 				siteMemberId: 1,
 				name: 'bob',
 			},
-		],
-		tags: {
+		];
+
+		fetchMock
+			.mock( {
+				matcher:
+					'begin:https://manage.wix.com/_api/communities-blog-node-api/_api/posts',
+				query: { status: 'published' },
+				method: 'get',
+				response: JSON.stringify( posts ),
+			} )
+			.mock( {
+				matcher:
+					'https://manage.wix.com/_serverless/assignee-service/assignees',
+				method: 'get',
+				response: JSON.stringify( { assignees: authors } ),
+			} )
+			.mock( {
+				matcher:
+					'https://manage.wix.com/_api/communities-blog-node-api/v2/tags/query',
+				method: 'post',
+				response: JSON.stringify( {
+					tags: [],
+					metaData: { total: 0 },
+				} ),
+			} )
+			.mock( '*', { body: '[]' } );
+
+		const result = await index.extract( { instance: 'test' } );
+
+		const expected = {
+			posts,
+			authors,
+			categories: [],
 			tags: [],
-			metaData: { total: 0 },
-		},
-		categories: [],
-		extracted: {},
-	},
-];
-data[ 0 ].extracted.posts = data[ 0 ].posts;
-data[ 0 ].extracted.authors = data[ 0 ].authors;
-data[ 0 ].extracted.categories = data[ 0 ].categories;
-data[ 0 ].extracted.tags = data[ 0 ].tags.tags;
+		};
 
-test.each( data )( 'extract posts', async ( testData ) => {
-	fetchMock
-		.mock( {
-			matcher:
-				'begin:https://manage.wix.com/_api/communities-blog-node-api/_api/posts',
-			query: { status: 'published' },
-			method: 'get',
-			response: JSON.stringify( testData.posts ),
-		} )
-		.mock( {
-			matcher:
-				'https://manage.wix.com/_serverless/assignee-service/assignees',
-			method: 'get',
-			response: JSON.stringify( { assignees: testData.authors } ),
-		} )
-		.mock( {
-			matcher:
-				'https://manage.wix.com/_api/communities-blog-node-api/v2/tags/query',
-			method: 'post',
-			response: JSON.stringify( testData.tags ),
-		} )
-		.mock( '*', { body: '[]' } );
-
-	return index
-		.extract( {
-			instance: 'test',
-		} )
-		.then( ( result ) => {
-			expect( result ).toEqual( testData.extracted );
-		} );
-} );
-
-describe( 'extract()', () => {
-	beforeEach( () => fetchMock.reset() );
+		expect( result ).toEqual( expected );
+	} );
 
 	test( 'pages through posts', async () => {
 		const postPages = [
