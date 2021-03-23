@@ -75,14 +75,6 @@ module.exports = {
 				return { assignees: [] };
 			} );
 
-		// const categoriesPromise = window
-		// 	.fetch(
-		// 		'https://manage.wix.com/_api/communities-blog-node-api/_api/categories?offset=0&size=500',
-		// 		{ headers: { instance: config.instance }, mode: 'same-origin' }
-		// 	)
-		// 	.then( ( result ) => result.json() )
-		// 	.catch( () => [] );
-
 		const categoriesPromise = ( async () => {
 			const categories = [];
 
