@@ -55,7 +55,7 @@ module.exports = {
 					Array.prototype.push.apply( posts, page );
 
 					offset += pageSize;
-				} while ( offset + pageSize <= totalPosts );
+				} while ( offset < totalPosts );
 
 				return posts;
 			} )
@@ -115,7 +115,7 @@ module.exports = {
 				Array.prototype.push.apply( categories, page );
 
 				offset += pageSize;
-			} while ( offset + pageSize <= totalCategories );
+			} while ( offset < totalCategories );
 
 			return categories;
 		} )();
@@ -133,7 +133,7 @@ module.exports = {
 
 				const tagsQuery = {
 					paging: {
-						offset: 0,
+						offset,
 						limit: pageSize,
 					},
 				};
@@ -162,7 +162,7 @@ module.exports = {
 				Array.prototype.push.apply( tags, page.tags );
 
 				offset += pageSize;
-			} while ( offset + pageSize <= totalTags );
+			} while ( offset < totalTags );
 
 			return tags;
 		} )();
