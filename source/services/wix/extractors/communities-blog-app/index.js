@@ -245,6 +245,7 @@ module.exports = {
 				postContent = post.content;
 			}
 
+			const attachments = [];
 			wxr.addPost( {
 				guid: post.id,
 				author: postAuthor.slug,
@@ -255,7 +256,8 @@ module.exports = {
 					{
 						entityMap: postContent.entityMap,
 						ownerSiteMemberId: post.ownerSiteMemberId,
-					}
+					},
+					attachments
 				),
 				status: statusMap[ post.status ],
 				sticky: post.isPinned ? 1 : 0,
@@ -263,6 +265,8 @@ module.exports = {
 				comment_status: post.isCommentsDisabled ? 'closed' : 'open',
 				terms: [ ...postCategories, ...postTags ],
 			} );
+
+			attachments.forEach( ( attachment ) => wxr.addPost( attachment ) );
 		} );
 	},
 };

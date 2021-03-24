@@ -4,7 +4,12 @@ const { pasteHandler, serialize } = require( '@wordpress/blocks' );
 const slug = require( 'slugify' );
 const IdFactory = require( '../../../../utils/idfactory.js' );
 
-const escHtml = ( text ) => String( text ).replace( /"/g, '&quot;' ).replace( /&/g, '&amp;' ).replace( />/g, '&gt;' ).replace( /</g, '&lt;' );
+const escHtml = ( text ) =>
+	String( text )
+		.replace( /"/g, '&quot;' )
+		.replace( /&/g, '&amp;' )
+		.replace( />/g, '&gt;' )
+		.replace( /</g, '&lt;' );
 
 const extractConfigData = ( html ) => {
 	const configData = {};
@@ -141,7 +146,6 @@ const parseMenu = ( menuItem, masterPage ) => {
 
 	return menu;
 };
-
 
 const resolveQueries = ( input, data ) => {
 	// skip resolving for non-objects
@@ -308,50 +312,64 @@ module.exports = {
 		};
 
 		data.pages.forEach( ( page ) => {
-			const parseComponent = (
-				component
-			) => {
-				component = resolveQueries( component, page.config.data ).dataQuery;
+			const parseComponent = ( component ) => {
+				component = resolveQueries( component, page.config.data )
+					.dataQuery;
 				if ( component ) {
-				switch ( component.type ) {
-					case 'Image':
-						if ( ! component.uri ) {
-							break;
-						}
+					switch ( component.type ) {
+						case 'Image':
+							if ( ! component.uri ) {
+								break;
+							}
 
-						component.src =
-							metaData.serviceTopology.staticMediaUrl + '/' + component.uri;
-						component.text = '<img src="' + escHtml( component.src ) + '" alt="' + escHtml( component.alt ) + '" width="' + escHtml( component.width ) + '" height="' + escHtml( component.height ) + '" />';
+							component.src =
+								metaData.serviceTopology.staticMediaUrl +
+								'/' +
+								component.uri;
+							component.text =
+								'<img src="' +
+								escHtml( component.src ) +
+								'" alt="' +
+								escHtml( component.alt ) +
+								'" width="' +
+								escHtml( component.width ) +
+								'" height="' +
+								escHtml( component.height ) +
+								'" />';
 
-						if ( IdFactory.exists( component.name ) ) {
+							if ( IdFactory.exists( component.name ) ) {
+								break;
+							}
+							data.attachments.push( {
+								id: IdFactory.get(
+									component.name || component.uri
+								),
+								title: component.alt,
+								excerpt: component.description || '',
+								content: component.description || '',
+								link: component.src,
+								guid: component.src,
+								commentStatus: 'closed',
+								name: slug( component.name || component.uri ),
+								type: 'attachment',
+								attachment_url: component.src,
+								meta: [
+									{
+										key: '_wp_attachment_attachment_alt',
+										value: component.alt || null,
+									},
+								],
+							} );
 							break;
-						}
-						data.attachments.push( {
-							id: IdFactory.get( component.name || component.uri ),
-							title: component.alt,
-							excerpt: component.description || '',
-							content: component.description || '',
-							link: component.src,
-							guid: component.src,
-							commentStatus: 'closed',
-							name: slug( component.name || component.uri ),
-							type: 'attachment',
-							attachment_url: component.src,
-							meta: [
-								{
-									key: '_wp_attachment_attachment_alt',
-									value: component.alt || null,
-								},
-							],
-						} );
-						break;
+					}
 				}
-			}
 
 				return component;
 			};
 
-			const components = page.config.structure.components.map(parseComponent);
+			const components = page.config.structure.components.map(
+				parseComponent
+			);
 
 			page.content = pasteHandler( {
 				HTML: components
