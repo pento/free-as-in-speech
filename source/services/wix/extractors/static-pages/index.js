@@ -17,7 +17,7 @@ const extractConfigData = ( html ) => {
 		}
 
 		const vars = currentTag.html().split( /\s*var\s/ );
-		const metaConfigurationRegExp = /^(siteHeader|editorModel)\s*=\s*(.*)$/g;
+		const metaConfigurationRegExp = /^(siteHeader|editorModel|serviceTopology)\s*=\s*(.*)$/;
 
 		for ( let i = 0; i < vars.length; i++ ) {
 			let match;
@@ -123,7 +123,7 @@ const parseMenu = ( menuItem, masterPage ) => {
 		};
 
 		if ( parsedLink.attachment ) {
-			// this.handleAttachment( parsedLink.attachment );
+			// handleAttachment( parsedLink.attachment );
 		}
 
 		if ( parsedLink.target !== '_blank' ) {
@@ -296,15 +296,70 @@ module.exports = {
 			.catch( () => {} );
 
 		// Fetch the pages as Json.
-		const pages = await Promise.all(
-			metaData.siteHeader.pageIdList.pages.map(
-				fetchPageJson( topology, editorUrl )
-			)
-		);
+		const data = {
+			pages: await Promise.all(
+				metaData.siteHeader.pageIdList.pages.map(
+					fetchPageJson( topology, editorUrl )
+				)
+			),
+			menus: [],
+			attachments: [],
+		};
 
-		const menus = convertMenu( masterPage );
+		data.pages.forEach( ( post ) => {
+			post.config.structure.components.forEach( ( component ) => {
+				switch ( component.componentType ) {
+					case 'wysiwyg.viewer.components.WPhoto':
+						const resolvedComponent = resolveQueries(
+							component,
+							post.config.data
+						);
 
-		return pages.concat( menus );
+						const dq = resolvedComponent.dataQuery;
+						if ( ! dq.uri || IdFactory.exists( dq.name ) ) {
+							break;
+						}
+						resolvedComponent.src =
+							metaData.serviceTopology.staticMediaUrl +
+							'/' +
+							dq.uri;
+						data.attachments.push( {
+							id: IdFactory.get( dq.name || dq.uri ),
+							title: dq.alt,
+							excerpt: dq.description || '',
+							content: dq.description || '',
+							link: resolvedComponent.src,
+							guid: resolvedComponent.src,
+							commentStatus: 'closed',
+							name: slug( dq.name || dq.uri ),
+							type: 'attachment',
+							attachment_url: resolvedComponent.src,
+							meta: [
+								{
+									key: '_wp_attachment_attachment_alt',
+									value: dq.alt || null,
+								},
+							],
+						} );
+						break;
+				}
+			} );
+			post.content = pasteHandler( {
+				HTML: post.data
+					.map( ( item ) => ( item && item.text ) || '' )
+					.join( '' ),
+				mode: 'BLOCKS',
+			} )
+				.filter( ( blockContent ) => blockContent !== false )
+				.map( ( wpBlock ) => {
+					// console.log( wpBlock );
+					return serialize( wpBlock );
+				} )
+				.join( '\n\n' );
+		} );
+
+		data.menus = convertMenu( masterPage );
+		return data;
 	},
 
 	/**
@@ -314,46 +369,39 @@ module.exports = {
 	 * @param {Object} wxr The WXR encoder.
 	 */
 	save: async ( data, wxr ) => {
-		data.forEach( ( post ) => {
-			if ( post.type === 'nav_menu_item' ) {
-				post.terms.forEach( ( term ) => {
-					term.taxonomy = term.type;
-					wxr.addTerm( term );
-				} );
-
-				wxr.addPost( {
-					id: post.postId,
-					title: post.title,
-					type: post.type,
-					terms: post.terms,
-					parent: post.parent,
-					status: post.status,
-					menu_order: post.menuOrder,
-					meta: Object.entries( post.meta ).map( ( meta ) => ( {
-						key: meta[ 0 ],
-						value: meta[ 1 ],
-					} ) ),
-				} );
-
-				return;
-			}
+		data.pages.forEach( ( post ) => {
 			wxr.addPost( {
 				id: post.postId,
 				title: post.title,
-				content: pasteHandler( {
-					HTML: post.data
-						.map( ( item ) => ( item && item.text ) || '' )
-						.join( '' ),
-					mode: 'BLOCKS',
-				} )
-					.filter( ( blockContent ) => blockContent !== false )
-					.map( ( wpBlock ) => serialize( wpBlock ) )
-					.join( '\n\n' ),
+				content: post.content,
 				status: post.hidePage ? 'private' : 'publish',
 				sticky: 0,
 				type: 'page',
 				comment_status: 'closed',
 			} );
+		} );
+		data.menus.forEach( ( post ) => {
+			post.terms.forEach( ( term ) => {
+				term.taxonomy = term.type;
+				wxr.addTerm( term );
+			} );
+
+			wxr.addPost( {
+				id: post.postId,
+				title: post.title,
+				type: post.type,
+				terms: post.terms,
+				parent: post.parent,
+				status: post.status,
+				menu_order: post.menuOrder,
+				meta: Object.entries( post.meta ).map( ( meta ) => ( {
+					key: meta[ 0 ],
+					value: meta[ 1 ],
+				} ) ),
+			} );
+		} );
+		data.attachments.forEach( ( post ) => {
+			wxr.addPost( post );
 		} );
 	},
 };
