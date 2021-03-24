@@ -4,6 +4,8 @@ const { pasteHandler, serialize } = require( '@wordpress/blocks' );
 const slug = require( 'slugify' );
 const IdFactory = require( '../../../../utils/idfactory.js' );
 
+const escHtml = ( text ) => String( text ).replace( /"/g, '&quot;' ).replace( /&/g, '&amp;' ).replace( />/g, '&gt;' ).replace( /</g, '&lt;' );
+
 const extractConfigData = ( html ) => {
 	const configData = {};
 
@@ -140,46 +142,6 @@ const parseMenu = ( menuItem, masterPage ) => {
 	return menu;
 };
 
-const getAttachmentsFromComponent = ( attachments, data, metaData ) => (
-	component
-) => {
-	switch ( component.componentType ) {
-		case 'wysiwyg.viewer.components.WPhoto':
-			const resolvedComponent = resolveQueries( component, data );
-
-			const dq = resolvedComponent.dataQuery;
-			if ( ! dq.uri || IdFactory.exists( dq.name ) ) {
-				break;
-			}
-			resolvedComponent.src =
-				metaData.serviceTopology.staticMediaUrl + '/' + dq.uri;
-			attachments.push( {
-				id: IdFactory.get( dq.name || dq.uri ),
-				title: dq.alt,
-				excerpt: dq.description || '',
-				content: dq.description || '',
-				link: resolvedComponent.src,
-				guid: resolvedComponent.src,
-				commentStatus: 'closed',
-				name: slug( dq.name || dq.uri ),
-				type: 'attachment',
-				attachment_url: resolvedComponent.src,
-				meta: [
-					{
-						key: '_wp_attachment_attachment_alt',
-						value: dq.alt || null,
-					},
-				],
-			} );
-			break;
-		case 'mobile.core.components.Container':
-			return getAttachmentsFromComponent(
-				attachments,
-				data,
-				metaData
-			)( component.components );
-	}
-};
 
 const resolveQueries = ( input, data ) => {
 	// skip resolving for non-objects
@@ -249,14 +211,6 @@ const fetchPageJson = ( topology, editorUrl ) => ( page ) => {
 		.then( ( json ) => {
 			page.postId = IdFactory.get( page.pageId );
 			page.config = json;
-			page.data = page.config.structure.components.map( ( component ) => {
-				if ( ! component.dataQuery ) {
-					return null;
-				}
-				return json.data.document_data[
-					component.dataQuery.replace( /^#/, '' )
-				];
-			} );
 			return page;
 		} )
 		.catch( () => {
@@ -353,16 +307,54 @@ module.exports = {
 			attachments: [],
 		};
 
-		data.pages.forEach( ( post ) => {
-			post.config.structure.components.forEach(
-				getAttachmentsFromComponent(
-					data.attachments,
-					post.config.data,
-					metaData
-				)
-			);
-			post.content = pasteHandler( {
-				HTML: post.data
+		data.pages.forEach( ( page ) => {
+			const parseComponent = (
+				component
+			) => {
+				component = resolveQueries( component, page.config.data ).dataQuery;
+				if ( component ) {
+				switch ( component.type ) {
+					case 'Image':
+						if ( ! component.uri ) {
+							break;
+						}
+
+						component.src =
+							metaData.serviceTopology.staticMediaUrl + '/' + component.uri;
+						component.text = '<img src="' + escHtml( component.src ) + '" alt="' + escHtml( component.alt ) + '" width="' + escHtml( component.width ) + '" height="' + escHtml( component.height ) + '" />';
+
+						if ( IdFactory.exists( component.name ) ) {
+							break;
+						}
+						data.attachments.push( {
+							id: IdFactory.get( component.name || component.uri ),
+							title: component.alt,
+							excerpt: component.description || '',
+							content: component.description || '',
+							link: component.src,
+							guid: component.src,
+							commentStatus: 'closed',
+							name: slug( component.name || component.uri ),
+							type: 'attachment',
+							attachment_url: component.src,
+							meta: [
+								{
+									key: '_wp_attachment_attachment_alt',
+									value: component.alt || null,
+								},
+							],
+						} );
+						break;
+				}
+			}
+
+				return component;
+			};
+
+			const components = page.config.structure.components.map(parseComponent);
+
+			page.content = pasteHandler( {
+				HTML: components
 					.map( ( item ) => ( item && item.text ) || '' )
 					.join( '' ),
 				mode: 'BLOCKS',
