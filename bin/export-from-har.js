@@ -51,8 +51,9 @@ program
 	)
 	.option( '-m, --metaSiteId <metaSiteId>', 'The UUID representing', null )
 	.arguments( '<harfile>', 'The file to import' )
+	.arguments( '<wxrfile>', 'Write to this WXR file' )
 	.description( 'Extract from Wix' )
-	.action( ( harfile, options ) => {
+	.action( ( harfile, wxrfile, options ) => {
 		const config = {
 			initialState: {
 				siteMetaData: {
@@ -86,7 +87,7 @@ program
 		)
 			.then( ( WXRDriver ) => WXRDriver.export() )
 			.then(
-				( wxr ) => console.log( wxr ) // eslint-disable-line no-console
+				( wxr ) => fs.writeFileSync( wxrfile, wxr )
 			);
 	} );
 
