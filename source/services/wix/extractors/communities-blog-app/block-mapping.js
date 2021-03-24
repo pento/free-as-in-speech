@@ -44,7 +44,10 @@ const blockMap = {
 					imageAttributes.rel = entity.data.link.rel;
 				}
 
-				if ( ! IdFactory.exists( entity.data.src.file_name ) ) {
+				if (
+					! IdFactory.exists( entity.data.src.file_name ) &&
+					undefined !== attachments
+				) {
 					attachments.push( {
 						id: IdFactory.get( entity.data.src.file_name ),
 						title: imageAttributes.alt || entity.data.src.file_name,

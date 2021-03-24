@@ -242,6 +242,12 @@ module.exports = {
 	 * @param {Object} config The app-specific config extracted from the Wix page.
 	 */
 	extract: async ( config ) => {
+		const data = {
+			pages: [],
+			menus: [],
+			attachments: [],
+		};
+
 		const url = new URL(
 			'https://manage.wix.com/editor/' + config.metaSiteId
 		);
@@ -273,7 +279,7 @@ module.exports = {
 			undefined === metaData.siteHeader ||
 			undefined === metaData.siteHeader.pageIdList
 		) {
-			return [];
+			return data;
 		}
 
 		// This is used to construct a URL from the filename, see fetchPageJson().
@@ -301,15 +307,11 @@ module.exports = {
 			.catch( () => {} );
 
 		// Fetch the pages as Json.
-		const data = {
-			pages: await Promise.all(
-				metaData.siteHeader.pageIdList.pages.map(
-					fetchPageJson( topology, editorUrl )
-				)
-			),
-			menus: [],
-			attachments: [],
-		};
+		data.pages = await Promise.all(
+			metaData.siteHeader.pageIdList.pages.map(
+				fetchPageJson( topology, editorUrl )
+			)
+		);
 
 		data.pages.forEach( ( page ) => {
 			const parseComponent = ( component ) => {
