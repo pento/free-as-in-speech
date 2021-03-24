@@ -140,6 +140,47 @@ const parseMenu = ( menuItem, masterPage ) => {
 	return menu;
 };
 
+const getAttachmentsFromComponent = ( attachments, data, metaData ) => (
+	component
+) => {
+	switch ( component.componentType ) {
+		case 'wysiwyg.viewer.components.WPhoto':
+			const resolvedComponent = resolveQueries( component, data );
+
+			const dq = resolvedComponent.dataQuery;
+			if ( ! dq.uri || IdFactory.exists( dq.name ) ) {
+				break;
+			}
+			resolvedComponent.src =
+				metaData.serviceTopology.staticMediaUrl + '/' + dq.uri;
+			attachments.push( {
+				id: IdFactory.get( dq.name || dq.uri ),
+				title: dq.alt,
+				excerpt: dq.description || '',
+				content: dq.description || '',
+				link: resolvedComponent.src,
+				guid: resolvedComponent.src,
+				commentStatus: 'closed',
+				name: slug( dq.name || dq.uri ),
+				type: 'attachment',
+				attachment_url: resolvedComponent.src,
+				meta: [
+					{
+						key: '_wp_attachment_attachment_alt',
+						value: dq.alt || null,
+					},
+				],
+			} );
+			break;
+		case 'mobile.core.components.Container':
+			return getAttachmentsFromComponent(
+				attachments,
+				data,
+				metaData
+			)( component.components );
+	}
+};
+
 const resolveQueries = ( input, data ) => {
 	// skip resolving for non-objects
 	if ( typeof input !== 'object' ) {
@@ -217,6 +258,12 @@ const fetchPageJson = ( topology, editorUrl ) => ( page ) => {
 				];
 			} );
 			return page;
+		} )
+		.catch( () => {
+			return {
+				data: { document_data: {} },
+				structure: { components: [] },
+			};
 		} );
 };
 
@@ -307,43 +354,13 @@ module.exports = {
 		};
 
 		data.pages.forEach( ( post ) => {
-			post.config.structure.components.forEach( ( component ) => {
-				switch ( component.componentType ) {
-					case 'wysiwyg.viewer.components.WPhoto':
-						const resolvedComponent = resolveQueries(
-							component,
-							post.config.data
-						);
-
-						const dq = resolvedComponent.dataQuery;
-						if ( ! dq.uri || IdFactory.exists( dq.name ) ) {
-							break;
-						}
-						resolvedComponent.src =
-							metaData.serviceTopology.staticMediaUrl +
-							'/' +
-							dq.uri;
-						data.attachments.push( {
-							id: IdFactory.get( dq.name || dq.uri ),
-							title: dq.alt,
-							excerpt: dq.description || '',
-							content: dq.description || '',
-							link: resolvedComponent.src,
-							guid: resolvedComponent.src,
-							commentStatus: 'closed',
-							name: slug( dq.name || dq.uri ),
-							type: 'attachment',
-							attachment_url: resolvedComponent.src,
-							meta: [
-								{
-									key: '_wp_attachment_attachment_alt',
-									value: dq.alt || null,
-								},
-							],
-						} );
-						break;
-				}
-			} );
+			post.config.structure.components.forEach(
+				getAttachmentsFromComponent(
+					data.attachments,
+					post.config.data,
+					metaData
+				)
+			);
 			post.content = pasteHandler( {
 				HTML: post.data
 					.map( ( item ) => ( item && item.text ) || '' )
