@@ -84,8 +84,13 @@ module.exports = {
 					attachment_url: `https://video.wixstatic.com/${ file.file_output.video[ 0 ].url }`,
 				} );
 			} else {
+				const filename = file.original_file_name || file.file_url;
+				if ( IdFactory.exists( filename ) ) {
+					return;
+				}
+
 				wxr.addPost( {
-					id: IdFactory.get( file.original_file_name ),
+					id: IdFactory.get( filename ),
 					guid: `https://static.wixstatic.com/${ file.file_url }`,
 					date: file.created_ts * 1000,
 					title: file.original_file_name,
