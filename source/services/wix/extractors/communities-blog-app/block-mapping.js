@@ -29,6 +29,12 @@ const blockMap = {
 					align: entity.data.config.alignment,
 				};
 
+				if ( entity.data.config ) {
+					imageAttributes.align = extractWordPressAlignmentFromWixConfig(
+						entity.data.config
+					);
+				}
+
 				if ( entity.data.metadata ) {
 					imageAttributes.alt = entity.data.metadata.alt;
 					imageAttributes.caption = entity.data.metadata.caption;
@@ -46,11 +52,9 @@ const blockMap = {
 				const videoAttributes = {};
 
 				if ( entity.data.config ) {
-					if ( entity.data.config.size === 'fullWidth' ) {
-						videoAttributes.align = 'full';
-					} else {
-						videoAttributes.align = entity.data.config.alignment;
-					}
+					videoAttributes.align = extractWordPressAlignmentFromWixConfig(
+						entity.data.config
+					);
 				}
 
 				// Uploaded videos should be treated as video blocks.
@@ -64,22 +68,30 @@ const blockMap = {
 				// All other videos are some form of embed.
 				return createBlock( 'core/embed', {
 					url: entity.data.src,
-					align: entity.data.config.alignment,
+					align: extractWordPressAlignmentFromWixConfig(
+						entity.data.config
+					),
 				} );
 
 			case 'wix-draft-plugin-gallery':
-				const gallerySettings = {};
+				const galleryAttributes = {};
 
-				gallerySettings.images = entity.data.items.map( ( img ) => ( {
+				if ( entity.data.config ) {
+					galleryAttributes.align = extractWordPressAlignmentFromWixConfig(
+						entity.data.config
+					);
+				}
+
+				galleryAttributes.images = entity.data.items.map( ( img ) => ( {
 					url: `https://static.wixstatic.com/media/${ img.url }`,
 				} ) );
 
 				if ( entity.data.styles.numberOfImagesPerRow > 0 ) {
-					gallerySettings.columns =
+					galleryAttributes.columns =
 						entity.data.styles.numberOfImagesPerRow;
 				}
 
-				return createBlock( 'core/gallery', gallerySettings );
+				return createBlock( 'core/gallery', galleryAttributes );
 
 			case 'wix-draft-plugin-file-upload':
 				return createBlock( 'core/file', {
@@ -150,6 +162,20 @@ const blockMap = {
 			align: block.data.textAlignment,
 		} );
 	},
+};
+
+/**
+ * Given a Wix block config data blob, returns the appropriate alignment string for a WordPress block.
+ *
+ * @param {Object} config The Wix block config.
+ *
+ * @return {string} The alignment string.
+ */
+const extractWordPressAlignmentFromWixConfig = ( config ) => {
+	if ( config.size === 'fullWidth' ) {
+		return 'full';
+	}
+	return config.alignment;
 };
 
 /**

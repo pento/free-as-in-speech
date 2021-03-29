@@ -82,6 +82,39 @@ const testData = {
 				},
 			},
 		},
+		5: {
+			type: 'wix-draft-plugin-image',
+			data: {
+				src: {
+					file_name: 'image9.png',
+				},
+				config: {
+					size: 'fullWidth',
+					alignment: 'center',
+				},
+				metadata: {
+					alt: 'image9 alt text',
+					caption: 'image9 caption',
+				},
+			},
+		},
+		6: {
+			type: 'wix-draft-plugin-gallery',
+			data: {
+				config: {
+					size: 'fullWidth',
+					alignment: 'center',
+				},
+				items: [
+					{ url: 'image10.png' },
+					{ url: 'image11.png' },
+					{ url: 'image12.png' },
+				],
+				styles: {
+					numberOfImagesPerRow: 2,
+				},
+			},
+		},
 	},
 };
 
@@ -349,6 +382,28 @@ describe( 'Block Mapping', () => {
 		).toMatchSnapshot();
 	} );
 
+	test( 'serializeWixBlocksToWordPressBlocks handles full-width images', () => {
+		const blocks = [
+			{
+				type: 'atomic',
+				text: '',
+				inlineStyleRanges: [],
+				entityRanges: [
+					{
+						offset: 0,
+						length: 0,
+						key: 5,
+					},
+				],
+				data: {},
+			},
+		];
+
+		expect(
+			serializeWixBlocksToWordPressBlocks( blocks, testData )
+		).toMatchSnapshot();
+	} );
+
 	test( 'serializeWixBlocksToWordPressBlocks handles uploaded videos', () => {
 		const blocks = [
 			{
@@ -404,6 +459,28 @@ describe( 'Block Mapping', () => {
 						offset: 0,
 						length: 0,
 						key: 4,
+					},
+				],
+				data: {},
+			},
+		];
+
+		expect(
+			serializeWixBlocksToWordPressBlocks( blocks, testData )
+		).toMatchSnapshot();
+	} );
+
+	test( 'serializeWixBlocksToWordPressBlocks handles full-width image galleries', () => {
+		const blocks = [
+			{
+				type: 'atomic',
+				text: '',
+				inlineStyleRanges: [],
+				entityRanges: [
+					{
+						offset: 0,
+						length: 0,
+						key: 6,
 					},
 				],
 				data: {},

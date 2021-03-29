@@ -32,6 +32,18 @@ exports[`Block Mapping serializeWixBlocksToWordPressBlocks handles formatting in
 <!-- /wp:paragraph -->"
 `;
 
+exports[`Block Mapping serializeWixBlocksToWordPressBlocks handles full-width image galleries 1`] = `
+"<!-- wp:gallery {\\"columns\\":2,\\"align\\":\\"full\\"} -->
+<figure class=\\"wp-block-gallery alignfull columns-2 is-cropped\\"><ul class=\\"blocks-gallery-grid\\"><li class=\\"blocks-gallery-item\\"><figure><img src=\\"https://static.wixstatic.com/media/image10.png\\"/></figure></li><li class=\\"blocks-gallery-item\\"><figure><img src=\\"https://static.wixstatic.com/media/image11.png\\"/></figure></li><li class=\\"blocks-gallery-item\\"><figure><img src=\\"https://static.wixstatic.com/media/image12.png\\"/></figure></li></ul></figure>
+<!-- /wp:gallery -->"
+`;
+
+exports[`Block Mapping serializeWixBlocksToWordPressBlocks handles full-width images 1`] = `
+"<!-- wp:image {\\"align\\":\\"full\\"} -->
+<figure class=\\"wp-block-image alignfull\\"><img src=\\"https://static.wixstatic.com/media/image9.png\\" alt=\\"image9 alt text\\"/><figcaption>image9 caption</figcaption></figure>
+<!-- /wp:image -->"
+`;
+
 exports[`Block Mapping serializeWixBlocksToWordPressBlocks handles heading blocks 1`] = `
 "<!-- wp:heading -->
 <h2>This is a h2</h2>
