@@ -1,0 +1,107 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Block Mapping serializeWixBlocksToWordPressBlocks handles "unstyled" blocks as paragraphs 1`] = `
+"<!-- wp:paragraph -->
+<p>This is a paragraph</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>This is another paragraph</p>
+<!-- /wp:paragraph -->"
+`;
+
+exports[`Block Mapping serializeWixBlocksToWordPressBlocks handles code blocks 1`] = `
+"<!-- wp:code -->
+<pre class=\\"wp-block-code\\"><code>This is some code
+It's possibly the best code I've ever written
+maybe.</code></pre>
+<!-- /wp:code -->"
+`;
+
+exports[`Block Mapping serializeWixBlocksToWordPressBlocks handles embedded videos 1`] = `
+"<!-- wp:embed {\\"url\\":\\"https://www.youtube.com/watch?v=RWf83UX4vKs\\",\\"align\\":\\"right\\"} -->
+<figure class=\\"wp-block-embed alignright\\"><div class=\\"wp-block-embed__wrapper\\">
+https://www.youtube.com/watch?v=RWf83UX4vKs
+</div></figure>
+<!-- /wp:embed -->"
+`;
+
+exports[`Block Mapping serializeWixBlocksToWordPressBlocks handles formatting in text 1`] = `
+"<!-- wp:paragraph -->
+<p>This is <strong>bold</strong>, <em>italic</em>, <span style=\\"text-decoration: underline;\\">underlined</span>, <strong><span style=\\"text-decoration: underline;\\">and</span> <em>a combination</em></strong>.</p>
+<!-- /wp:paragraph -->"
+`;
+
+exports[`Block Mapping serializeWixBlocksToWordPressBlocks handles full-width image galleries 1`] = `
+"<!-- wp:gallery {\\"columns\\":2,\\"align\\":\\"full\\"} -->
+<figure class=\\"wp-block-gallery alignfull columns-2 is-cropped\\"><ul class=\\"blocks-gallery-grid\\"><li class=\\"blocks-gallery-item\\"><figure><img src=\\"https://static.wixstatic.com/media/image10.png\\"/></figure></li><li class=\\"blocks-gallery-item\\"><figure><img src=\\"https://static.wixstatic.com/media/image11.png\\"/></figure></li><li class=\\"blocks-gallery-item\\"><figure><img src=\\"https://static.wixstatic.com/media/image12.png\\"/></figure></li></ul></figure>
+<!-- /wp:gallery -->"
+`;
+
+exports[`Block Mapping serializeWixBlocksToWordPressBlocks handles full-width images 1`] = `
+"<!-- wp:image {\\"align\\":\\"full\\"} -->
+<figure class=\\"wp-block-image alignfull\\"><img src=\\"https://static.wixstatic.com/media/image9.png\\" alt=\\"image9 alt text\\"/><figcaption>image9 caption</figcaption></figure>
+<!-- /wp:image -->"
+`;
+
+exports[`Block Mapping serializeWixBlocksToWordPressBlocks handles heading blocks 1`] = `
+"<!-- wp:heading -->
+<h2>This is a h2</h2>
+<!-- /wp:heading -->
+
+<!-- wp:heading {\\"level\\":3} -->
+<h3>This is a h3</h3>
+<!-- /wp:heading -->"
+`;
+
+exports[`Block Mapping serializeWixBlocksToWordPressBlocks handles image galleries 1`] = `
+"<!-- wp:gallery {\\"columns\\":4} -->
+<figure class=\\"wp-block-gallery columns-4 is-cropped\\"><ul class=\\"blocks-gallery-grid\\"><li class=\\"blocks-gallery-item\\"><figure><img src=\\"https://static.wixstatic.com/media/image2.png\\"/></figure></li><li class=\\"blocks-gallery-item\\"><figure><img src=\\"https://static.wixstatic.com/media/image3.png\\"/></figure></li><li class=\\"blocks-gallery-item\\"><figure><img src=\\"https://static.wixstatic.com/media/image4.png\\"/></figure></li><li class=\\"blocks-gallery-item\\"><figure><img src=\\"https://static.wixstatic.com/media/image5.png\\"/></figure></li><li class=\\"blocks-gallery-item\\"><figure><img src=\\"https://static.wixstatic.com/media/image6.png\\"/></figure></li><li class=\\"blocks-gallery-item\\"><figure><img src=\\"https://static.wixstatic.com/media/image7.png\\"/></figure></li><li class=\\"blocks-gallery-item\\"><figure><img src=\\"https://static.wixstatic.com/media/image8.png\\"/></figure></li></ul></figure>
+<!-- /wp:gallery -->"
+`;
+
+exports[`Block Mapping serializeWixBlocksToWordPressBlocks handles links in text 1`] = `
+"<!-- wp:paragraph -->
+<p>This is <a href=\\"https://wordpress.org/\\" target=\\"_blank\\" rel=\\"noreferrer noopener\\">a link</a>.</p>
+<!-- /wp:paragraph -->"
+`;
+
+exports[`Block Mapping serializeWixBlocksToWordPressBlocks handles list items 1`] = `
+"<!-- wp:list {\\"ordered\\":true} -->
+<ol><li>Number one</li><li>Number two</li><li>Number three</li></ol>
+<!-- /wp:list -->
+
+<!-- wp:list -->
+<ul><li>First</li><li>Second</li></ul>
+<!-- /wp:list -->
+
+<!-- wp:list {\\"ordered\\":true} -->
+<ol><li>Number one, second edition</li></ol>
+<!-- /wp:list -->"
+`;
+
+exports[`Block Mapping serializeWixBlocksToWordPressBlocks handles quote blocks 1`] = `
+"<!-- wp:quote -->
+<blockquote class=\\"wp-block-quote\\"><p>Use the source, Luke.</p></blockquote>
+<!-- /wp:quote -->"
+`;
+
+exports[`Block Mapping serializeWixBlocksToWordPressBlocks handles single images 1`] = `
+"<!-- wp:image {\\"align\\":\\"center\\"} -->
+<div class=\\"wp-block-image\\"><figure class=\\"aligncenter\\"><a href=\\"https://wordpress.org/\\" target=\\"_blank\\" rel=\\"noopener\\"><img src=\\"https://static.wixstatic.com/media/image1.png\\" alt=\\"image1 alt text\\"/></a><figcaption>image1 caption</figcaption></figure></div>
+<!-- /wp:image -->"
+`;
+
+exports[`Block Mapping serializeWixBlocksToWordPressBlocks handles uploaded videos 1`] = `
+"<!-- wp:video {\\"align\\":\\"full\\"} -->
+<figure class=\\"wp-block-video alignfull\\"><video controls poster=\\"https://static.wixstatic.com/media/video1_thumb.jpg\\" src=\\"https://video.wixstatic.com/video1.mp4\\"></video></figure>
+<!-- /wp:video -->"
+`;
+
+exports[`Block Mapping serializeWixBlocksToWordPressBlocks ignores underline formatting that matches a link 1`] = `
+"<!-- wp:paragraph -->
+<p>This is <a href=\\"https://wordpress.org/\\" target=\\"_blank\\" rel=\\"noreferrer noopener\\">a link</a>.</p>
+<!-- /wp:paragraph -->"
+`;
+
+exports[`Block Mapping serializeWixBlocksToWordPressBlocks returns an empty string when passed no blocks 1`] = `""`;
