@@ -43,12 +43,22 @@ const blockMap = {
 				return createBlock( 'core/image', imageAttributes );
 
 			case 'wix-draft-plugin-video':
+				const videoAttributes = {};
+
+				if ( entity.data.config ) {
+					if ( entity.data.config.size === 'fullWidth' ) {
+						videoAttributes.align = 'full';
+					} else {
+						videoAttributes.align = entity.data.config.alignment;
+					}
+				}
+
 				// Uploaded videos should be treated as video blocks.
 				if ( entity.data.isCustomVideo ) {
-					return createBlock( 'core/video', {
-						src: `https://video.wixstatic.com/${ entity.data.src.pathname }`,
-						poster: `https://static.wixstatic.com/${ entity.data.src.thumbnail.pathname }`,
-					} );
+					videoAttributes.src = `https://video.wixstatic.com/${ entity.data.src.pathname }`;
+					videoAttributes.poster = `https://static.wixstatic.com/${ entity.data.src.thumbnail.pathname }`;
+
+					return createBlock( 'core/video', videoAttributes );
 				}
 
 				// All other videos are some form of embed.

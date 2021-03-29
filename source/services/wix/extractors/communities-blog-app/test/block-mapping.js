@@ -44,6 +44,10 @@ const testData = {
 			type: 'wix-draft-plugin-video',
 			data: {
 				isCustomVideo: true,
+				config: {
+					size: 'fullWidth',
+					alignment: 'center',
+				},
 				src: {
 					pathname: 'video1.mp4',
 					thumbnail: {

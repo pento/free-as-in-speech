@@ -81,8 +81,8 @@ exports[`Block Mapping serializeWixBlocksToWordPressBlocks handles single images
 `;
 
 exports[`Block Mapping serializeWixBlocksToWordPressBlocks handles uploaded videos 1`] = `
-"<!-- wp:video -->
-<figure class=\\"wp-block-video\\"><video controls poster=\\"https://static.wixstatic.com/media/video1_thumb.jpg\\" src=\\"https://video.wixstatic.com/video1.mp4\\"></video></figure>
+"<!-- wp:video {\\"align\\":\\"full\\"} -->
+<figure class=\\"wp-block-video alignfull\\"><video controls poster=\\"https://static.wixstatic.com/media/video1_thumb.jpg\\" src=\\"https://video.wixstatic.com/video1.mp4\\"></video></figure>
 <!-- /wp:video -->"
 `;
 
