@@ -40,8 +40,8 @@
 		"webextension-polyfill": "0.7.0"
 	},
 	"devDependencies": {
-		"@babel/core": "7.13.10",
-		"@babel/preset-env": "7.13.10",
+		"@babel/core": "7.13.13",
+		"@babel/preset-env": "7.13.12",
 		"@wordpress/babel-preset-default": "5.1.0",
 		"@wordpress/eslint-plugin": "9.0.1",
 		"@wordpress/npm-package-json-lint-config": "4.0.1",
@@ -51,7 +51,7 @@
 		"babel-loader": "8.2.2",
 		"chrome-webstore-upload-cli": "1.2.1",
 		"commander": "7.2.0",
-		"copy-webpack-plugin": "8.0.0",
+		"copy-webpack-plugin": "8.1.0",
 		"daily-version": "2.0.0",
 		"dot-json": "1.2.2",
 		"fake-indexeddb": "3.1.2",
@@ -59,9 +59,9 @@
 		"fetch-mock-jest": "1.5.1",
 		"glob": "7.1.6",
 		"husky": "5.2.0",
-		"is-ci": "2.0.0",
+		"is-ci": "3.0.0",
 		"jest-watch-typeahead": "0.6.1",
-		"jsdom": "16.5.1",
+		"jsdom": "16.5.2",
 		"lint-staged": "10.5.4",
 		"node-watch": "0.7.1",
 		"npm-run-all": "4.1.5",
@@ -69,8 +69,8 @@
 		"terser-webpack-plugin": "5.1.1",
 		"web-ext": "6.0.0",
 		"web-ext-submit": "6.0.0",
-		"webpack": "5.27.1",
-		"webpack-cli": "4.5.0"
+		"webpack": "5.28.0",
+		"webpack-cli": "4.6.0"
 	},
 	"scripts": {
 		"build": "run-p build:*",
