@@ -1,0 +1,6 @@
+{
+	"plugins": [ "WordPress/wordpress-importer" ],
+	"mappings": {
+		"free-as-in-speech": "."
+	}
+}

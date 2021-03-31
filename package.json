@@ -43,6 +43,7 @@
 		"@babel/core": "7.13.13",
 		"@babel/preset-env": "7.13.12",
 		"@wordpress/babel-preset-default": "5.1.0",
+		"@wordpress/env": "4.0.0",
 		"@wordpress/eslint-plugin": "9.0.1",
 		"@wordpress/npm-package-json-lint-config": "4.0.1",
 		"@wordpress/prettier-config": "1.0.1",
@@ -84,6 +85,7 @@
 		"lint:md-js": "wp-scripts lint-md-js --config .eslintrc-md.js",
 		"lint:md-docs": "wp-scripts lint-md-docs",
 		"lint:pkg-json": "wp-scripts lint-pkg-json . 'packages/*/package.json'",
+		"prepare": "is-ci || husky install",
 		"release:chrome": "cd distribution && webstore upload --auto-publish",
 		"release:firefox": "cd distribution && web-ext-submit",
 		"start:chrome": "web-ext run --target=chromium",
@@ -94,7 +96,7 @@
 		"watch:packages": "node ./bin/packages/watch.js",
 		"watch:source": "wp-scripts start",
 		"watch": "npm-run-all build:packages build:language-pack --parallel watch:*",
-		"prepare": "is-ci || husky install"
+		"wp-env": "wp-env"
 	},
 	"webExt": {
 		"sourceDir": "distribution",
