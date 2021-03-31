@@ -315,8 +315,15 @@ module.exports = {
 
 		data.pages.forEach( ( page ) => {
 			const parseComponent = ( component ) => {
+				console.log(component.id)
 				component = resolveQueries( component, page.config.data )
-					.dataQuery;
+
+				if ( component.components ) {
+					// A container, so let's return the children.
+					return component.components.map( parseComponent ).flat();
+				}
+
+				component = component.dataQuery;
 				if ( component ) {
 					switch ( component.type ) {
 						case 'Image':
@@ -371,7 +378,7 @@ module.exports = {
 
 			const components = page.config.structure.components.map(
 				parseComponent
-			);
+			).flat();
 
 			page.content = pasteHandler( {
 				HTML: components
