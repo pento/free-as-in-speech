@@ -211,7 +211,10 @@ module.exports = {
 		posts.forEach( ( post ) => {
 			const postAuthor = post.owner;
 			// If we haven't already added this author, we need to add them now.
-			if ( postAuthor.slug && ! addedAuthors.includes( postAuthor.slug ) ) {
+			if (
+				postAuthor.slug &&
+				! addedAuthors.includes( postAuthor.slug )
+			) {
 				addedAuthors.push( postAuthor.slug );
 
 				wxr.addAuthor( {
