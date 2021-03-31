@@ -20,6 +20,15 @@ dayjs.extend( utc );
  */
 class WXRDriver {
 	/**
+	 * Constructor.
+	 *
+	 * @param {boolean} generateIds Whether to allow passed IDs when creating the WXR, or to use generated IDs.
+	 */
+	constructor( { generateIds = true } = {} ) {
+		this.generateIds = generateIds;
+	}
+
+	/**
 	 * Connect to the DB.
 	 *
 	 * @param {boolean} reset Whether to reset the data store when connecting.
@@ -181,43 +190,47 @@ class WXRDriver {
 	 * Add a category to the export.
 	 *
 	 * @param {Object} category The category object.
+	 * @return {number} The term ID for the category.
 	 */
-	addCategory( category ) {
-		this.storeData( 'categories', category );
+	async addCategory( category ) {
+		return await this.storeData( 'categories', category );
 	}
 
 	/**
 	 * Add a tag to the export.
 	 *
 	 * @param {Object} tag The tag object.
+	 * @return {number} The term ID for the tag.
 	 */
-	addTag( tag ) {
-		this.storeData( 'tags', tag );
+	async addTag( tag ) {
+		return await this.storeData( 'tags', tag );
 	}
 
 	/**
 	 * Add a term to the export.
 	 *
 	 * @param {Object} term The term object.
+	 * @return {number} The term ID.
 	 */
-	addTerm( term ) {
-		this.storeData( 'terms', term );
+	async addTerm( term ) {
+		return await this.storeData( 'terms', term );
 	}
 
 	/**
 	 * Add an author to the export.
 	 *
 	 * @param {Object} author The author object.
+	 * @return {number} The author ID.
 	 */
-	addAuthor( author ) {
-		this.storeData( 'authors', author );
+	async addAuthor( author ) {
+		return await this.storeData( 'authors', author );
 	}
 
 	/**
 	 * Add a post to the export.
 	 *
 	 * @param {Object} post The post object.
-	 * @return {number} The internal ID of the post (this ID is not output to the WXR file).
+	 * @return {number} The post ID.
 	 */
 	async addPost( post ) {
 		return await this.storeData( 'posts', post );
@@ -228,9 +241,10 @@ class WXRDriver {
 	 *
 	 * @param {number} postId The internal ID of the post this comment belongs to.
 	 * @param {Object} comment The comment object.
+	 * @return {number} The comment ID.
 	 */
-	addComment( postId, comment ) {
-		this.storeData( 'comments', {
+	async addComment( postId, comment ) {
+		return await this.storeData( 'comments', {
 			...comment,
 			post_id: postId,
 		} );
@@ -320,6 +334,10 @@ class WXRDriver {
 					for ( const field of storeDef.fields ) {
 						if ( datum[ field.name ] === undefined ) {
 							continue;
+						}
+
+						if ( this.generateIds && field.name === 'id' ) {
+							field.value = datum.internalId;
 						}
 
 						if ( field.element ) {
