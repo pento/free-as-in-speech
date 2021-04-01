@@ -32,7 +32,7 @@ const extractConfigData = ( html ) => {
 	return configData;
 };
 
-const handleMenuItemsRecursively = ( menu, items, parent = 0 ) => {
+const handleMenuItemsRecursively = ( menu, items, parent, pagesWithIds ) => {
 	const results = [];
 	items.forEach( ( item ) => {
 		const id = IdFactory.get( item.title );
@@ -40,10 +40,16 @@ const handleMenuItemsRecursively = ( menu, items, parent = 0 ) => {
 		if ( ! item.type ) {
 			item.type = 'custom';
 			item.object = 'custom';
-			item.objectId = IdFactory.get( item.title );
+			//
+			// TODO: I don't think the objectId needs to be set for custom object types.
+			//
+			// item.objectId = IdFactory.get( item.title );
 		} else if ( 'PageLink' === item.type ) {
 			item.type = 'post_type';
-			item.objectId = IdFactory.get( item.pageId.id );
+			//
+			// TODO: Need to find the right ID from pagesWithIds.
+			//
+			// item.objectId = IdFactory.get( item.pageId.id );
 			item.status = item.pageId.hidePage ? 'pending' : 'publish';
 			item.object = 'page';
 		}
@@ -72,14 +78,19 @@ const handleMenuItemsRecursively = ( menu, items, parent = 0 ) => {
 
 		if ( Array.isArray( item.items ) ) {
 			results.push(
-				...handleMenuItemsRecursively( menu, item.items, id )
+				...handleMenuItemsRecursively(
+					menu,
+					item.items,
+					id,
+					pagesWithIds
+				)
 			);
 		}
 	} );
 	return results;
 };
 
-const convertMenu = ( masterPage ) => {
+const convertMenu = ( masterPage, pagesWithIds ) => {
 	const menus = [];
 	const pages = [];
 
@@ -93,7 +104,6 @@ const convertMenu = ( masterPage ) => {
 
 	menus.forEach( ( menu ) => {
 		const term = {
-			id: IdFactory.get( menu.title ),
 			name: menu.title,
 			slug: slug( `${ menu.title }-1`, { lower: true } ),
 			counter: 0,
@@ -103,7 +113,9 @@ const convertMenu = ( masterPage ) => {
 			},
 		};
 
-		pages.push( ...handleMenuItemsRecursively( term, menu.items ) );
+		pages.push(
+			...handleMenuItemsRecursively( term, menu.items, 0, pagesWithIds )
+		);
 	} );
 
 	return pages;
@@ -206,7 +218,7 @@ const fetchPageJson = ( topology, editorUrl ) => ( page ) => {
 			};
 		} )
 		.then( ( json ) => {
-			page.postId = IdFactory.get( page.pageId );
+			// page.postId = IdFactory.get( page.pageId );
 			page.config = json;
 			page.data = page.config.structure.components.map( ( component ) => {
 				if ( ! component.dataQuery ) {
@@ -268,7 +280,7 @@ module.exports = {
 			undefined === metaData.siteHeader ||
 			undefined === metaData.siteHeader.pageIdList
 		) {
-			return [];
+			return false;
 		}
 
 		// This is used to construct a URL from the filename, see fetchPageJson().
@@ -302,9 +314,14 @@ module.exports = {
 			)
 		);
 
-		const menus = convertMenu( masterPage );
+		return {
+			masterPage,
+			pages,
+		};
 
-		return pages.concat( menus );
+		// const menus = convertMenu( masterPage );
+
+		// return pages.concat( menus );
 	},
 
 	/**
@@ -314,46 +331,60 @@ module.exports = {
 	 * @param {Object} wxr The WXR encoder.
 	 */
 	save: async ( data, wxr ) => {
-		data.forEach( ( post ) => {
-			if ( post.type === 'nav_menu_item' ) {
-				post.terms.forEach( ( term ) => {
+		if ( ! data ) {
+			return;
+		}
+
+		const { masterPage, pages } = data;
+
+		const pagesWithIds = await Promise.all(
+			pages.map( async ( page ) => {
+				const id = wxr.addPost( {
+					title: page.title,
+					content: pasteHandler( {
+						HTML: page.data
+							.map( ( item ) => ( item && item.text ) || '' )
+							.join( '' ),
+						mode: 'BLOCKS',
+					} )
+						.filter( ( blockContent ) => blockContent !== false )
+						.map( ( wpBlock ) => serialize( wpBlock ) )
+						.join( '\n\n' ),
+					status: page.hidePage ? 'private' : 'publish',
+					sticky: 0,
+					type: 'page',
+					comment_status: 'closed',
+				} );
+
+				return {
+					id,
+					...page,
+				};
+			} )
+		);
+
+		const menus = convertMenu( masterPage, pagesWithIds );
+
+		await Promise.all(
+			menus.map( async ( menu ) => {
+				menu.terms.forEach( ( term ) => {
 					term.taxonomy = term.type;
 					wxr.addTerm( term );
 				} );
 
 				wxr.addPost( {
-					id: post.postId,
-					title: post.title,
-					type: post.type,
-					terms: post.terms,
-					parent: post.parent,
-					status: post.status,
-					menu_order: post.menuOrder,
-					meta: Object.entries( post.meta ).map( ( meta ) => ( {
+					title: menu.title,
+					type: menu.type,
+					terms: menu.terms,
+					parent: menu.parent,
+					status: menu.status,
+					menu_order: menu.menuOrder,
+					meta: Object.entries( menu.meta ).map( ( meta ) => ( {
 						key: meta[ 0 ],
 						value: meta[ 1 ],
 					} ) ),
 				} );
-
-				return;
-			}
-			wxr.addPost( {
-				id: post.postId,
-				title: post.title,
-				content: pasteHandler( {
-					HTML: post.data
-						.map( ( item ) => ( item && item.text ) || '' )
-						.join( '' ),
-					mode: 'BLOCKS',
-				} )
-					.filter( ( blockContent ) => blockContent !== false )
-					.map( ( wpBlock ) => serialize( wpBlock ) )
-					.join( '\n\n' ),
-				status: post.hidePage ? 'private' : 'publish',
-				sticky: 0,
-				type: 'page',
-				comment_status: 'closed',
-			} );
-		} );
+			} )
+		);
 	},
 };
