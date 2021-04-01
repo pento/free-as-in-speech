@@ -350,46 +350,112 @@ module.exports = {
 			return id;
 		};
 
+		const maybeAddCoverBlock = ( component, innerBlocks ) => {
+			if ( innerBlocks.name === 'core/cover' ) {
+				return innerBlocks;
+			}
+			if (
+				component.designQuery &&
+				component.designQuery.background &&
+				component.designQuery.background.mediaRef
+			) {
+				// If a background is defined, let's make this a cover block.
+				const id = addMediaAttachment(
+					component.designQuery.background.mediaRef
+				);
+
+				if (
+					innerBlocks.length === 1 &&
+					'core/column' === innerBlocks[ 0 ].name
+				) {
+					innerBlocks = innerBlocks[ 0 ].innerBlocks;
+				}
+
+				return createBlock(
+					'core/cover',
+					{
+						url:
+							metaData.serviceTopology.staticMediaUrl +
+							'/' +
+							component.designQuery.background.mediaRef.uri,
+						id,
+						align:
+							component.designQuery.background.fittingType ===
+							'fill'
+								? 'full'
+								: 'center',
+					},
+					innerBlocks
+				);
+			}
+			return innerBlocks;
+		};
+
 		data.pages.forEach( ( page ) => {
 			const parseComponent = ( component ) => {
 				component = resolveQueries( component, page.config.data );
 
 				if ( component.components ) {
+					let innerBlocks;
 					if (
-						component.designQuery &&
-						component.designQuery.background &&
-						component.designQuery.background.mediaRef
+						'wysiwyg.viewer.components.Column' ===
+						component.componentType
 					) {
-						// If a background is defined, let's make this a cover block.
-						const id = addMediaAttachment(
-							component.designQuery.background.mediaRef
+						const columns = {};
+						component.components.forEach( ( item ) => {
+							const comp = parseComponent( item );
+							if ( ! comp ) {
+								return;
+							}
+							const col = Math.floor( item.layout.x / 150 ) * 150;
+							if ( undefined === columns[ col ] ) {
+								columns[ col ] = [];
+							}
+							columns[ col ] = columns[ col ].concat( comp );
+						} );
+
+						if ( 1 === Object.values( columns ).length ) {
+							// Not real columns, let's just flatten this.
+							return maybeAddCoverBlock(
+								component,
+								Object.values( columns )
+									.flat()
+									.filter( Boolean )
+							);
+						}
+
+						innerBlocks = Object.values( columns ).map( ( items ) =>
+							createBlock( 'core/column', {}, items )
 						);
-						const innerBlocks = component.components
-							.map( parseComponent )
-							.flat()
-							.filter( Boolean );
-						return createBlock(
-							'core/cover',
-							{
-								url:
-									metaData.serviceTopology.staticMediaUrl +
-									'/' +
-									component.designQuery.background.mediaRef
-										.uri,
-								id,
-								align:
-									component.designQuery.background
-										.fittingType === 'fill'
-										? 'full'
-										: 'center',
-							},
-							innerBlocks
+					} else {
+						innerBlocks = maybeAddCoverBlock(
+							component,
+							component.components
+								.map( parseComponent )
+								.flat()
+								.filter( Boolean )
 						);
 					}
 
-					// A container, so let's return the children.
-					return component.components.map( parseComponent ).flat();
+					if (
+						'wysiwyg.viewer.components.StripColumnsContainer' ===
+						component.componentType
+					) {
+						if (
+							innerBlocks.length > 1 &&
+							'core/column' === innerBlocks[ 0 ].name
+						) {
+							innerBlocks = createBlock(
+								'core/columns',
+								{},
+								innerBlocks
+							);
+						}
+					}
+
+					return maybeAddCoverBlock( component, innerBlocks );
 				}
+
 				component = component.dataQuery;
 				if ( component ) {
 					switch ( component.type ) {
