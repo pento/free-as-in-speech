@@ -1,6 +1,6 @@
 const cheerio = require( 'cheerio' );
 const { v4: uuidv4 } = require( 'uuid' );
-const { pasteHandler, serialize } = require( '@wordpress/blocks' );
+const { createBlock, pasteHandler, serialize } = require( '@wordpress/blocks' );
 const slug = require( 'slugify' );
 const IdFactory = require( '../../../../utils/idfactory.js' );
 
@@ -157,7 +157,14 @@ const resolveQueries = ( input, data ) => {
 	Object.entries( input ).forEach( ( entry ) => {
 		const key = entry[ 0 ];
 		const val = entry[ 1 ];
-		const location = 'document_data';
+		let location = 'document_data';
+		switch ( key ) {
+			case 'designQuery':
+			case 'background':
+			case 'mediaRef':
+				location = 'design_data';
+				break;
+		}
 
 		if ( Array.isArray( val ) ) {
 			// Some values can be an array of things that need to get resolved
@@ -313,15 +320,76 @@ module.exports = {
 			)
 		);
 
+		const addMediaAttachment = ( component ) => {
+			if ( IdFactory.exists( component.name || component.uri ) ) {
+				return;
+			}
+
+			component.src =
+				metaData.serviceTopology.staticMediaUrl + '/' + component.uri;
+
+			const id = IdFactory.get( component.name || component.uri );
+			data.attachments.push( {
+				id,
+				title: component.alt,
+				excerpt: component.description || '',
+				content: component.description || '',
+				link: component.src,
+				guid: component.src,
+				commentStatus: 'closed',
+				name: slug( component.name || component.uri ),
+				type: 'attachment',
+				attachment_url: component.src,
+				meta: [
+					{
+						key: '_wp_attachment_attachment_alt',
+						value: component.alt || null,
+					},
+				],
+			} );
+			return id;
+		};
+
 		data.pages.forEach( ( page ) => {
 			const parseComponent = ( component ) => {
 				component = resolveQueries( component, page.config.data );
 
 				if ( component.components ) {
+					if (
+						component.designQuery &&
+						component.designQuery.background &&
+						component.designQuery.background.mediaRef
+					) {
+						// If a background is defined, let's make this a cover block.
+						const id = addMediaAttachment(
+							component.designQuery.background.mediaRef
+						);
+						const innerBlocks = component.components
+							.map( parseComponent )
+							.flat()
+							.filter( Boolean );
+						return createBlock(
+							'core/cover',
+							{
+								url:
+									metaData.serviceTopology.staticMediaUrl +
+									'/' +
+									component.designQuery.background.mediaRef
+										.uri,
+								id,
+								align:
+									component.designQuery.background
+										.fittingType === 'fill'
+										? 'full'
+										: 'center',
+							},
+							innerBlocks
+						);
+					}
+
 					// A container, so let's return the children.
 					return component.components.map( parseComponent ).flat();
 				}
-
 				component = component.dataQuery;
 				if ( component ) {
 					switch ( component.type ) {
@@ -345,51 +413,23 @@ module.exports = {
 								escHtml( component.height ) +
 								'" />';
 
-							if ( IdFactory.exists( component.name ) ) {
-								break;
-							}
-							data.attachments.push( {
-								id: IdFactory.get(
-									component.name || component.uri
-								),
-								title: component.alt,
-								excerpt: component.description || '',
-								content: component.description || '',
-								link: component.src,
-								guid: component.src,
-								commentStatus: 'closed',
-								name: slug( component.name || component.uri ),
-								type: 'attachment',
-								attachment_url: component.src,
-								meta: [
-									{
-										key: '_wp_attachment_attachment_alt',
-										value: component.alt || null,
-									},
-								],
-							} );
+							addMediaAttachment( component );
 							break;
+					}
+
+					if ( component.text ) {
+						return pasteHandler( { HTML: component.text } );
 					}
 				}
 
-				return component;
+				return null;
 			};
 
-			const components = page.config.structure.components
+			page.content = page.config.structure.components
 				.map( parseComponent )
-				.flat();
-
-			page.content = pasteHandler( {
-				HTML: components
-					.map( ( item ) => ( item && item.text ) || '' )
-					.join( '' ),
-				mode: 'BLOCKS',
-			} )
-				.filter( ( blockContent ) => blockContent !== false )
-				.map( ( wpBlock ) => {
-					// console.log( wpBlock );
-					return serialize( wpBlock );
-				} )
+				.flat()
+				.filter( Boolean )
+				.map( ( wpBlock ) => serialize( wpBlock ) )
 				.join( '\n\n' );
 		} );
 
@@ -416,6 +456,10 @@ module.exports = {
 			} );
 		} );
 		data.menus.forEach( ( post ) => {
+			if ( 'pending' === post.status ) {
+				// Skip hidden menu entries.
+				return;
+			}
 			post.terms.forEach( ( term ) => {
 				term.taxonomy = term.type;
 				wxr.addTerm( term );
