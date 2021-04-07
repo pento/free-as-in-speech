@@ -4,6 +4,10 @@
 
 Welcome to the *Free (as in Speech)* development hub! *FaiS* is a browser extension written for Firefox and Chrome, which allows you to export your site from Content Management Systems that don't otherwise provide you with an export.
 
+<p align="center">
+  <img width="400" alt="Animation demonstrating a Wix site being exported." src="https://user-images.githubusercontent.com/352291/113792344-11cea080-9789-11eb-8b97-fb7c363e0063.gif" />
+</p>
+
 ## Getting Started
 
 ### Using Free (as in Speech)
