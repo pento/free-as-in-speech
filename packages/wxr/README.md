@@ -45,4 +45,4 @@ Returns the full WXR file as a string.
 When generating large WXR files, it may be preferable to limit memory usage by streaming the WXR content,
 instead. The WXR will be written to the passed `WritableStream` object.
 
-<span style="display: block; margin-top: 4em; text-align: center;">![Code is Poetry.](https://s.w.org/style/images/codeispoetry.png)</span>
+<br/><br/><p align="center"><img src="https://s.w.org/style/images/codeispoetry.png?1" alt="Code is Poetry." /></p>

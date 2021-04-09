@@ -4,9 +4,9 @@
 
 Welcome to the *Free (as in Speech)* development hub! *FaiS* is a browser extension written for Firefox and Chrome, which allows you to export your site from Content Management Systems that don't otherwise provide you with an export.
 
-<span style="display: block; text-align: center;">
+<p align="center">
   <img width="400" alt="Animation demonstrating a Wix site being exported." src="https://user-images.githubusercontent.com/352291/113792344-11cea080-9789-11eb-8b97-fb7c363e0063.gif" />
-</span>
+</p>
 
 ## Getting Started
 
@@ -32,4 +32,4 @@ You can join us in the `#core-importers` channel in Slack, see the [WordPress Sl
 
 WordPress is free software, and is released under the terms of the GNU General Public License version 2 or (at your option) any later version. See [LICENSE.md](/LICENSE.md) for the complete license.
 
-<span style="display: block; margin-top: 4em; text-align: center;">![Code is Poetry.](https://s.w.org/style/images/codeispoetry.png)</span>
+<br/><br/><p align="center"><img src="https://s.w.org/style/images/codeispoetry.png?1" alt="Code is Poetry." /></p>
