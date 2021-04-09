@@ -6,7 +6,7 @@
     "MD010": { "code_blocks": false },
     "MD013": { "line_length": 9999 },
     "MD029": { "style": "ordered" },
-    "MD033": { "allowed_elements": [ "span" ] },
+    "MD033": { "allowed_elements": [ "span", "img" ] },
     "MD035": { "style": "---" },
     "MD048": { "style": "backtick" }
 }
