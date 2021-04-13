@@ -401,27 +401,23 @@ module.exports = {
 						'wysiwyg.viewer.components.Column' ===
 						component.componentType
 					) {
-
 						innerBlocks = component.components
 							.map( parseComponent )
 							.flat()
 							.filter( Boolean );
 
-							if ( component.id === 'comp-knesa40w' )
-						console.log( component,innerBlocks);
-						return createBlock(
-							'core/column',
-							{},
-							innerBlocks
-						);
+						if ( component.id === 'comp-knesa40w' )
+							console.log( component, innerBlocks );
+						return createBlock( 'core/column', {}, innerBlocks );
 					}
 
 					if (
 						'wysiwyg.viewer.components.StripColumnsContainer' ===
 						component.componentType
 					) {
-						innerBlocks = component.components
-							.map( parseComponent );
+						innerBlocks = component.components.map(
+							parseComponent
+						);
 
 						if (
 							innerBlocks.length > 1 &&
@@ -430,11 +426,7 @@ module.exports = {
 							// Real columns == more than 1.
 							return maybeAddCoverBlock(
 								component,
-								createBlock(
-									'core/columns',
-									{},
-									innerBlocks
-								)
+								createBlock( 'core/columns', {}, innerBlocks )
 							);
 						}
 						if (
@@ -442,7 +434,7 @@ module.exports = {
 							'core/column' === innerBlocks[ 0 ].name
 						) {
 							// Not really a column, let's strip it.
-							innerBlocks = innerBlocks[0].innerBlocks;
+							innerBlocks = innerBlocks[ 0 ].innerBlocks;
 						}
 					} else {
 						innerBlocks = component.components
