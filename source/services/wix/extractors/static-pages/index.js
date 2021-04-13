@@ -401,39 +401,18 @@ module.exports = {
 						'wysiwyg.viewer.components.Column' ===
 						component.componentType
 					) {
-						const columns = {};
-						component.components.forEach( ( item ) => {
-							const comp = parseComponent( item );
-							if ( ! comp ) {
-								return;
-							}
-							const col = Math.floor( item.layout.x / 150 ) * 150;
-							if ( undefined === columns[ col ] ) {
-								columns[ col ] = [];
-							}
-							columns[ col ] = columns[ col ].concat( comp );
-						} );
 
-						if ( 1 === Object.values( columns ).length ) {
-							// Not real columns, let's just flatten this.
-							return maybeAddCoverBlock(
-								component,
-								Object.values( columns )
-									.flat()
-									.filter( Boolean )
-							);
-						}
+						innerBlocks = component.components
+							.map( parseComponent )
+							.flat()
+							.filter( Boolean );
 
-						innerBlocks = Object.values( columns ).map( ( items ) =>
-							createBlock( 'core/column', {}, items )
-						);
-					} else {
-						innerBlocks = maybeAddCoverBlock(
-							component,
-							component.components
-								.map( parseComponent )
-								.flat()
-								.filter( Boolean )
+							if ( component.id === 'comp-knesa40w' )
+						console.log( component,innerBlocks);
+						return createBlock(
+							'core/column',
+							{},
+							innerBlocks
 						);
 					}
 
@@ -441,16 +420,35 @@ module.exports = {
 						'wysiwyg.viewer.components.StripColumnsContainer' ===
 						component.componentType
 					) {
+						innerBlocks = component.components
+							.map( parseComponent );
+
 						if (
 							innerBlocks.length > 1 &&
 							'core/column' === innerBlocks[ 0 ].name
 						) {
-							innerBlocks = createBlock(
-								'core/columns',
-								{},
-								innerBlocks
+							// Real columns == more than 1.
+							return maybeAddCoverBlock(
+								component,
+								createBlock(
+									'core/columns',
+									{},
+									innerBlocks
+								)
 							);
 						}
+						if (
+							innerBlocks.length == 1 &&
+							'core/column' === innerBlocks[ 0 ].name
+						) {
+							// Not really a column, let's strip it.
+							innerBlocks = innerBlocks[0].innerBlocks;
+						}
+					} else {
+						innerBlocks = component.components
+							.map( parseComponent )
+							.flat()
+							.filter( Boolean );
 					}
 
 					return maybeAddCoverBlock( component, innerBlocks );
