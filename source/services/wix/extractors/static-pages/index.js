@@ -406,8 +406,6 @@ module.exports = {
 							.flat()
 							.filter( Boolean );
 
-						if ( component.id === 'comp-knesa40w' )
-							console.log( component, innerBlocks );
 						return createBlock( 'core/column', {}, innerBlocks );
 					}
 
@@ -420,20 +418,22 @@ module.exports = {
 						);
 
 						if (
-							innerBlocks.length > 1 &&
+							innerBlocks.length > 0 &&
 							'core/column' === innerBlocks[ 0 ].name
 						) {
-							// Real columns == more than 1.
-							return maybeAddCoverBlock(
-								component,
-								createBlock( 'core/columns', {}, innerBlocks )
-							);
-						}
-						if (
-							innerBlocks.length == 1 &&
-							'core/column' === innerBlocks[ 0 ].name
-						) {
-							// Not really a column, let's strip it.
+							if ( innerBlocks.length > 1 ) {
+								// Real columns == more than 1, we need to wrap it with a columns block.
+								return maybeAddCoverBlock(
+									component,
+									createBlock(
+										'core/columns',
+										{},
+										innerBlocks
+									)
+								);
+							}
+
+							// Just a single column, let's unwrap it.
 							innerBlocks = innerBlocks[ 0 ].innerBlocks;
 						}
 					} else {
