@@ -211,7 +211,10 @@ module.exports = {
 		posts.forEach( ( post ) => {
 			const postAuthor = post.owner;
 			// If we haven't already added this author, we need to add them now.
-			if ( ! addedAuthors.includes( postAuthor.slug ) ) {
+			if (
+				postAuthor.slug &&
+				! addedAuthors.includes( postAuthor.slug )
+			) {
 				addedAuthors.push( postAuthor.slug );
 
 				wxr.addAuthor( {
@@ -245,6 +248,7 @@ module.exports = {
 				postContent = post.content;
 			}
 
+			const attachments = [];
 			wxr.addPost( {
 				guid: post.id,
 				author: postAuthor.slug,
@@ -255,7 +259,8 @@ module.exports = {
 					{
 						entityMap: postContent.entityMap,
 						ownerSiteMemberId: post.ownerSiteMemberId,
-					}
+					},
+					attachments
 				),
 				status: statusMap[ post.status ],
 				sticky: post.isPinned ? 1 : 0,
@@ -263,6 +268,8 @@ module.exports = {
 				comment_status: post.isCommentsDisabled ? 'closed' : 'open',
 				terms: [ ...postCategories, ...postTags ],
 			} );
+
+			attachments.forEach( ( attachment ) => wxr.addPost( attachment ) );
 		} );
 	},
 };

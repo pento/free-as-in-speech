@@ -1,8 +1,15 @@
 const cheerio = require( 'cheerio' );
 const { v4: uuidv4 } = require( 'uuid' );
-const { pasteHandler, serialize } = require( '@wordpress/blocks' );
+const { createBlock, pasteHandler, serialize } = require( '@wordpress/blocks' );
 const slug = require( 'slugify' );
 const IdFactory = require( '../../../../utils/idfactory.js' );
+
+const escHtml = ( text ) =>
+	String( text )
+		.replace( /"/g, '&quot;' )
+		.replace( /&/g, '&amp;' )
+		.replace( />/g, '&gt;' )
+		.replace( /</g, '&lt;' );
 
 const extractConfigData = ( html ) => {
 	const configData = {};
@@ -17,7 +24,7 @@ const extractConfigData = ( html ) => {
 		}
 
 		const vars = currentTag.html().split( /\s*var\s/ );
-		const metaConfigurationRegExp = /^(siteHeader|editorModel)\s*=\s*(.*)$/g;
+		const metaConfigurationRegExp = /^(siteHeader|editorModel|serviceTopology)\s*=\s*(.*)$/;
 
 		for ( let i = 0; i < vars.length; i++ ) {
 			let match;
@@ -123,7 +130,7 @@ const parseMenu = ( menuItem, masterPage ) => {
 		};
 
 		if ( parsedLink.attachment ) {
-			// this.handleAttachment( parsedLink.attachment );
+			// handleAttachment( parsedLink.attachment );
 		}
 
 		if ( parsedLink.target !== '_blank' ) {
@@ -150,7 +157,14 @@ const resolveQueries = ( input, data ) => {
 	Object.entries( input ).forEach( ( entry ) => {
 		const key = entry[ 0 ];
 		const val = entry[ 1 ];
-		const location = 'document_data';
+		let location = 'document_data';
+		switch ( key ) {
+			case 'designQuery':
+			case 'background':
+			case 'mediaRef':
+				location = 'design_data';
+				break;
+		}
 
 		if ( Array.isArray( val ) ) {
 			// Some values can be an array of things that need to get resolved
@@ -208,15 +222,13 @@ const fetchPageJson = ( topology, editorUrl ) => ( page ) => {
 		.then( ( json ) => {
 			page.postId = IdFactory.get( page.pageId );
 			page.config = json;
-			page.data = page.config.structure.components.map( ( component ) => {
-				if ( ! component.dataQuery ) {
-					return null;
-				}
-				return json.data.document_data[
-					component.dataQuery.replace( /^#/, '' )
-				];
-			} );
 			return page;
+		} )
+		.catch( () => {
+			return {
+				data: { document_data: {} },
+				structure: { components: [] },
+			};
 		} );
 };
 
@@ -237,6 +249,12 @@ module.exports = {
 	 * @param {Object} config The app-specific config extracted from the Wix page.
 	 */
 	extract: async ( config ) => {
+		const data = {
+			pages: [],
+			menus: [],
+			attachments: [],
+		};
+
 		const url = new URL(
 			'https://manage.wix.com/editor/' + config.metaSiteId
 		);
@@ -268,7 +286,7 @@ module.exports = {
 			undefined === metaData.siteHeader ||
 			undefined === metaData.siteHeader.pageIdList
 		) {
-			return [];
+			return data;
 		}
 
 		// This is used to construct a URL from the filename, see fetchPageJson().
@@ -296,15 +314,183 @@ module.exports = {
 			.catch( () => {} );
 
 		// Fetch the pages as Json.
-		const pages = await Promise.all(
+		data.pages = await Promise.all(
 			metaData.siteHeader.pageIdList.pages.map(
 				fetchPageJson( topology, editorUrl )
 			)
 		);
 
-		const menus = convertMenu( masterPage );
+		const addMediaAttachment = ( component ) => {
+			if ( IdFactory.exists( component.name || component.uri ) ) {
+				return;
+			}
 
-		return pages.concat( menus );
+			component.src =
+				metaData.serviceTopology.staticMediaUrl + '/' + component.uri;
+
+			const id = IdFactory.get( component.name || component.uri );
+			data.attachments.push( {
+				id,
+				title: component.alt,
+				excerpt: component.description || '',
+				content: component.description || '',
+				link: component.src,
+				guid: component.src,
+				commentStatus: 'closed',
+				name: slug( component.name || component.uri ),
+				type: 'attachment',
+				attachment_url: component.src,
+				meta: [
+					{
+						key: '_wp_attachment_attachment_alt',
+						value: component.alt || null,
+					},
+				],
+			} );
+			return id;
+		};
+
+		const maybeAddCoverBlock = ( component, innerBlocks ) => {
+			if ( innerBlocks.name === 'core/cover' ) {
+				return innerBlocks;
+			}
+			if (
+				component.designQuery &&
+				component.designQuery.background &&
+				component.designQuery.background.mediaRef
+			) {
+				// If a background is defined, let's make this a cover block.
+				const id = addMediaAttachment(
+					component.designQuery.background.mediaRef
+				);
+
+				if (
+					innerBlocks.length === 1 &&
+					'core/column' === innerBlocks[ 0 ].name
+				) {
+					innerBlocks = innerBlocks[ 0 ].innerBlocks;
+				}
+
+				return createBlock(
+					'core/cover',
+					{
+						url:
+							metaData.serviceTopology.staticMediaUrl +
+							'/' +
+							component.designQuery.background.mediaRef.uri,
+						id,
+						align:
+							component.designQuery.background.fittingType ===
+							'fill'
+								? 'full'
+								: 'center',
+					},
+					innerBlocks
+				);
+			}
+			return innerBlocks;
+		};
+
+		data.pages.forEach( ( page ) => {
+			const parseComponent = ( component ) => {
+				component = resolveQueries( component, page.config.data );
+
+				if ( component.components ) {
+					let innerBlocks;
+					if (
+						'wysiwyg.viewer.components.Column' ===
+						component.componentType
+					) {
+						innerBlocks = component.components
+							.map( parseComponent )
+							.flat()
+							.filter( Boolean );
+
+						return createBlock( 'core/column', {}, innerBlocks );
+					}
+
+					if (
+						'wysiwyg.viewer.components.StripColumnsContainer' ===
+						component.componentType
+					) {
+						innerBlocks = component.components.map(
+							parseComponent
+						);
+
+						if (
+							innerBlocks.length > 0 &&
+							'core/column' === innerBlocks[ 0 ].name
+						) {
+							if ( innerBlocks.length > 1 ) {
+								// Real columns == more than 1, we need to wrap it with a columns block.
+								return maybeAddCoverBlock(
+									component,
+									createBlock(
+										'core/columns',
+										{},
+										innerBlocks
+									)
+								);
+							}
+
+							// Just a single column, let's unwrap it.
+							innerBlocks = innerBlocks[ 0 ].innerBlocks;
+						}
+					} else {
+						innerBlocks = component.components
+							.map( parseComponent )
+							.flat()
+							.filter( Boolean );
+					}
+
+					return maybeAddCoverBlock( component, innerBlocks );
+				}
+
+				component = component.dataQuery;
+				if ( component ) {
+					switch ( component.type ) {
+						case 'Image':
+							if ( ! component.uri ) {
+								break;
+							}
+
+							component.src =
+								metaData.serviceTopology.staticMediaUrl +
+								'/' +
+								component.uri;
+							component.text =
+								'<img src="' +
+								escHtml( component.src ) +
+								'" alt="' +
+								escHtml( component.alt ) +
+								'" width="' +
+								escHtml( component.width ) +
+								'" height="' +
+								escHtml( component.height ) +
+								'" />';
+
+							addMediaAttachment( component );
+							break;
+					}
+
+					if ( component.text ) {
+						return pasteHandler( { HTML: component.text } );
+					}
+				}
+
+				return null;
+			};
+
+			page.content = page.config.structure.components
+				.map( parseComponent )
+				.flat()
+				.filter( Boolean )
+				.map( ( wpBlock ) => serialize( wpBlock ) )
+				.join( '\n\n' );
+		} );
+
+		data.menus = convertMenu( masterPage );
+		return data;
 	},
 
 	/**
@@ -314,46 +500,43 @@ module.exports = {
 	 * @param {Object} wxr The WXR encoder.
 	 */
 	save: async ( data, wxr ) => {
-		data.forEach( ( post ) => {
-			if ( post.type === 'nav_menu_item' ) {
-				post.terms.forEach( ( term ) => {
-					term.taxonomy = term.type;
-					wxr.addTerm( term );
-				} );
-
-				wxr.addPost( {
-					id: post.postId,
-					title: post.title,
-					type: post.type,
-					terms: post.terms,
-					parent: post.parent,
-					status: post.status,
-					menu_order: post.menuOrder,
-					meta: Object.entries( post.meta ).map( ( meta ) => ( {
-						key: meta[ 0 ],
-						value: meta[ 1 ],
-					} ) ),
-				} );
-
-				return;
-			}
+		data.pages.forEach( ( post ) => {
 			wxr.addPost( {
 				id: post.postId,
 				title: post.title,
-				content: pasteHandler( {
-					HTML: post.data
-						.map( ( item ) => ( item && item.text ) || '' )
-						.join( '' ),
-					mode: 'BLOCKS',
-				} )
-					.filter( ( blockContent ) => blockContent !== false )
-					.map( ( wpBlock ) => serialize( wpBlock ) )
-					.join( '\n\n' ),
+				content: post.content,
 				status: post.hidePage ? 'private' : 'publish',
 				sticky: 0,
 				type: 'page',
 				comment_status: 'closed',
 			} );
+		} );
+		data.menus.forEach( ( post ) => {
+			if ( 'pending' === post.status ) {
+				// Skip hidden menu entries.
+				return;
+			}
+			post.terms.forEach( ( term ) => {
+				term.taxonomy = term.type;
+				wxr.addTerm( term );
+			} );
+
+			wxr.addPost( {
+				id: post.postId,
+				title: post.title,
+				type: post.type,
+				terms: post.terms,
+				parent: post.parent,
+				status: post.status,
+				menu_order: post.menuOrder,
+				meta: Object.entries( post.meta ).map( ( meta ) => ( {
+					key: meta[ 0 ],
+					value: meta[ 1 ],
+				} ) ),
+			} );
+		} );
+		data.attachments.forEach( ( post ) => {
+			wxr.addPost( post );
 		} );
 	},
 };

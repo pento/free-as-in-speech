@@ -3,6 +3,8 @@
  */
 const { createBlock, serialize } = require( '@wordpress/blocks' );
 const { applyFormat, create, toHTMLString } = require( '@wordpress/rich-text' );
+const IdFactory = require( '../../../../utils/idfactory.js' );
+const slug = require( 'slugify' );
 
 /**
  * The definition map for converting Wix blocks to WordPress blocks.
@@ -13,7 +15,7 @@ const { applyFormat, create, toHTMLString } = require( '@wordpress/rich-text' );
  * equivalent WordPress block.
  */
 const blockMap = {
-	atomic: ( block, { entityMap, ownerSiteMemberId } ) => {
+	atomic: ( block, { entityMap, ownerSiteMemberId }, attachments ) => {
 		if ( block.entityRanges.length === 0 ) {
 			// eslint-disable-next-line no-console
 			console.log( 'Entity block with no entity range', block );
@@ -27,6 +29,8 @@ const blockMap = {
 				const imageAttributes = {
 					url: `https://static.wixstatic.com/media/${ entity.data.src.file_name }`,
 					align: entity.data.config.alignment,
+					alt: null,
+					caption: null,
 				};
 
 				if ( entity.data.config ) {
@@ -44,6 +48,30 @@ const blockMap = {
 					imageAttributes.href = entity.data.link.url;
 					imageAttributes.linkTarget = entity.data.link.target;
 					imageAttributes.rel = entity.data.link.rel;
+				}
+
+				if (
+					! IdFactory.exists( entity.data.src.file_name ) &&
+					undefined !== attachments
+				) {
+					attachments.push( {
+						id: IdFactory.get( entity.data.src.file_name ),
+						title: imageAttributes.alt || entity.data.src.file_name,
+						excerpt: imageAttributes.caption || '',
+						content: imageAttributes.caption || '',
+						link: imageAttributes.url,
+						guid: imageAttributes.url,
+						commentStatus: 'closed',
+						name: slug( entity.data.src.file_name ),
+						type: 'attachment',
+						attachment_url: imageAttributes.url,
+						meta: [
+							{
+								key: '_wp_attachment_attachment_alt',
+								value: imageAttributes.alt || null,
+							},
+						],
+					} );
 				}
 
 				return createBlock( 'core/image', imageAttributes );
@@ -291,10 +319,10 @@ const formatText = ( block, entityMap ) => {
  *
  * @param {Object} wixBlocks The Wix blocks.
  * @param {Object} data      Additional post data.
- *
+ * @param {Object} attachments The attachments that were embedded in the block.
  * @return {string} The serialized WordPress blocks.
  */
-module.exports = ( wixBlocks, data ) => {
+module.exports = ( wixBlocks, data, attachments ) => {
 	let listType = '';
 	const listBuffer = [];
 
@@ -322,7 +350,11 @@ module.exports = ( wixBlocks, data ) => {
 				}
 
 				// We're at the last list item, process the list now.
-				const wpBlock = blockMap[ listType ]( listBuffer, data );
+				const wpBlock = blockMap[ listType ](
+					listBuffer,
+					data,
+					attachments
+				);
 
 				// Clean up the buffer.
 				listType = '';
@@ -332,7 +364,7 @@ module.exports = ( wixBlocks, data ) => {
 			}
 
 			if ( blockMap[ wixBlock.type ] ) {
-				return blockMap[ wixBlock.type ]( wixBlock, data );
+				return blockMap[ wixBlock.type ]( wixBlock, data, attachments );
 			}
 
 			// eslint-disable-next-line no-console

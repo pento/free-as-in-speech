@@ -1,3 +1,5 @@
+const IdFactory = require( '../../../../utils/idfactory.js' );
+
 module.exports = {
 	/**
 	 * A name for the app, displayed to the user.
@@ -74,6 +76,7 @@ module.exports = {
 		files.forEach( ( file ) => {
 			if ( file.media_type === 'video' ) {
 				wxr.addPost( {
+					id: IdFactory.get( file.file_output.video[ 0 ].url ),
 					guid: `https://video.wixstatic.com/${ file.file_output.video[ 0 ].url }`,
 					date: file.created_ts * 1000,
 					title: file.original_file_name,
@@ -81,7 +84,13 @@ module.exports = {
 					attachment_url: `https://video.wixstatic.com/${ file.file_output.video[ 0 ].url }`,
 				} );
 			} else {
+				const filename = file.original_file_name || file.file_url;
+				if ( IdFactory.exists( filename ) ) {
+					return;
+				}
+
 				wxr.addPost( {
+					id: IdFactory.get( filename ),
 					guid: `https://static.wixstatic.com/${ file.file_url }`,
 					date: file.created_ts * 1000,
 					title: file.original_file_name,
