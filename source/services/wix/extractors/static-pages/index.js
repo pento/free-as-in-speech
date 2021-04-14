@@ -191,7 +191,8 @@ module.exports = {
 							.filter( Boolean );
 
 						return maybeAddCoverBlock(
-							component, createBlock( 'core/column', {}, innerBlocks )
+							component,
+							createBlock( 'core/column', {}, innerBlocks )
 						);
 					}
 
@@ -206,14 +207,18 @@ module.exports = {
 						if ( innerBlocks.length > 0 ) {
 							let coverBlock = null;
 
-							if ( 'core/cover' === innerBlocks[ 0 ].name && 'core/column' === innerBlocks[0].innerBlocks.name ) {
+							if (
+								'core/cover' === innerBlocks[ 0 ].name &&
+								'core/column' ===
+									innerBlocks[ 0 ].innerBlocks.name
+							) {
 								// The column is has a cover, we need to inject the column here:
 								coverBlock = innerBlocks[ 0 ];
-								innerBlocks = innerBlocks[0].innerBlocks;
+								innerBlocks = innerBlocks[ 0 ].innerBlocks;
 							}
 
 							if ( 1 === innerBlocks.length ) {
-								innerBlocks = innerBlocks[0];
+								innerBlocks = innerBlocks[ 0 ];
 							}
 
 							if ( 'core/column' === innerBlocks.name ) {
