@@ -8,13 +8,7 @@ const {
 	resolveQueries,
 } = require( './data.js' );
 const { convertMenu } = require( './menu.js' );
-
-const escHtml = ( text ) =>
-	String( text )
-		.replace( /"/g, '&quot;' )
-		.replace( /&/g, '&amp;' )
-		.replace( />/g, '&gt;' )
-		.replace( /</g, '&lt;' );
+const { parseWixLink, getHtmlLinkAttributes } = require( './links.js' );
 
 module.exports = {
 	/**
@@ -177,7 +171,11 @@ module.exports = {
 
 		data.pages.forEach( ( page ) => {
 			const parseComponent = ( component ) => {
-				component = resolveQueries( component, page.config.data );
+				component = resolveQueries(
+					component,
+					page.config.data,
+					masterPage.data
+				);
 
 				if ( component.components ) {
 					let innerBlocks;
@@ -271,19 +269,34 @@ module.exports = {
 								metaData.serviceTopology.staticMediaUrl +
 								'/' +
 								component.uri;
-							component.text =
-								'<img src="' +
-								escHtml( component.src ) +
-								'" alt="' +
-								escHtml( component.alt ) +
-								'" width="' +
-								escHtml( component.width ) +
-								'" height="' +
-								escHtml( component.height ) +
-								'" />';
-
 							addMediaAttachment( component );
+
+							return createBlock( 'core/image', {
+								url: component.src,
+								alt: component.alt,
+								width: component.width,
+								height: component.height,
+							} );
+
+						case 'StyledText':
+							// Already has the proper HTML that can be converted below.
 							break;
+						case 'LinkableButton':
+							const link = parseWixLink(
+								component.link,
+								metaData
+							);
+							const attrs = getHtmlLinkAttributes(
+								link,
+								page.pageId
+							);
+							attrs.url = attrs.href;
+							return createBlock( 'core/buttons', {}, [
+								createBlock( 'core/button', {
+									...attrs,
+									text: component.label,
+								} ),
+							] );
 					}
 
 					if ( component.text ) {
