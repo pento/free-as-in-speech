@@ -30,9 +30,9 @@ global.Mousetrap = {
 window.matchMedia = global.matchMedia = () => ( { addListener: noop } );
 global.Node = window.Node;
 
-const { registerCoreBlocks } = require( '@wordpress/block-library' );
+const { registerBlocks } = require( '../source/utils/register-blocks' );
 
-registerCoreBlocks();
+registerBlocks();
 
 const fetchFromHAR = require( 'fetch-from-har' );
 const getWXRFromWixHAR = require( './lib/get-wxr-from-wix-har' );

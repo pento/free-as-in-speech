@@ -297,6 +297,13 @@ module.exports = {
 									text: component.label,
 								} ),
 							] );
+						case 'TextInput':
+						console.log({
+								label: component.label
+							});
+							return createBlock( 'jetpack/field-text', {
+								label: component.label
+							});
 					}
 
 					if ( component.text ) {
