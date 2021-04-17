@@ -298,12 +298,9 @@ module.exports = {
 								} ),
 							] );
 						case 'TextInput':
-						console.log({
-								label: component.label
-							});
 							return createBlock( 'jetpack/field-text', {
-								label: component.label
-							});
+								label: component.label,
+							} );
 					}
 
 					if ( component.text ) {

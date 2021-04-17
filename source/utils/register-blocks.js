@@ -9,13 +9,14 @@ module.exports = {
 	registerBlocks: () => {
 		registerCoreBlocks();
 
-		console.log(registerBlockType( 'jetpack/field-text', {
+		registerBlockType( 'jetpack/field-text', {
 			title: 'Jetpack Text Field',
 			attributes: {
-			label: {
-				type: 'string',
-				default: null,
-			}}
-		}));
-	}
-}
+				label: {
+					type: 'string',
+					default: null,
+				},
+			},
+		} );
+	},
+};
