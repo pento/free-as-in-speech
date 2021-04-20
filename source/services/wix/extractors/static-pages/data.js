@@ -60,7 +60,7 @@ const fetchPageJson = ( topology, editorUrl ) => ( page ) => {
 		} );
 };
 
-const resolveQueries = ( input, data ) => {
+const resolveQueries = ( input, data, masterPage ) => {
 	// skip resolving for non-objects
 	if ( typeof input !== 'object' ) {
 		return input;
@@ -87,7 +87,11 @@ const resolveQueries = ( input, data ) => {
 				if ( item.substr( 0, 1 ) !== '#' ) return item;
 				const query = item.replace( /^#/, '' );
 				return query
-					? resolveQueries( data[ location ][ query ], data )
+					? resolveQueries(
+							data[ location ][ query ],
+							data,
+							masterPage
+					  )
 					: item;
 			} );
 		} else if (
@@ -99,7 +103,12 @@ const resolveQueries = ( input, data ) => {
 			// Example: `input.link = '#baz'`
 			const query = val.replace( /^#/, '' );
 			input[ key ] = query
-				? resolveQueries( data[ location ][ query ], data )
+				? resolveQueries(
+						data[ location ][ query ] ||
+							masterPage[ location ][ query ],
+						data,
+						masterPage
+				  )
 				: val;
 		}
 	} );
@@ -107,7 +116,7 @@ const resolveQueries = ( input, data ) => {
 	// Components are already objects but we need to deeply resolve their contents
 	if ( input.components ) {
 		input.components = input.components.map( ( subComp ) =>
-			resolveQueries( subComp, data )
+			resolveQueries( subComp, data, masterPage )
 		);
 	}
 
