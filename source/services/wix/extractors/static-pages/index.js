@@ -100,6 +100,60 @@ module.exports = {
 			)
 		);
 
+		data.pages.push( {
+			config: {
+				structure: masterPage.structure.children.filter(
+					( component ) => 'SITE_HEADER' === component.id
+				)[ 0 ],
+				data: masterPage.data,
+			},
+			pageId: 'header',
+			title: 'header',
+			postId: IdFactory.get( 'header' ),
+			postType: 'wp_template_part',
+			terms: [
+				{
+					type: 'wp_template_part_area',
+					name: 'header',
+					slug: 'header',
+					id: IdFactory.get( 'term-header' ),
+				},
+				{
+					type: 'wp_theme',
+					slug: 'wp_theme',
+					name: 'tt1-blocks',
+					id: IdFactory.get( 'term-tt1-blocks' ),
+				},
+			],
+		} );
+
+		data.pages.push( {
+			config: {
+				structure: masterPage.structure.children.filter(
+					( component ) => 'SITE_FOOTER' === component.id
+				)[ 0 ],
+				data: masterPage.data,
+			},
+			pageId: 'footer',
+			title: 'footer',
+			postId: IdFactory.get( 'footer' ),
+			postType: 'wp_template_part',
+			terms: [
+				{
+					type: 'wp_template_part_area',
+					name: 'footer',
+					slug: 'footer',
+					id: IdFactory.get( 'term-footer' ),
+				},
+				{
+					type: 'wp_theme',
+					slug: 'wp_theme',
+					name: 'tt1-blocks',
+					id: IdFactory.get( 'term-tt1-blocks' ),
+				},
+			],
+		} );
+
 		const addMediaAttachment = ( component ) => {
 			const key = 'attachment' + ( component.name || component.uri );
 			const existingId = IdFactory.exists( key );
@@ -193,13 +247,21 @@ module.exports = {
 			wxr.addObject( obj.type, obj.data );
 		} );
 		data.pages.forEach( ( post ) => {
+			const terms = post.terms || [];
+
+			terms.forEach( ( term ) => {
+				term.taxonomy = term.type;
+				wxr.addTerm( term );
+			} );
+
 			wxr.addPost( {
 				id: post.postId,
 				title: post.title,
+				name: slug( post.title ),
 				content: post.content,
 				status: post.hidePage ? 'private' : 'publish',
 				sticky: 0,
-				type: 'page',
+				type: post.postType || 'page',
 				comment_status: 'closed',
 				meta: Object.entries( post.meta || {} ).map( ( meta ) => ( {
 					key: meta[ 0 ],
@@ -208,6 +270,7 @@ module.exports = {
 							? JSON.stringify( meta[ 1 ] )
 							: meta[ 1 ],
 				} ) ),
+				terms,
 			} );
 		} );
 		data.menus.forEach( ( post ) => {
