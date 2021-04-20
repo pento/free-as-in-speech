@@ -62,6 +62,20 @@ test.each( [
 		true,
 		true,
 	],
+	[
+		'rockfield.har',
+		{
+			initialState: {
+				embeddedServices: [ 'static-pages' ].map(
+					( appDefinitionId ) => {
+						return { appDefinitionId };
+					}
+				),
+			},
+		},
+		false,
+		true,
+	],
 ] )( 'wix: %s', async ( har, config, errorsExpected, logExpected ) => {
 	const input = fs.readFileSync( path.join( __dirname, 'fixtures', har ) );
 
