@@ -9,11 +9,11 @@ module.exports = {
 	registerBlocks: () => {
 		registerCoreBlocks();
 
-		registerBlockType( 'jetpack/field-text', {
-			title: 'Jetpack Text Field',
+		registerBlockType( 'core-import/plugin-placeholder', {
+			title: 'Plugin Placeholder',
 			attributes: {
-				label: {
-					type: 'string',
+				id: {
+					type: 'integer',
 					default: null,
 				},
 			},
