@@ -6,6 +6,7 @@ module.exports = {
 			return component;
 		}
 		let innerBlocks = component.innerBlocks;
+
 		if ( innerBlocks.name === 'core/cover' ) {
 			return innerBlocks;
 		}

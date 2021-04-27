@@ -92,7 +92,7 @@ const anonymizers = {
 		},
 	},
 	email: {
-		regex: /\b((?:[a-z0-9!#$%&'*+=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z](?:[a-z0-9-]*[a-z])?))/g,
+		regex: /(?:\b|\\\\n)((?:[a-z0-9!#$%&'*+=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z](?:[a-z0-9-]*[a-z])?))/g,
 		replacement: () => {
 			return 'example' + counter( 'email' ) + '@example.com';
 		},
@@ -107,7 +107,7 @@ const anonymizers = {
 	},
 	wixSite: {
 		regex: /(?:\/|u002F)([a-z0-9]+)[.]wixsite[.]com/gi,
-		replacement: randomNumber,
+		replacement: randomBase62String,
 	},
 	_wixUIDX: {
 		regex: /_wixUIDX=(\d+)/g,
@@ -149,8 +149,16 @@ const anonymizers = {
 		regex: /TS[0-9a-f]+=([^&;]+)/g,
 		replacement: randomBase62String,
 	},
+	etag: {
+		regex: valueRegex( 'etag', 'g', '\\\\"[^\\\\]+\\\\"' ),
+		replacement: randomBase62String,
+	},
 	siteToken: {
 		regex: valueRegex( 'site_token', 'g' ),
+		replacement: randomBase62String,
+	},
+	traceId: {
+		regex: valueRegex( 'trace-id', 'g' ),
 		replacement: randomBase62String,
 	},
 	authorization: {
@@ -168,6 +176,29 @@ const anonymizers = {
 	userAgent: {
 		regex: valueRegex( 'User-Agent', 'g', '[^"]+' ),
 		replacement: () => 'Mozilla',
+	},
+	jsonPage: {
+		regex: /\b(([0-9a-fA-F]{6})_([0-9a-fA-F]{32})_([0-9]+))\b/g,
+		// Maintain the structure by replacing subsections with their own random strings.
+		replacement: ( m ) =>
+			m.replace( /([0-9a-fA-F]+)/g, randomBase62String ),
+	},
+	editorId: {
+		regex: /(?:\b|_)(([0-9a-fA-F]{6})_([0-9a-fA-F]{32}))\b/g,
+		replacement: ( m ) =>
+			m.replace( /([0-9a-fA-F]+)/g, randomBase62String ),
+	},
+	wfId: {
+		regex: /\bwf_([0-9a-fA-F]{25})\b/g,
+		replacement: randomBase62String,
+	},
+	sig: {
+		regex: /\\"sig\\":\\"([^\\]+)\\"/g,
+		replacement: randomBase62String,
+	},
+	itemId: {
+		regex: /(?:dataItem|propItem|mobileHints|connection|style|comp)-([a-z0-9]+)/g,
+		replacement: randomBase62String,
 	},
 };
 

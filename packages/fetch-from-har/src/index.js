@@ -79,8 +79,12 @@ function findRequestInHar( HAR, requestUrl, options ) {
 		}
 	}
 	if ( results.length > 0 ) {
-		const response = results[ 0 ].response;
-		if ( 302 === response.status || 301 === response.status ) {
+		const response = results[ 0 ].response || results[ 0 ].request;
+		if (
+			! response.status ||
+			302 === response.status ||
+			301 === response.status
+		) {
 			if ( response.redirectURL ) {
 				options.redirects = options.redirects
 					? options.redirects + 1
