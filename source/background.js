@@ -1,13 +1,8 @@
 /**
- * WordPress dependencies
- */
-const { registerCoreBlocks } = require( '@wordpress/block-library' );
-require( '@wordpress/format-library' );
-
-/**
  * Internal dependencies
  */
 const { getInstalledApps, startExport } = require( './services' );
+const { registerBlocks } = require( './utils/register-blocks' );
 
 /**
  * Store the wix config in memory, so that it's available whenever it's needed,
@@ -71,5 +66,5 @@ browser.downloads.onChanged.addListener( ( delta ) => {
 	}
 } );
 
-// Register the Core WordPress block library, so we're able to export to those blocks.
-registerCoreBlocks();
+// Register the blocks we support for output.
+registerBlocks();
