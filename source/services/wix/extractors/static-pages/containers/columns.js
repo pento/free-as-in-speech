@@ -12,10 +12,10 @@ module.exports = {
 		let coverBlock = null;
 
 		if (
-			'core/cover' === innerBlocks[ 0 ].name &&
-			'core/column' === innerBlocks[ 0 ].innerBlocks.name
+			'core/column' === innerBlocks[ 0 ].name &&
+			'core/cover' === innerBlocks[ 0 ].innerBlocks.name
 		) {
-			// The column is has a cover, we need to inject the column here:
+			// The column has a cover, we need to inject the column here:
 			coverBlock = innerBlocks[ 0 ];
 			innerBlocks = innerBlocks[ 0 ].innerBlocks;
 		}
@@ -30,9 +30,15 @@ module.exports = {
 
 			if ( null !== coverBlock ) {
 				coverBlock.innerBlocks = innerBlocks;
+
 				return coverBlock;
 			}
 
+			return innerBlocks;
+		}
+
+		if ( 'core/cover' === innerBlocks.name ) {
+			// Just a single cover. Don't wrap with column.
 			return innerBlocks;
 		}
 

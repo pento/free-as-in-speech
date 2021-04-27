@@ -10,7 +10,7 @@ module.exports = {
 		const attachment = addMediaAttachment( component.dataQuery );
 
 		return createBlock( 'core/image', {
-			url: attachment.src,
+			url: attachment.guid,
 			alt: component.dataQuery.alt,
 			width: component.dataQuery.width,
 			height: component.dataQuery.height,

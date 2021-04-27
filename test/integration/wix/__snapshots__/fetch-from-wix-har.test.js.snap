@@ -378,14 +378,6 @@ exports[`wix: rockfield.har 1`] = `
 <p>Click here to make a reservation today!</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:heading -->
-<h2><strong>Published by Joan Smith</strong></h2>
-<!-- /wp:heading -->
-
-<!-- wp:paragraph -->
-<p>My name is Joan Smith. I love discovering new literature.&nbsp;<a>View more posts</a></p>
-<!-- /wp:paragraph -->
-
 <!-- wp:paragraph -->
 <p>Previous Post</p>
 <!-- /wp:paragraph -->
@@ -470,20 +462,6 @@ exports[`wix: rockfield.har 1`] = `
 
 <!-- wp:paragraph -->
 <p>Mon: closed<br>Tue – Sun: 11:30 am – 10:00 pm</p>
-<!-- /wp:paragraph -->
-
-<!-- wp:heading {\\"level\\":1} -->
-<h1><strong>Book Online</strong></h1>
-<!-- /wp:heading -->
-
-<!-- wp:buttons -->
-<div class=\\"wp-block-buttons\\"><!-- wp:button -->
-<div class=\\"wp-block-button\\"><a class=\\"wp-block-button__link\\" href=\\"\\">Submit</a></div>
-<!-- /wp:button --></div>
-<!-- /wp:buttons -->
-
-<!-- wp:paragraph -->
-<p>Thanks for submitting!</p>
 <!-- /wp:paragraph -->]]></content:encoded>
 		<wp:comment_status><![CDATA[closed]]></wp:comment_status>
 		<wp:status><![CDATA[publish]]></wp:status>
@@ -598,20 +576,6 @@ exports[`wix: rockfield.har 1`] = `
 <!-- /wp:heading --></div></div>
 <!-- /wp:cover -->
 
-<!-- wp:heading {\\"level\\":5} -->
-<h5>To book a table, call us (123) 444–5678 or use the form below.</h5>
-<!-- /wp:heading -->
-
-<!-- wp:buttons -->
-<div class=\\"wp-block-buttons\\"><!-- wp:button -->
-<div class=\\"wp-block-button\\"><a class=\\"wp-block-button__link\\" href=\\"\\">Submit</a></div>
-<!-- /wp:button --></div>
-<!-- /wp:buttons -->
-
-<!-- wp:paragraph -->
-<p>Thanks for submitting!</p>
-<!-- /wp:paragraph -->
-
 <!-- wp:cover {\\"url\\":\\"https://static.wixstatic.com/media/F9OC3_zZAcXfndF5z2Of4n5SKFw2Im3kKBwHP~mv2.jpg\\",\\"id\\":14,\\"align\\":\\"full\\"} -->
 <div class=\\"wp-block-cover alignfull has-background-dim\\"><img class=\\"wp-block-cover__image-background wp-image-14\\" alt=\\"\\" src=\\"https://static.wixstatic.com/media/F9OC3_zZAcXfndF5z2Of4n5SKFw2Im3kKBwHP~mv2.jpg\\" data-object-fit=\\"cover\\"/><div class=\\"wp-block-cover__inner-container\\"><!-- wp:heading -->
 <h2><strong>Rockfield</strong></h2>
@@ -665,14 +629,6 @@ exports[`wix: rockfield.har 1`] = `
 <!-- wp:image {\\"width\\":1024,\\"height\\":682} -->
 <figure class=\\"wp-block-image is-resized\\"><img src=\\"https://static.wixstatic.com/media/7oW5n_JRVYOJnRJpeGHE1bJBAgkY2XaBqeOsl~mv2.jpg\\" alt=\\"appetizer-blurred-background-cheese-2531\\" width=\\"1024\\" height=\\"682\\"/></figure>
 <!-- /wp:image -->
-
-<!-- wp:heading -->
-<h2><strong>Published by Joan Smith</strong></h2>
-<!-- /wp:heading -->
-
-<!-- wp:paragraph -->
-<p>My name is Joan Smith. I love discovering new literature.&nbsp;<a>View more posts</a></p>
-<!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
 <p>Previous Post</p>
@@ -736,14 +692,6 @@ exports[`wix: rockfield.har 1`] = `
 
 <!-- wp:paragraph -->
 <p>From&nbsp;<a>Wikipedia</a>.</p>
-<!-- /wp:paragraph -->
-
-<!-- wp:heading -->
-<h2><strong>Published by Joan Smith</strong></h2>
-<!-- /wp:heading -->
-
-<!-- wp:paragraph -->
-<p>My name is Joan Smith. I love discovering new literature.&nbsp;<a>View more posts</a></p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
