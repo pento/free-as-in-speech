@@ -76,8 +76,6 @@ const resolveQueries = ( input, data, masterPage ) => {
 			case 'background':
 			case 'mediaRef':
 				location = 'design_data';
-				// case 'connectionQuery':
-				// 	location = 'connections_data';
 				break;
 		}
 
