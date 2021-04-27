@@ -30,7 +30,7 @@ module.exports = {
 			return createBlock(
 				'core/cover',
 				{
-					url: attachment.src,
+					url: attachment.guid,
 					id: attachment.id,
 					align:
 						component.designQuery.background.fittingType === 'fill'
