@@ -6,7 +6,6 @@ const handlerMapper = ( key ) => ( accumulator, currentValue ) => {
 };
 
 const containerHandlers = [
-	require( './containers/form.js' ),
 	require( './containers/column.js' ),
 	require( './containers/columns.js' ),
 ].reduce( handlerMapper( 'componentType' ), {} );
