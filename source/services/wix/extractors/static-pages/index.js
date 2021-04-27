@@ -100,15 +100,16 @@ module.exports = {
 		);
 
 		const addMediaAttachment = ( component ) => {
-			if ( IdFactory.exists( component.name || component.uri ) ) {
-				return;
+			const key = 'attachment' + ( component.name || component.uri );
+			const existingId = IdFactory.exists( key );
+			if ( existingId ) {
+				return data.attachments[ existingId ];
 			}
-
 			component.src =
 				metaData.serviceTopology.staticMediaUrl + '/' + component.uri;
 
 			const attachment = {
-				id: IdFactory.get( component.name || component.uri ),
+				id: IdFactory.get( key ),
 				title: component.alt,
 				excerpt: component.description || '',
 				content: component.description || '',
@@ -125,7 +126,8 @@ module.exports = {
 					},
 				],
 			};
-			data.attachments.push( attachment );
+
+			data.attachments[ attachment.id ] = attachment;
 			return attachment;
 		};
 
@@ -212,7 +214,7 @@ module.exports = {
 				} ) ),
 			} );
 		} );
-		data.attachments.forEach( ( post ) => {
+		Object.values( data.attachments ).forEach( ( post ) => {
 			wxr.addPost( post );
 		} );
 	},

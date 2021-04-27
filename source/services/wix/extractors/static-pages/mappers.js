@@ -17,12 +17,20 @@ const componentHandlers = [
 ].reduce( handlerMapper( 'type' ), {} );
 let placeholderId = 0;
 
+const wrapResult = ( block, component ) => {
+	block.designQuery = component.designQuery;
+	return block;
+};
+
 module.exports = {
 	containerMapper: ( component, recursiveComponentParser ) => {
 		if ( component.componentType in containerHandlers ) {
-			return containerHandlers[ component.componentType ].parseComponent(
-				component,
-				recursiveComponentParser
+			return wrapResult(
+				containerHandlers[ component.componentType ].parseComponent(
+					component,
+					recursiveComponentParser
+				),
+				component
 			);
 		}
 
@@ -30,20 +38,22 @@ module.exports = {
 	},
 
 	componentMapper: ( component, addMediaAttachment, metaData, page ) => {
-		component = component.dataQuery;
-		if ( ! component ) {
+		if ( ! component.dataQuery ) {
 			return null;
 		}
-		if ( component.componentType in componentHandlers ) {
-			return componentHandlers[ component.type ].parseComponent(
-				component,
-				addMediaAttachment,
-				metaData,
-				page
+		if ( component.dataQuery.type in componentHandlers ) {
+			return wrapResult(
+				componentHandlers[ component.dataQuery.type ].parseComponent(
+					component,
+					addMediaAttachment,
+					metaData,
+					page
+				),
+				component
 			);
 		}
 
-		switch ( component.componentType ) {
+		switch ( component.dataQuery.type ) {
 			case 'TextInput':
 				placeholderId += 1;
 				if ( undefined === page.meta ) {
@@ -51,15 +61,15 @@ module.exports = {
 				}
 				page.meta[ 'placeholder-' + placeholderId ] = {
 					type: 'text',
-					label: component.label,
+					label: component.dataQuery.label,
 				};
 				return createBlock( 'core-import/plugin-placeholder', {
 					id: placeholderId,
 				} );
 		}
 
-		if ( component.text ) {
-			return pasteHandler( { HTML: component.text } );
+		if ( component.dataQuery.text ) {
+			return pasteHandler( { HTML: component.dataQuery.text } );
 		}
 	},
 };

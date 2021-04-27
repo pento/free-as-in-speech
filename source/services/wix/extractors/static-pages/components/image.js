@@ -3,16 +3,17 @@ const { createBlock } = require( '@wordpress/blocks' );
 module.exports = {
 	type: 'Image',
 	parseComponent: ( component, addMediaAttachment ) => {
-		if ( ! component.uri ) {
+		if ( ! component.dataQuery || ! component.dataQuery.uri ) {
 			return null;
 		}
-		const attachment = addMediaAttachment( component );
+
+		const attachment = addMediaAttachment( component.dataQuery );
 
 		return createBlock( 'core/image', {
 			url: attachment.src,
-			alt: component.alt,
-			width: component.width,
-			height: component.height,
+			alt: component.dataQuery.alt,
+			width: component.dataQuery.width,
+			height: component.dataQuery.height,
 		} );
 	},
 };
