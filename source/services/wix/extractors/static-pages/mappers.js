@@ -1,4 +1,4 @@
-const { createBlock, pasteHandler } = require( '@wordpress/blocks' );
+const { pasteHandler } = require( '@wordpress/blocks' );
 
 const handlerMapper = ( key ) => ( accumulator, currentValue ) => {
 	accumulator[ currentValue[ key ] ] = currentValue;
@@ -16,7 +16,6 @@ const componentHandlers = [
 	require( './components/image.js' ),
 	require( './components/button.js' ),
 ].reduce( handlerMapper( 'type' ), {} );
-let placeholderId = 0;
 
 const wrapResult = ( block, component ) => {
 	if ( block ) {
@@ -65,21 +64,6 @@ module.exports = {
 				),
 				component
 			);
-		}
-
-		switch ( component.dataQuery.type ) {
-			case 'TextInput':
-				placeholderId += 1;
-				if ( undefined === page.meta ) {
-					page.meta = {};
-				}
-				page.meta[ 'placeholder-' + placeholderId ] = {
-					type: 'text',
-					label: component.dataQuery.label,
-				};
-				return createBlock( 'core-import/plugin-placeholder', {
-					id: placeholderId,
-				} );
 		}
 
 		if ( component.dataQuery.text ) {
