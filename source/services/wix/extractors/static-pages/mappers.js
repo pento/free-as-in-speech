@@ -1,4 +1,4 @@
-const { createBlock, pasteHandler } = require( '@wordpress/blocks' );
+const { pasteHandler } = require( '@wordpress/blocks' );
 
 const handlerMapper = ( key ) => ( accumulator, currentValue ) => {
 	accumulator[ currentValue[ key ] ] = currentValue;
@@ -15,26 +15,31 @@ const componentHandlers = [
 	require( './components/image.js' ),
 	require( './components/button.js' ),
 ].reduce( handlerMapper( 'type' ), {} );
-let placeholderId = 0;
 
 const wrapResult = ( block, component ) => {
-	block.designQuery = component.designQuery;
+	if ( block ) {
+		block.designQuery = component.designQuery;
+	}
 	return block;
 };
 
 module.exports = {
-	containerMapper: ( component, recursiveComponentParser ) => {
+	containerMapper: ( component, recursiveComponentParser, resolver ) => {
 		if ( component.componentType in containerHandlers ) {
 			return wrapResult(
 				containerHandlers[ component.componentType ].parseComponent(
 					component,
-					recursiveComponentParser
+					recursiveComponentParser,
+					resolver
 				),
 				component
 			);
 		}
 
-		return null;
+		return component.components
+			.map( recursiveComponentParser )
+			.flat()
+			.filter( Boolean );
 	},
 
 	componentMapper: ( component, addMediaAttachment, metaData, page ) => {
@@ -52,21 +57,6 @@ module.exports = {
 				),
 				component
 			);
-		}
-
-		switch ( component.dataQuery.type ) {
-			case 'TextInput':
-				placeholderId += 1;
-				if ( undefined === page.meta ) {
-					page.meta = {};
-				}
-				page.meta[ 'placeholder-' + placeholderId ] = {
-					type: 'text',
-					label: component.dataQuery.label,
-				};
-				return createBlock( 'core-import/plugin-placeholder', {
-					id: placeholderId,
-				} );
 		}
 
 		if ( component.dataQuery.text ) {

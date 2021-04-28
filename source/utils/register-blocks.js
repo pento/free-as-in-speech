@@ -12,8 +12,8 @@ module.exports = {
 		registerBlockType( 'core-import/plugin-placeholder', {
 			title: 'Plugin Placeholder',
 			attributes: {
-				id: {
-					type: 'integer',
+				data: {
+					type: 'string',
 					default: null,
 				},
 			},

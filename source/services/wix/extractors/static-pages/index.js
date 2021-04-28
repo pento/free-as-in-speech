@@ -132,16 +132,19 @@ module.exports = {
 		};
 
 		data.pages.forEach( ( page ) => {
+			const resolver = ( component ) =>
+				resolveQueries( component, page.config.data, masterPage.data );
+
 			const recursiveComponentParser = ( component ) => {
-				component = resolveQueries(
-					component,
-					page.config.data,
-					masterPage.data
-				);
+				component = resolver( component );
 
 				if ( component.components ) {
 					return maybeAddCoverBlock(
-						containerMapper( component, recursiveComponentParser ),
+						containerMapper(
+							component,
+							recursiveComponentParser,
+							resolver
+						),
 						addMediaAttachment
 					);
 				}

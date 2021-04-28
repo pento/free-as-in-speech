@@ -77,6 +77,9 @@ const resolveQueries = ( input, data, masterPage ) => {
 			case 'mediaRef':
 				location = 'design_data';
 				break;
+			case 'propertyQuery':
+				location = 'component_properties';
+				break;
 		}
 
 		if ( Array.isArray( val ) ) {
@@ -97,7 +100,7 @@ const resolveQueries = ( input, data, masterPage ) => {
 		} else if (
 			val &&
 			typeof val.valueOf() === 'string' &&
-			val.substr( 0, 1 ) === '#'
+			( val.substr( 0, 1 ) === '#' || location !== 'document_data' )
 		) {
 			// Others are just a string
 			// Example: `input.link = '#baz'`
