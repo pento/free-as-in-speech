@@ -7,18 +7,14 @@ const { openDB, deleteDB } = require( 'idb/with-async-ittr-cjs' );
 const { WritableStream } = require( 'web-streams-polyfill/ponyfill/es6' );
 const xmlSanitizer = require( 'xml-sanitizer' );
 
-/**
- * Internal dependencies
- */
-const schema = require( './schema' );
-
-const WXR_VERSION = '1.2';
-
 dayjs.extend( utc );
 /**
  * WXR version 1.2 driver.
  */
 class WXRDriver {
+	constructor( schema ) {
+		this.schema = schema;
+	}
 	/**
 	 * Connect to the DB.
 	 *
@@ -26,7 +22,7 @@ class WXRDriver {
 	 */
 	async connect( { reset = false } = {} ) {
 		// Extract the store name and index info from the schema.
-		const storesNames = Object.keys( schema );
+		const storesNames = Object.keys( this.schema );
 
 		if ( reset ) {
 			// An error can sometimes be thrown if we're deleting a DB that doesn't
@@ -46,8 +42,8 @@ class WXRDriver {
 					} );
 
 					// If this store has indexes, add them to the store definition.
-					if ( schema[ storeName ].indexes ) {
-						schema[ storeName ].indexes.map( ( index ) =>
+					if ( this.schema[ storeName ].indexes ) {
+						this.schema[ storeName ].indexes.map( ( index ) =>
 							store.createIndex( index, index )
 						);
 					}
@@ -66,14 +62,14 @@ class WXRDriver {
 	 */
 	async storeData( dataType, data ) {
 		// If we don't know about this dataType, bail.
-		if ( ! schema[ dataType ] ) {
+		if ( ! this.schema[ dataType ] ) {
 			return;
 		}
 
 		const validatedData = {};
 
 		// Go over each field in the schema, and validate it.
-		schema[ dataType ].fields.forEach( ( field ) => {
+		this.schema[ dataType ].fields.forEach( ( field ) => {
 			// If it's an empty field, set an empty value, then move on.
 			if ( field.type === 'empty' ) {
 				validatedData[ field.name ] = '';
@@ -281,7 +277,7 @@ class WXRDriver {
 		// Instead, we make use of reduce()'s behaviour, where it passes the result of the previous
 		// function call to the next function. As the previous function call is asynchronous, we can
 		// just wait for it to finish before proceeding.
-		await Object.entries( schema ).reduce(
+		await Object.entries( this.schema ).reduce(
 			async ( lock, [ store, storeDef ] ) => {
 				// Wait for the previous store processing to finish.
 				await lock;
@@ -396,7 +392,7 @@ class WXRDriver {
 
 			this.write( writer, '<wp:comment>\n' );
 
-			for ( const field of schema.comments.fields ) {
+			for ( const field of this.schema.comments.fields ) {
 				// We can skip the post_id field, as that's an internal reference.
 				if (
 					field.name === 'post_id' ||
@@ -540,11 +536,11 @@ class WXRDriver {
 <!--    contained in this file into your site. -->
 
 <rss version="2.0"
-	xmlns:excerpt="http://wordpress.org/export/${ WXR_VERSION }/excerpt/"
+	xmlns:excerpt="http://wordpress.org/export/${ this.schema.version }/excerpt/"
 	xmlns:content="http://purl.org/rss/1.0/modules/content/"
 	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
 	xmlns:dc="http://purl.org/dc/elements/1.1/"
-	xmlns:wp="http://wordpress.org/export/${ WXR_VERSION }/"
+	xmlns:wp="http://wordpress.org/export/${ this.schema.version }/"
 >
 <channel>
 `
@@ -566,6 +562,5 @@ class WXRDriver {
 }
 
 module.exports = {
-	WXR_VERSION,
 	WXRDriver,
 };

@@ -9,7 +9,7 @@
 // console.log( foo );
 
 module.exports = {
-	version: '1.2',
+	version: '1.3',
 	siteMeta: {
 		fields: [
 			{
@@ -43,7 +43,7 @@ module.exports = {
 				name: 'wxrVersion',
 				type: 'number',
 				element: 'wp:wxr_version',
-				default: () => 1.2,
+				default: () => 1.3,
 				writeable: false,
 			},
 			{
@@ -412,6 +412,21 @@ module.exports = {
 				name: 'meta',
 				type: 'meta',
 				childElement: 'wp:commentmeta',
+			},
+		],
+	},
+	objects: {
+		containerElement: 'object',
+		fields: [
+			{
+				name: 'id',
+				type: 'int',
+				element: 'id',
+			},
+			{
+				name: 'data',
+				type: 'string',
+				element: 'data:json',
 			},
 		],
 	},
