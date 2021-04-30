@@ -32,7 +32,7 @@ module.exports = {
 				name: 'wxrVersion',
 				type: 'number',
 				element: 'wp:wxr_version',
-				default: () => 1.2,
+				default: () => 1.3,
 				writeable: false,
 			},
 			{
@@ -404,4 +404,5 @@ module.exports = {
 			},
 		],
 	},
+	objects: {},
 };
