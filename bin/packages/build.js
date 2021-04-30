@@ -200,6 +200,7 @@ if ( files.length ) {
 			`${ PACKAGES_DIR }/block-library/src/*/style.scss`,
 			`${ PACKAGES_DIR }/block-library/src/*/editor.scss`,
 			`${ PACKAGES_DIR }/block-library/src/*.scss`,
+			`${ PACKAGES_DIR }/wxr/src/**/*.json`,
 		],
 		{
 			ignore: [
