@@ -132,10 +132,10 @@ module.exports = {
 			return attachment;
 		};
 
-		const addObject = ( objData ) => {
+		const addObject = ( objType, objData ) => {
 			const id = 1 + data.objects.length;
 			data.objects.push( {
-				id,
+				type: objType,
 				data: objData,
 			} );
 			return id;
@@ -190,10 +190,7 @@ module.exports = {
 	 */
 	save: async ( data, wxr ) => {
 		data.objects.forEach( ( obj ) => {
-			wxr.addObject( {
-				id: obj.id,
-				data: JSON.stringify( obj.data ),
-			} );
+			wxr.addObject( obj.type, obj.data );
 		} );
 		data.pages.forEach( ( post ) => {
 			wxr.addPost( {

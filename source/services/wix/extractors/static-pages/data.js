@@ -80,6 +80,9 @@ const resolveQueries = ( input, data, masterPage ) => {
 			case 'propertyQuery':
 				location = 'component_properties';
 				break;
+			case 'connectionQuery':
+				location = 'connections_data';
+				break;
 		}
 
 		if ( Array.isArray( val ) ) {

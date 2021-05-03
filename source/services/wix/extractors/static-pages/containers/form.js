@@ -73,12 +73,31 @@ module.exports = {
 			}
 		};
 
-		const form = formComponent.components
+		const fields = formComponent.components
 			.map( parseFormFields )
 			.filter( Boolean );
 
+		const email = formComponent.connectionQuery.items
+			.map( ( item ) => {
+				if ( 'ConnectionItem' !== item.type ) return false;
+				if ( ! item.config ) return false;
+				if ( ! item.isPrimary ) return false;
+				const config = JSON.parse( item.config );
+				if ( ! config.email ) return false;
+				return config.email;
+			} )
+			.filter( Boolean )[ 0 ];
+
+		const form = {
+			fields,
+		};
+
+		if ( email ) {
+			form.email = email;
+		}
+
 		return createBlock( 'core-import/plugin-placeholder', {
-			id: addObject( form ),
+			id: addObject( 'contact-form', form ),
 		} );
 	},
 };
