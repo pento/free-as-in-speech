@@ -24,13 +24,21 @@ const wrapResult = ( block, component ) => {
 };
 
 module.exports = {
-	containerMapper: ( component, recursiveComponentParser, resolver ) => {
+	containerMapper: (
+		component,
+		recursiveComponentParser,
+		resolver,
+		addMediaAttachment,
+		addObject
+	) => {
 		if ( component.componentType in containerHandlers ) {
 			return wrapResult(
 				containerHandlers[ component.componentType ].parseComponent(
 					component,
 					recursiveComponentParser,
-					resolver
+					resolver,
+					addMediaAttachment,
+					addObject
 				),
 				component
 			);
@@ -42,7 +50,7 @@ module.exports = {
 			.filter( Boolean );
 	},
 
-	componentMapper: ( component, addMediaAttachment, metaData, page ) => {
+	componentMapper: ( component, meta ) => {
 		if ( ! component.dataQuery ) {
 			return null;
 		}
@@ -51,9 +59,7 @@ module.exports = {
 			return wrapResult(
 				componentHandlers[ component.dataQuery.type ].parseComponent(
 					component,
-					addMediaAttachment,
-					metaData,
-					page
+					meta
 				),
 				component
 			);

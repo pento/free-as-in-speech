@@ -2,7 +2,12 @@ const { createBlock } = require( '@wordpress/blocks' );
 
 module.exports = {
 	componentType: 'wysiwyg.viewer.components.FormContainer',
-	parseComponent: ( formComponent, recursiveComponentParser, resolver ) => {
+	parseComponent: (
+		formComponent,
+		_recursiveComponentParser,
+		resolver,
+		{ addObject }
+	) => {
 		const parseFormFields = ( component ) => {
 			component = resolver( component );
 
@@ -73,7 +78,7 @@ module.exports = {
 			.filter( Boolean );
 
 		return createBlock( 'core-import/plugin-placeholder', {
-			data: JSON.stringify( form ),
+			id: addObject( form ),
 		} );
 	},
 };

@@ -2,7 +2,7 @@ const { createBlock } = require( '@wordpress/blocks' );
 
 module.exports = {
 	type: 'Image',
-	parseComponent: ( component, addMediaAttachment ) => {
+	parseComponent: ( component, { addMediaAttachment } ) => {
 		if ( ! component.dataQuery || ! component.dataQuery.uri ) {
 			return null;
 		}

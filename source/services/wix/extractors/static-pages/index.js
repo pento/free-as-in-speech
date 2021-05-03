@@ -31,7 +31,8 @@ module.exports = {
 		const data = {
 			pages: [],
 			menus: [],
-			attachments: [],
+			attachments: {},
+			objects: [],
 		};
 
 		const url = new URL(
@@ -131,9 +132,25 @@ module.exports = {
 			return attachment;
 		};
 
+		const addObject = ( objData ) => {
+			const id = 1 + data.objects.length;
+			data.objects.push( {
+				id,
+				data: objData,
+			} );
+			return id;
+		};
+
 		data.pages.forEach( ( page ) => {
 			const resolver = ( component ) =>
 				resolveQueries( component, page.config.data, masterPage.data );
+			const meta = {
+				resolver,
+				metaData,
+				page,
+				addMediaAttachment,
+				addObject,
+			};
 
 			const recursiveComponentParser = ( component ) => {
 				component = resolver( component );
@@ -143,18 +160,14 @@ module.exports = {
 						containerMapper(
 							component,
 							recursiveComponentParser,
-							resolver
+							resolver,
+							meta
 						),
-						addMediaAttachment
+						meta
 					);
 				}
 
-				return componentMapper(
-					component,
-					addMediaAttachment,
-					metaData,
-					page
-				);
+				return componentMapper( component, meta );
 			};
 
 			page.content = page.config.structure.components
@@ -176,6 +189,12 @@ module.exports = {
 	 * @param {Object} wxr The WXR encoder.
 	 */
 	save: async ( data, wxr ) => {
+		data.objects.forEach( ( obj ) => {
+			wxr.addObject( {
+				id: obj.id,
+				data: JSON.stringify( obj.data ),
+			} );
+		} );
 		data.pages.forEach( ( post ) => {
 			wxr.addPost( {
 				id: post.postId,

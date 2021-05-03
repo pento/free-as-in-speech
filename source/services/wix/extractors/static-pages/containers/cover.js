@@ -1,7 +1,7 @@
 const { createBlock } = require( '@wordpress/blocks' );
 
 module.exports = {
-	maybeAddCoverBlock: ( component, addMediaAttachment ) => {
+	maybeAddCoverBlock: ( component, { addMediaAttachment } ) => {
 		if ( ! component || ! component.innerBlocks ) {
 			return component;
 		}
