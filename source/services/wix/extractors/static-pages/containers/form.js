@@ -20,7 +20,8 @@ module.exports = {
 			switch ( component.dataQuery.type ) {
 				case 'DatePicker':
 					return {
-						type: 'date',
+						type: 'text',
+						format: 'date',
 						label: component.dataQuery.label,
 						placeholder: component.dataQuery.placeholder,
 						required: !! component.propertyQuery.required,
