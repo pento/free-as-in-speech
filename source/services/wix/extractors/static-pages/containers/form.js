@@ -24,27 +24,31 @@ module.exports = {
 						format: 'date',
 						label: component.dataQuery.label,
 						placeholder: component.dataQuery.placeholder,
-						required: !! component.propertyQuery.required,
+						required: component.propertyQuery.required
+							? 'true'
+							: 'false',
 						dateFormat: component.propertyQuery.dateFormat,
 						disabledDates: component.dataQuery.disabledDates,
 						disabledDaysOfWeek:
 							component.dataQuery.disabledDaysOfWeek,
-						allowPastDates: component.dataQuery.allowPastDates,
-						allowFutureDates: component.dataQuery.allowFutureDates,
 					};
 				case 'TextAreaInput':
 					return {
 						type: 'textarea',
 						label: component.dataQuery.label,
 						placeholder: component.dataQuery.placeholder,
-						required: !! component.propertyQuery.required,
+						required: component.propertyQuery.required
+							? 'true'
+							: 'false',
 					};
 				case 'TextInput':
 					return {
 						type: 'text',
 						label: component.dataQuery.label,
 						placeholder: component.dataQuery.placeholder,
-						required: !! component.propertyQuery.required,
+						required: component.propertyQuery.required
+							? 'true'
+							: 'false',
 					};
 				case 'SelectableList':
 					return {
@@ -59,7 +63,9 @@ module.exports = {
 								};
 							}
 						),
-						required: !! component.propertyQuery.required,
+						required: component.propertyQuery.required
+							? 'true'
+							: 'false',
 					};
 				case 'LinkableButton':
 					return {
