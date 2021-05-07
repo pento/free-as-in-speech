@@ -120,7 +120,7 @@ module.exports = {
 				},
 				{
 					type: 'wp_theme',
-					slug: 'wp_theme',
+					slug: 'tt1-blocks',
 					name: 'tt1-blocks',
 					id: IdFactory.get( 'term-tt1-blocks' ),
 				},
