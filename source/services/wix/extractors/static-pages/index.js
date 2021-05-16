@@ -1,7 +1,7 @@
 const { v4: uuidv4 } = require( 'uuid' );
 const { serialize } = require( '@wordpress/blocks' );
 const slug = require( 'slugify' );
-const IdFactory = require( '../../../../utils/idfactory.js' );
+const IdFactory = require( 'fetch-as-har' ).utils.IdFactory;
 const {
 	extractConfigData,
 	fetchPageJson,
