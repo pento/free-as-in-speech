@@ -1,4 +1,4 @@
-const IdFactory = require( 'fetch-as-har' ).utils.IdFactory;
+const IdFactory = require( '../../utils/idfactory' );
 const { resolveQueries } = require( './data.js' );
 const slug = require( 'slugify' );
 

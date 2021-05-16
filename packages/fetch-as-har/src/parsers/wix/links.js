@@ -1,4 +1,4 @@
-const IdFactory = require( 'fetch-as-har' ).utils.IdFactory;
+const IdFactory = require( '../../utils/idfactory' );
 
 const parseWixLink = ( link, metaData ) => {
 	if ( ! link ) {
