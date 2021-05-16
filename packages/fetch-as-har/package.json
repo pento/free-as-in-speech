@@ -21,7 +21,9 @@
   "main": "src/index.js",
   "module": "build-module/index.js",
   "dependencies": {
-	"@wordpress/blocks": "8.0.1"
+	"@wordpress/blocks": "8.0.1",
+	"cheerio": "1.0.0-rc.6",
+	"slugify": "1.5.0"
   },
   "devDependencies": {
   },
