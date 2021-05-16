@@ -14,6 +14,7 @@ module.exports = {
 		content: './source/content',
 		action: './source/action',
 		'@wordpress/wxr': './packages/wxr',
+		'fetch-as-har': './packages/fetch-as-har',
 		'fetch-from-har': './packages/fetch-from-har',
 	},
 	output: {

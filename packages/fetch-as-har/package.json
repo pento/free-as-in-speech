@@ -1,0 +1,31 @@
+{
+  "name": "fetch-as-har",
+  "version": "0.0.1",
+  "description": "A package for parsing pages JSON data.",
+  "author": "The WordPress Contributors",
+  "license": "GPL-2.0-or-later",
+  "keywords": [
+	"wordpress",
+	"parser",
+	"export"
+  ],
+  "homepage": "https://github.com/pento/free-as-in-speech/",
+  "repository": {
+	"type": "git",
+	"url": "https://github.com/pento/free-as-in-speech.git",
+	"directory": "packages/fetch-as-har"
+  },
+  "bugs": {
+	"url": "https://github.com/pento/free-as-in-speech/issues"
+  },
+  "main": "src/index.js",
+  "module": "build-module/index.js",
+  "dependencies": {
+	"@wordpress/blocks": "8.0.1"
+  },
+  "devDependencies": {
+  },
+  "publishConfig": {
+	"access": "public"
+  }
+}
