@@ -1,6 +1,7 @@
-const staticPagesParserWix = () => {};
+const utils = require( './utils' );
+const { staticPagesParser } = require( './parsers/wix' );
 
 module.exports = {
-	utils: require( './utils' ),
-	staticPagesParserWix,
+	utils,
+	staticPagesParserWix: staticPagesParser,
 };
