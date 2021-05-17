@@ -9,16 +9,71 @@ const { serialize } = require( '@wordpress/blocks' );
  */
 const IdFactory = require( '../../utils/idfactory' );
 const { resolveQueries } = require( './data' );
-const { convertMenu } = require( './menu.js' );
+const { convertMenu } = require( './components/menu.js' );
 const { maybeAddCoverBlock } = require( './containers/cover.js' );
 const { containerMapper, componentMapper } = require( './mappers.js' );
 
-const staticPagesParser = ( metaData, masterPage, pages ) => {
+const staticPagesParser = ( metaData, masterPage, pages = [] ) => {
 	const data = {
 		pages,
 		menus: [],
-		attachments: [],
+		attachments: {},
+		objects: [],
 	};
+
+	data.pages.push( {
+		config: {
+			structure: masterPage.structure.children.filter(
+				( component ) => 'SITE_HEADER' === component.id
+			)[ 0 ],
+			data: masterPage.data,
+		},
+		pageId: 'header',
+		title: 'header',
+		postId: IdFactory.get( 'header' ),
+		postType: 'wp_template_part',
+		terms: [
+			{
+				type: 'wp_template_part_area',
+				name: 'header',
+				slug: 'header',
+				id: IdFactory.get( 'term-header' ),
+			},
+			{
+				type: 'wp_theme',
+				slug: 'tt1-blocks',
+				name: 'tt1-blocks',
+				id: IdFactory.get( 'term-tt1-blocks' ),
+			},
+		],
+	} );
+
+	data.pages.push( {
+		config: {
+			structure: masterPage.structure.children.filter(
+				( component ) => 'SITE_FOOTER' === component.id
+			)[ 0 ],
+			data: masterPage.data,
+		},
+		pageId: 'footer',
+		title: 'footer',
+		postId: IdFactory.get( 'footer' ),
+		postType: 'wp_template_part',
+		terms: [
+			{
+				type: 'wp_template_part_area',
+				name: 'footer',
+				slug: 'footer',
+				id: IdFactory.get( 'term-footer' ),
+			},
+			{
+				type: 'wp_theme',
+				slug: 'wp_theme',
+				name: 'tt1-blocks',
+				id: IdFactory.get( 'term-tt1-blocks' ),
+			},
+		],
+	} );
 
 	const addMediaAttachment = ( component ) => {
 		const key = 'attachment' + ( component.name || component.uri );
@@ -52,27 +107,42 @@ const staticPagesParser = ( metaData, masterPage, pages ) => {
 		return attachment;
 	};
 
+	const addObject = ( objType, objData ) => {
+		const id = 1 + data.objects.length;
+		data.objects.push( {
+			type: objType,
+			data: objData,
+		} );
+		return id;
+	};
+
 	data.pages.forEach( ( page ) => {
+		const resolver = ( component ) =>
+			resolveQueries( component, page.config.data, masterPage.data );
+		const meta = {
+			resolver,
+			metaData,
+			page,
+			addMediaAttachment,
+			addObject,
+		};
+
 		const recursiveComponentParser = ( component ) => {
-			component = resolveQueries(
-				component,
-				page.config.data,
-				masterPage.data
-			);
+			component = resolver( component );
 
 			if ( component.components ) {
 				return maybeAddCoverBlock(
-					containerMapper( component, recursiveComponentParser ),
-					addMediaAttachment
+					containerMapper(
+						component,
+						recursiveComponentParser,
+						resolver,
+						meta
+					),
+					meta
 				);
 			}
 
-			return componentMapper(
-				component,
-				addMediaAttachment,
-				metaData,
-				page
-			);
+			return componentMapper( component, meta );
 		};
 
 		page.content = page.config.structure.components

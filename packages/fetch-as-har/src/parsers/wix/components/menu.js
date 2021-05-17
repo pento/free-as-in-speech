@@ -1,5 +1,5 @@
-const IdFactory = require( '../../utils/idfactory' );
-const { resolveQueries } = require( './data.js' );
+const IdFactory = require( '../../../utils/idfactory' );
+const { resolveQueries } = require( './../data.js' );
 const slug = require( 'slugify' );
 
 const handleMenuItemsRecursively = ( menu, items, parent = 0 ) => {
