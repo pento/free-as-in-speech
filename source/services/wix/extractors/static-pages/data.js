@@ -1,5 +1,5 @@
 const cheerio = require( 'cheerio' );
-const IdFactory = require( 'fetch-as-har' ).utils.IdFactory;
+const IdFactory = require( 'site-parsers' ).utils.IdFactory;
 
 const extractConfigData = ( html ) => {
 	const configData = {};

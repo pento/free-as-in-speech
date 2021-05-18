@@ -1,7 +1,7 @@
 const slug = require( 'slugify' );
 const { v4: uuidv4 } = require( 'uuid' );
 const { extractConfigData, fetchPageJson } = require( './data.js' );
-const { staticPagesParserWix } = require( 'fetch-as-har' );
+const { staticPagesParserWix } = require( 'site-parsers' );
 
 module.exports = {
 	/**

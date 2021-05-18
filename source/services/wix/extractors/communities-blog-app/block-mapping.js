@@ -3,7 +3,7 @@
  */
 const { createBlock, serialize } = require( '@wordpress/blocks' );
 const { applyFormat, create, toHTMLString } = require( '@wordpress/rich-text' );
-const IdFactory = require( 'fetch-as-har' ).utils.IdFactory;
+const IdFactory = require( 'site-parsers' ).utils.IdFactory;
 const slug = require( 'slugify' );
 
 /**

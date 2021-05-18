@@ -1,4 +1,4 @@
-const IdFactory = require( 'fetch-as-har' ).utils.IdFactory;
+const IdFactory = require( 'site-parsers' ).utils.IdFactory;
 
 module.exports = {
 	/**
