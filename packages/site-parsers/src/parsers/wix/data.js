@@ -1,3 +1,13 @@
+/**
+ * External dependencies
+ */
+const slug = require( 'slugify' );
+
+/**
+ * Internal dependencies
+ */
+const { IdFactory } = require( '../../utils' );
+
 const resolveQueries = ( input, data, masterPage ) => {
 	// skip resolving for non-objects
 	if ( typeof input !== 'object' ) {
@@ -67,4 +77,48 @@ const resolveQueries = ( input, data, masterPage ) => {
 	return input;
 };
 
-module.exports = { resolveQueries };
+const addMediaAttachment = ( data, mediaUrl, component ) => {
+	const key = 'attachment' + ( component.name || component.uri );
+	const existingId = IdFactory.exists( key );
+	if ( existingId ) {
+		return data.attachments[ existingId ];
+	}
+	component.src = mediaUrl + '/' + component.uri;
+
+	const attachment = {
+		id: IdFactory.get( key ),
+		title: component.alt,
+		excerpt: component.description || '',
+		content: component.description || '',
+		link: component.src,
+		guid: component.src,
+		commentStatus: 'closed',
+		name: slug( component.name || component.uri ),
+		type: 'attachment',
+		attachment_url: component.src,
+		meta: [
+			{
+				key: '_wp_attachment_attachment_alt',
+				value: component.alt || null,
+			},
+		],
+	};
+
+	data.attachments[ attachment.id ] = attachment;
+	return attachment;
+};
+
+const addObject = ( data, objType, objData ) => {
+	const id = 1 + data.objects.length;
+	data.objects.push( {
+		type: objType,
+		data: objData,
+	} );
+	return id;
+};
+
+module.exports = {
+	resolveQueries,
+	addMediaAttachment,
+	addObject,
+};

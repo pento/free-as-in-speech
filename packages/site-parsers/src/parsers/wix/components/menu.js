@@ -1,6 +1,7 @@
-const IdFactory = require( '../../../utils/idfactory' );
-const { resolveQueries } = require( './../data.js' );
 const slug = require( 'slugify' );
+
+const IdFactory = require( '../../../utils/idfactory' );
+const { resolveQueries } = require( '../data' );
 
 const handleMenuItemsRecursively = ( menu, items, parent = 0 ) => {
 	const results = [];
@@ -49,7 +50,7 @@ const handleMenuItemsRecursively = ( menu, items, parent = 0 ) => {
 	return results;
 };
 
-const convertMenu = ( masterPage ) => {
+const convertMenu = ( data, masterPage ) => {
 	const menus = [];
 	const pages = [];
 
@@ -76,7 +77,7 @@ const convertMenu = ( masterPage ) => {
 		pages.push( ...handleMenuItemsRecursively( term, menu.items ) );
 	} );
 
-	return pages;
+	data.menus = pages;
 };
 
 const parseMenu = ( menuItem, masterPage ) => {
