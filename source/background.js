@@ -2,7 +2,7 @@
  * Internal dependencies
  */
 const { getInstalledApps, startExport } = require( './services' );
-const { registerBlocks } = require( './utils/register-blocks' );
+const { registerBlocks } = require( 'gutenberg-for-node' );
 
 /**
  * Store the wix config in memory, so that it's available whenever it's needed,

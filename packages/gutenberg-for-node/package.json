@@ -1,7 +1,7 @@
 {
-  "name": "site-parsers",
+  "name": "gutenberg-for-node",
   "version": "0.0.1",
-  "description": "A package for parsing pages from different providers.",
+  "description": "A package for supporting Gutenberg library for node.",
   "author": "The WordPress Contributors",
   "license": "GPL-2.0-or-later",
   "keywords": [
@@ -13,7 +13,7 @@
   "repository": {
 	"type": "git",
 	"url": "https://github.com/pento/free-as-in-speech.git",
-	"directory": "packages/site-parsers"
+	"directory": "packages/gutenberg-for-node"
   },
   "bugs": {
 	"url": "https://github.com/pento/free-as-in-speech/issues"
@@ -21,11 +21,7 @@
   "main": "src/index.js",
   "module": "build-module/index.js",
   "dependencies": {
-	"@wordpress/block-library": "2.29.2",
-	"@wordpress/blocks": "8.0.2",
-	"@wordpress/format-library": "1.27.2",
-	"cheerio": "1.0.0-rc.6",
-	"slugify": "1.5.0"
+	"jsdom": "16.5.3"
   },
   "devDependencies": {
   },

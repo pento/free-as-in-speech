@@ -15,6 +15,7 @@ module.exports = {
 		action: './source/action',
 		'@wordpress/wxr': './packages/wxr',
 		'site-parsers': './packages/site-parsers',
+		'gutenberg-for-node': './packages/gutenberg-for-node',
 		'fetch-from-har': './packages/fetch-from-har',
 	},
 	output: {
