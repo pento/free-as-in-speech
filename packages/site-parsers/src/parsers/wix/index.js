@@ -2,7 +2,7 @@
  * Internal dependencies
  */
 const { addHeaderPage, addFooterPage, parsePages } = require( './pages' );
-const { convertMenu } = require( './components/menu' );
+const { convertMenu } = require( './menu' );
 
 const staticPagesParser = ( metaData, masterPage, pages = [] ) => {
 	const data = {
