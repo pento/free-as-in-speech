@@ -56,7 +56,12 @@ program
 			startExport
 		)
 			.then( ( WXRDriver ) => WXRDriver.export() )
-			.then( ( wxr ) => fs.writeFileSync( wxrfile, wxr ) );
+			.then( ( wxr ) => fs.writeFileSync( wxrfile, wxr ) )
+			.then( () => {
+				if ( fs.existsSync( wxrfile ) ) {
+					process.exit( 0 );
+				}
+			} );
 	} );
 
 program.parse( process.argv );
