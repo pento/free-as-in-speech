@@ -9,6 +9,7 @@ const TerserPlugin = require( 'terser-webpack-plugin' );
 module.exports = {
 	devtool: 'source-map',
 	stats: 'errors-only',
+	target: 'node',
 	entry: {
 		background: './source/background',
 		content: './source/content',
@@ -21,6 +22,9 @@ module.exports = {
 	output: {
 		path: path.join( __dirname, 'distribution/build' ),
 		filename: '[name].js',
+	},
+	externals: {
+		canvas: 'commonjs canvas',
 	},
 	module: {
 		rules: [
