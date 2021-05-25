@@ -136,7 +136,8 @@ class WXRDriver {
 		}
 
 		if ( ! validate( data ) ) {
-			return;
+			// Errors can be found in this.ajv.errors, see https://ajv.js.org/faq.html#ajv-api-for-returning-validation-errors
+			return false;
 		}
 
 		return await this.db.add( 'objects', { type, data } );
