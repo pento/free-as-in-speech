@@ -130,35 +130,63 @@ exports[`wix: rockfield.har 1`] = `
 	<wp:base_site_url><![CDATA[https://PJ2UrF0ejtah.wixsite.com/my-site-11]]></wp:base_site_url>
 	<wp:base_blog_url><![CDATA[https://PJ2UrF0ejtah.wixsite.com/my-site-11]]></wp:base_blog_url>
 	<wp:term>
-		<wp:term_id>16</wp:term_id>
+		<wp:term_id>10</wp:term_id>
+		<wp:term_taxonomy><![CDATA[wp_template_part_area]]></wp:term_taxonomy>
+		<wp:term_slug><![CDATA[header]]></wp:term_slug>
+		<wp:term_parent><![CDATA[]]></wp:term_parent>
+		<wp:term_name><![CDATA[header]]></wp:term_name>
+	</wp:term>
+	<wp:term>
+		<wp:term_id>11</wp:term_id>
+		<wp:term_taxonomy><![CDATA[wp_theme]]></wp:term_taxonomy>
+		<wp:term_slug><![CDATA[tt1-blocks]]></wp:term_slug>
+		<wp:term_parent><![CDATA[]]></wp:term_parent>
+		<wp:term_name><![CDATA[tt1-blocks]]></wp:term_name>
+	</wp:term>
+	<wp:term>
+		<wp:term_id>13</wp:term_id>
+		<wp:term_taxonomy><![CDATA[wp_template_part_area]]></wp:term_taxonomy>
+		<wp:term_slug><![CDATA[footer]]></wp:term_slug>
+		<wp:term_parent><![CDATA[]]></wp:term_parent>
+		<wp:term_name><![CDATA[footer]]></wp:term_name>
+	</wp:term>
+	<wp:term>
+		<wp:term_id>11</wp:term_id>
+		<wp:term_taxonomy><![CDATA[wp_theme]]></wp:term_taxonomy>
+		<wp:term_slug><![CDATA[wp_theme]]></wp:term_slug>
+		<wp:term_parent><![CDATA[]]></wp:term_parent>
+		<wp:term_name><![CDATA[tt1-blocks]]></wp:term_name>
+	</wp:term>
+	<wp:term>
+		<wp:term_id>21</wp:term_id>
 		<wp:term_taxonomy><![CDATA[nav_menu]]></wp:term_taxonomy>
 		<wp:term_slug><![CDATA[custom-main-menu-1]]></wp:term_slug>
 		<wp:term_parent><![CDATA[]]></wp:term_parent>
 		<wp:term_name><![CDATA[Custom Main Menu]]></wp:term_name>
 	</wp:term>
 	<wp:term>
-		<wp:term_id>16</wp:term_id>
+		<wp:term_id>21</wp:term_id>
 		<wp:term_taxonomy><![CDATA[nav_menu]]></wp:term_taxonomy>
 		<wp:term_slug><![CDATA[custom-main-menu-1]]></wp:term_slug>
 		<wp:term_parent><![CDATA[]]></wp:term_parent>
 		<wp:term_name><![CDATA[Custom Main Menu]]></wp:term_name>
 	</wp:term>
 	<wp:term>
-		<wp:term_id>16</wp:term_id>
+		<wp:term_id>21</wp:term_id>
 		<wp:term_taxonomy><![CDATA[nav_menu]]></wp:term_taxonomy>
 		<wp:term_slug><![CDATA[custom-main-menu-1]]></wp:term_slug>
 		<wp:term_parent><![CDATA[]]></wp:term_parent>
 		<wp:term_name><![CDATA[Custom Main Menu]]></wp:term_name>
 	</wp:term>
 	<wp:term>
-		<wp:term_id>16</wp:term_id>
+		<wp:term_id>21</wp:term_id>
 		<wp:term_taxonomy><![CDATA[nav_menu]]></wp:term_taxonomy>
 		<wp:term_slug><![CDATA[custom-main-menu-1]]></wp:term_slug>
 		<wp:term_parent><![CDATA[]]></wp:term_parent>
 		<wp:term_name><![CDATA[Custom Main Menu]]></wp:term_name>
 	</wp:term>
 	<wp:term>
-		<wp:term_id>16</wp:term_id>
+		<wp:term_id>21</wp:term_id>
 		<wp:term_taxonomy><![CDATA[nav_menu]]></wp:term_taxonomy>
 		<wp:term_slug><![CDATA[custom-main-menu-1]]></wp:term_slug>
 		<wp:term_parent><![CDATA[]]></wp:term_parent>
@@ -406,8 +434,8 @@ exports[`wix: rockfield.har 1`] = `
 <h1><strong>What’s On</strong></h1>
 <!-- /wp:heading -->
 
-<!-- wp:cover {\\"url\\":\\"https://static.wixstatic.com/media/ZDA5B_j5RedL9MFgZ0iaUowYVI71VO5RTpkl5~mv2.jpg\\",\\"id\\":9,\\"align\\":\\"full\\"} -->
-<div class=\\"wp-block-cover alignfull has-background-dim\\"><img class=\\"wp-block-cover__image-background wp-image-9\\" alt=\\"\\" src=\\"https://static.wixstatic.com/media/ZDA5B_j5RedL9MFgZ0iaUowYVI71VO5RTpkl5~mv2.jpg\\" data-object-fit=\\"cover\\"/><div class=\\"wp-block-cover__inner-container\\"><!-- wp:heading {\\"level\\":1} -->
+<!-- wp:cover {\\"url\\":\\"https://static.wixstatic.com/media/ZDA5B_j5RedL9MFgZ0iaUowYVI71VO5RTpkl5~mv2.jpg\\",\\"id\\":14,\\"align\\":\\"full\\"} -->
+<div class=\\"wp-block-cover alignfull has-background-dim\\"><img class=\\"wp-block-cover__image-background wp-image-14\\" alt=\\"\\" src=\\"https://static.wixstatic.com/media/ZDA5B_j5RedL9MFgZ0iaUowYVI71VO5RTpkl5~mv2.jpg\\" data-object-fit=\\"cover\\"/><div class=\\"wp-block-cover__inner-container\\"><!-- wp:heading {\\"level\\":1} -->
 <h1><strong>Latest Updates From Us</strong></h1>
 <!-- /wp:heading --></div></div>
 <!-- /wp:cover -->]]></content:encoded>
@@ -482,8 +510,8 @@ exports[`wix: rockfield.har 1`] = `
 		<wp:post_id>6</wp:post_id>
 		<title><![CDATA[Home]]></title>
 		<description></description>
-		<content:encoded><![CDATA[<!-- wp:cover {\\"url\\":\\"https://static.wixstatic.com/media/5Dsu1_ZUNrjjTx3j1ZbikUbg2rP0eIE5gJllA~mv2.jpg\\",\\"id\\":11,\\"align\\":\\"full\\"} -->
-<div class=\\"wp-block-cover alignfull has-background-dim\\"><img class=\\"wp-block-cover__image-background wp-image-11\\" alt=\\"\\" src=\\"https://static.wixstatic.com/media/5Dsu1_ZUNrjjTx3j1ZbikUbg2rP0eIE5gJllA~mv2.jpg\\" data-object-fit=\\"cover\\"/><div class=\\"wp-block-cover__inner-container\\"><!-- wp:heading -->
+		<content:encoded><![CDATA[<!-- wp:cover {\\"url\\":\\"https://static.wixstatic.com/media/5Dsu1_ZUNrjjTx3j1ZbikUbg2rP0eIE5gJllA~mv2.jpg\\",\\"id\\":16,\\"align\\":\\"full\\"} -->
+<div class=\\"wp-block-cover alignfull has-background-dim\\"><img class=\\"wp-block-cover__image-background wp-image-16\\" alt=\\"\\" src=\\"https://static.wixstatic.com/media/5Dsu1_ZUNrjjTx3j1ZbikUbg2rP0eIE5gJllA~mv2.jpg\\" data-object-fit=\\"cover\\"/><div class=\\"wp-block-cover__inner-container\\"><!-- wp:heading -->
 <h2><strong>Enjoy Our Food Experience</strong></h2>
 <!-- /wp:heading --></div></div>
 <!-- /wp:cover -->
@@ -508,8 +536,8 @@ exports[`wix: rockfield.har 1`] = `
 <p>Our specialty is delicious cuisine created with the ingenuity and passion inspired by the fantastic flavors of France itself. We take great pride in improving upon your favorite French dishes in new and creative ways.</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:cover {\\"url\\":\\"https://static.wixstatic.com/media/e7Sgo_zJMHqoFuuTQ541QbqX7LxbqG8Yc8KJE~mv2.jpg\\",\\"id\\":12,\\"align\\":\\"full\\"} -->
-<div class=\\"wp-block-cover alignfull has-background-dim\\"><img class=\\"wp-block-cover__image-background wp-image-12\\" alt=\\"\\" src=\\"https://static.wixstatic.com/media/e7Sgo_zJMHqoFuuTQ541QbqX7LxbqG8Yc8KJE~mv2.jpg\\" data-object-fit=\\"cover\\"/><div class=\\"wp-block-cover__inner-container\\"><!-- wp:heading -->
+<!-- wp:cover {\\"url\\":\\"https://static.wixstatic.com/media/e7Sgo_zJMHqoFuuTQ541QbqX7LxbqG8Yc8KJE~mv2.jpg\\",\\"id\\":17,\\"align\\":\\"full\\"} -->
+<div class=\\"wp-block-cover alignfull has-background-dim\\"><img class=\\"wp-block-cover__image-background wp-image-17\\" alt=\\"\\" src=\\"https://static.wixstatic.com/media/e7Sgo_zJMHqoFuuTQ541QbqX7LxbqG8Yc8KJE~mv2.jpg\\" data-object-fit=\\"cover\\"/><div class=\\"wp-block-cover__inner-container\\"><!-- wp:heading -->
 <h2><strong>Discover Our Menu</strong></h2>
 <!-- /wp:heading --></div></div>
 <!-- /wp:cover -->
@@ -580,16 +608,16 @@ exports[`wix: rockfield.har 1`] = `
 <!-- /wp:button --></div>
 <!-- /wp:buttons -->
 
-<!-- wp:cover {\\"url\\":\\"https://static.wixstatic.com/media/sXYIH_PerVF1DoW7DmMdKJeul0lYHXnlbnWBW~mv2.jpg\\",\\"id\\":13,\\"align\\":\\"full\\"} -->
-<div class=\\"wp-block-cover alignfull has-background-dim\\"><img class=\\"wp-block-cover__image-background wp-image-13\\" alt=\\"\\" src=\\"https://static.wixstatic.com/media/sXYIH_PerVF1DoW7DmMdKJeul0lYHXnlbnWBW~mv2.jpg\\" data-object-fit=\\"cover\\"/><div class=\\"wp-block-cover__inner-container\\"><!-- wp:heading -->
+<!-- wp:cover {\\"url\\":\\"https://static.wixstatic.com/media/sXYIH_PerVF1DoW7DmMdKJeul0lYHXnlbnWBW~mv2.jpg\\",\\"id\\":18,\\"align\\":\\"full\\"} -->
+<div class=\\"wp-block-cover alignfull has-background-dim\\"><img class=\\"wp-block-cover__image-background wp-image-18\\" alt=\\"\\" src=\\"https://static.wixstatic.com/media/sXYIH_PerVF1DoW7DmMdKJeul0lYHXnlbnWBW~mv2.jpg\\" data-object-fit=\\"cover\\"/><div class=\\"wp-block-cover__inner-container\\"><!-- wp:heading -->
 <h2><strong>Book Your Table</strong></h2>
 <!-- /wp:heading --></div></div>
 <!-- /wp:cover -->
 
 <!-- wp:core-import/plugin-placeholder {\\"id\\":2} /-->
 
-<!-- wp:cover {\\"url\\":\\"https://static.wixstatic.com/media/F9OC3_zZAcXfndF5z2Of4n5SKFw2Im3kKBwHP~mv2.jpg\\",\\"id\\":14,\\"align\\":\\"full\\"} -->
-<div class=\\"wp-block-cover alignfull has-background-dim\\"><img class=\\"wp-block-cover__image-background wp-image-14\\" alt=\\"\\" src=\\"https://static.wixstatic.com/media/F9OC3_zZAcXfndF5z2Of4n5SKFw2Im3kKBwHP~mv2.jpg\\" data-object-fit=\\"cover\\"/><div class=\\"wp-block-cover__inner-container\\"><!-- wp:heading -->
+<!-- wp:cover {\\"url\\":\\"https://static.wixstatic.com/media/F9OC3_zZAcXfndF5z2Of4n5SKFw2Im3kKBwHP~mv2.jpg\\",\\"id\\":19,\\"align\\":\\"full\\"} -->
+<div class=\\"wp-block-cover alignfull has-background-dim\\"><img class=\\"wp-block-cover__image-background wp-image-19\\" alt=\\"\\" src=\\"https://static.wixstatic.com/media/F9OC3_zZAcXfndF5z2Of4n5SKFw2Im3kKBwHP~mv2.jpg\\" data-object-fit=\\"cover\\"/><div class=\\"wp-block-cover__inner-container\\"><!-- wp:heading -->
 <h2><strong>Rockfield</strong></h2>
 <!-- /wp:heading -->
 
@@ -735,7 +763,61 @@ exports[`wix: rockfield.har 1`] = `
 		<wp:is_sticky>0</wp:is_sticky>
 	</item>
 	<item>
-		<wp:post_id>17</wp:post_id>
+		<wp:post_id>9</wp:post_id>
+		<title><![CDATA[header]]></title>
+		<description></description>
+		<content:encoded><![CDATA[<!-- wp:columns -->
+<div class=\\"wp-block-columns\\"><!-- wp:column -->
+<div class=\\"wp-block-column\\"><!-- wp:paragraph -->
+<p><strong><a>Rockfield</a></strong>&nbsp; Award-winning Restaurant in Anytown</p>
+<!-- /wp:paragraph --></div>
+<!-- /wp:column -->
+
+<!-- wp:column -->
+<div class=\\"wp-block-column\\"><!-- wp:navigation {\\"orientation\\":\\"horizontal\\"} -->
+<!-- wp:navigation-link {\\"label\\":\\"Home\\",\\"url\\":\\"/home\\"} /-->
+
+<!-- wp:navigation-link {\\"label\\":\\"Menu\\",\\"url\\":\\"/menu\\"} -->
+<!-- wp:navigation-link {\\"label\\":\\"Winter Menu\\",\\"url\\":\\"/winter-menu\\"} /-->
+<!-- /wp:navigation-link -->
+
+<!-- wp:navigation-link {\\"label\\":\\"What's On\\",\\"url\\":\\"/blog\\"} /-->
+
+<!-- wp:navigation-link {\\"label\\":\\"Reservations\\",\\"url\\":\\"/reservations\\"} /-->
+<!-- /wp:navigation --></div>
+<!-- /wp:column --></div>
+<!-- /wp:columns -->]]></content:encoded>
+		<wp:comment_status><![CDATA[closed]]></wp:comment_status>
+		<wp:status><![CDATA[publish]]></wp:status>
+		<wp:post_type><![CDATA[wp_template_part]]></wp:post_type>
+		<wp:is_sticky>0</wp:is_sticky>
+		<category domain=\\"wp_template_part_area\\" nicename=\\"header\\">header</category>
+		<category domain=\\"wp_theme\\" nicename=\\"tt1-blocks\\">tt1-blocks</category>
+	</item>
+	<item>
+		<wp:post_id>12</wp:post_id>
+		<title><![CDATA[footer]]></title>
+		<description></description>
+		<content:encoded><![CDATA[<!-- wp:navigation {\\"orientation\\":\\"horizontal\\"} -->
+<!-- wp:navigation-link {\\"label\\":\\"Home\\",\\"url\\":\\"/home\\"} /-->
+
+<!-- wp:navigation-link {\\"label\\":\\"Menu\\",\\"url\\":\\"/menu\\"} -->
+<!-- wp:navigation-link {\\"label\\":\\"Winter Menu\\",\\"url\\":\\"/winter-menu\\"} /-->
+<!-- /wp:navigation-link -->
+
+<!-- wp:navigation-link {\\"label\\":\\"What's On\\",\\"url\\":\\"/blog\\"} /-->
+
+<!-- wp:navigation-link {\\"label\\":\\"Reservations\\",\\"url\\":\\"/reservations\\"} /-->
+<!-- /wp:navigation -->]]></content:encoded>
+		<wp:comment_status><![CDATA[closed]]></wp:comment_status>
+		<wp:status><![CDATA[publish]]></wp:status>
+		<wp:post_type><![CDATA[wp_template_part]]></wp:post_type>
+		<wp:is_sticky>0</wp:is_sticky>
+		<category domain=\\"wp_template_part_area\\" nicename=\\"footer\\">footer</category>
+		<category domain=\\"wp_theme\\" nicename=\\"wp_theme\\">tt1-blocks</category>
+	</item>
+	<item>
+		<wp:post_id>22</wp:post_id>
 		<title><![CDATA[Home]]></title>
 		<description></description>
 		<wp:comment_status><![CDATA[open]]></wp:comment_status>
@@ -759,7 +841,7 @@ exports[`wix: rockfield.har 1`] = `
 		</wp:postmeta>
 	</item>
 	<item>
-		<wp:post_id>18</wp:post_id>
+		<wp:post_id>23</wp:post_id>
 		<title><![CDATA[Menu]]></title>
 		<description></description>
 		<wp:comment_status><![CDATA[open]]></wp:comment_status>
@@ -783,12 +865,12 @@ exports[`wix: rockfield.har 1`] = `
 		</wp:postmeta>
 	</item>
 	<item>
-		<wp:post_id>19</wp:post_id>
+		<wp:post_id>24</wp:post_id>
 		<title><![CDATA[Winter Menu]]></title>
 		<description></description>
 		<wp:comment_status><![CDATA[open]]></wp:comment_status>
 		<wp:status><![CDATA[publish]]></wp:status>
-		<wp:post_parent>18</wp:post_parent>
+		<wp:post_parent>23</wp:post_parent>
 		<wp:menu_order>2</wp:menu_order>
 		<wp:post_type><![CDATA[nav_menu_item]]></wp:post_type>
 		<wp:is_sticky>0</wp:is_sticky>
@@ -799,7 +881,7 @@ exports[`wix: rockfield.har 1`] = `
 		</wp:postmeta>
 		<wp:postmeta>
 			<wp:meta_key>_menu_item_menu_item_parent</wp:meta_key>
-			<wp:meta_value>18</wp:meta_value>
+			<wp:meta_value>23</wp:meta_value>
 		</wp:postmeta>
 		<wp:postmeta>
 			<wp:meta_key>_menu_item_object_id</wp:meta_key>
@@ -811,7 +893,7 @@ exports[`wix: rockfield.har 1`] = `
 		</wp:postmeta>
 	</item>
 	<item>
-		<wp:post_id>22</wp:post_id>
+		<wp:post_id>27</wp:post_id>
 		<title><![CDATA[What's On]]></title>
 		<description></description>
 		<wp:comment_status><![CDATA[open]]></wp:comment_status>
@@ -835,7 +917,7 @@ exports[`wix: rockfield.har 1`] = `
 		</wp:postmeta>
 	</item>
 	<item>
-		<wp:post_id>23</wp:post_id>
+		<wp:post_id>28</wp:post_id>
 		<title><![CDATA[Reservations]]></title>
 		<description></description>
 		<wp:comment_status><![CDATA[open]]></wp:comment_status>
@@ -859,7 +941,7 @@ exports[`wix: rockfield.har 1`] = `
 		</wp:postmeta>
 	</item>
 	<item>
-		<wp:post_id>9</wp:post_id>
+		<wp:post_id>14</wp:post_id>
 		<title><![CDATA[food.jpg]]></title>
 		<link><![CDATA[https://static.wixstatic.com/media/ZDA5B_j5RedL9MFgZ0iaUowYVI71VO5RTpkl5~mv2.jpg]]></link>
 		<guid isPermaLink=\\"false\\"><![CDATA[https://static.wixstatic.com/media/ZDA5B_j5RedL9MFgZ0iaUowYVI71VO5RTpkl5~mv2.jpg]]></guid>
@@ -876,7 +958,7 @@ exports[`wix: rockfield.har 1`] = `
 		</wp:postmeta>
 	</item>
 	<item>
-		<wp:post_id>10</wp:post_id>
+		<wp:post_id>15</wp:post_id>
 		<title><![CDATA[1f44b.png]]></title>
 		<link><![CDATA[https://static.wixstatic.com/media/JdmUI_yteJBoBtYToixmOFoNYXF40kUU5JdTh~mv2.png]]></link>
 		<guid isPermaLink=\\"false\\"><![CDATA[https://static.wixstatic.com/media/JdmUI_yteJBoBtYToixmOFoNYXF40kUU5JdTh~mv2.png]]></guid>
@@ -893,7 +975,7 @@ exports[`wix: rockfield.har 1`] = `
 		</wp:postmeta>
 	</item>
 	<item>
-		<wp:post_id>11</wp:post_id>
+		<wp:post_id>16</wp:post_id>
 		<title><![CDATA[appetizers-chef-cuisine-1267320-1-1.jpg]]></title>
 		<link><![CDATA[https://static.wixstatic.com/media/5Dsu1_ZUNrjjTx3j1ZbikUbg2rP0eIE5gJllA~mv2.jpg]]></link>
 		<guid isPermaLink=\\"false\\"><![CDATA[https://static.wixstatic.com/media/5Dsu1_ZUNrjjTx3j1ZbikUbg2rP0eIE5gJllA~mv2.jpg]]></guid>
@@ -910,7 +992,7 @@ exports[`wix: rockfield.har 1`] = `
 		</wp:postmeta>
 	</item>
 	<item>
-		<wp:post_id>12</wp:post_id>
+		<wp:post_id>17</wp:post_id>
 		<title><![CDATA[blur-chef-close-up-671956-1.jpg]]></title>
 		<link><![CDATA[https://static.wixstatic.com/media/e7Sgo_zJMHqoFuuTQ541QbqX7LxbqG8Yc8KJE~mv2.jpg]]></link>
 		<guid isPermaLink=\\"false\\"><![CDATA[https://static.wixstatic.com/media/e7Sgo_zJMHqoFuuTQ541QbqX7LxbqG8Yc8KJE~mv2.jpg]]></guid>
@@ -927,7 +1009,7 @@ exports[`wix: rockfield.har 1`] = `
 		</wp:postmeta>
 	</item>
 	<item>
-		<wp:post_id>13</wp:post_id>
+		<wp:post_id>18</wp:post_id>
 		<title><![CDATA[ceiling-chairs-clean-2225570-1-1.jpg]]></title>
 		<link><![CDATA[https://static.wixstatic.com/media/sXYIH_PerVF1DoW7DmMdKJeul0lYHXnlbnWBW~mv2.jpg]]></link>
 		<guid isPermaLink=\\"false\\"><![CDATA[https://static.wixstatic.com/media/sXYIH_PerVF1DoW7DmMdKJeul0lYHXnlbnWBW~mv2.jpg]]></guid>
@@ -944,7 +1026,7 @@ exports[`wix: rockfield.har 1`] = `
 		</wp:postmeta>
 	</item>
 	<item>
-		<wp:post_id>14</wp:post_id>
+		<wp:post_id>19</wp:post_id>
 		<title><![CDATA[boston-https-whitlockdesigns-com-interio]]></title>
 		<link><![CDATA[https://static.wixstatic.com/media/F9OC3_zZAcXfndF5z2Of4n5SKFw2Im3kKBwHP~mv2.jpg]]></link>
 		<guid isPermaLink=\\"false\\"><![CDATA[https://static.wixstatic.com/media/F9OC3_zZAcXfndF5z2Of4n5SKFw2Im3kKBwHP~mv2.jpg]]></guid>
@@ -961,7 +1043,7 @@ exports[`wix: rockfield.har 1`] = `
 		</wp:postmeta>
 	</item>
 	<item>
-		<wp:post_id>15</wp:post_id>
+		<wp:post_id>20</wp:post_id>
 		<title><![CDATA[appetizer-blurred-background-cheese-2531]]></title>
 		<link><![CDATA[https://static.wixstatic.com/media/7oW5n_JRVYOJnRJpeGHE1bJBAgkY2XaBqeOsl~mv2.jpg]]></link>
 		<guid isPermaLink=\\"false\\"><![CDATA[https://static.wixstatic.com/media/7oW5n_JRVYOJnRJpeGHE1bJBAgkY2XaBqeOsl~mv2.jpg]]></guid>
