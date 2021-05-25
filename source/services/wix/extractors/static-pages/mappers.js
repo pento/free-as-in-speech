@@ -6,6 +6,7 @@ const handlerMapper = ( key ) => ( accumulator, currentValue ) => {
 };
 
 const containerHandlers = [
+	require( './containers/form.js' ),
 	require( './containers/column.js' ),
 	require( './containers/columns.js' ),
 ].reduce( handlerMapper( 'componentType' ), {} );
@@ -16,26 +17,40 @@ const componentHandlers = [
 ].reduce( handlerMapper( 'type' ), {} );
 
 const wrapResult = ( block, component ) => {
-	block.designQuery = component.designQuery;
+	if ( block ) {
+		block.designQuery = component.designQuery;
+	}
 	return block;
 };
 
 module.exports = {
-	containerMapper: ( component, recursiveComponentParser ) => {
+	containerMapper: (
+		component,
+		recursiveComponentParser,
+		resolver,
+		addMediaAttachment,
+		addObject
+	) => {
 		if ( component.componentType in containerHandlers ) {
 			return wrapResult(
 				containerHandlers[ component.componentType ].parseComponent(
 					component,
-					recursiveComponentParser
+					recursiveComponentParser,
+					resolver,
+					addMediaAttachment,
+					addObject
 				),
 				component
 			);
 		}
 
-		return null;
+		return component.components
+			.map( recursiveComponentParser )
+			.flat()
+			.filter( Boolean );
 	},
 
-	componentMapper: ( component, addMediaAttachment, metaData, page ) => {
+	componentMapper: ( component, meta ) => {
 		if ( ! component.dataQuery ) {
 			return null;
 		}
@@ -44,9 +59,7 @@ module.exports = {
 			return wrapResult(
 				componentHandlers[ component.dataQuery.type ].parseComponent(
 					component,
-					addMediaAttachment,
-					metaData,
-					page
+					meta
 				),
 				component
 			);

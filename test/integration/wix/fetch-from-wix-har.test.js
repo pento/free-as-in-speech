@@ -2,8 +2,7 @@
  * WordPress dependencies
  */
 const FDBFactory = require( 'fake-indexeddb/lib/FDBFactory' );
-const { registerCoreBlocks } = require( '@wordpress/block-library' );
-require( '@wordpress/format-library' );
+const { registerBlocks } = require( '../../../source/utils/register-blocks' );
 
 /**
  * Internal dependencies
@@ -14,7 +13,7 @@ const fetchFromHAR = require( 'fetch-from-har' );
 const getWXRFromWixHAR = require( '../../../bin/lib/get-wxr-from-wix-har' );
 const { startExport } = require( '../../../source/services/wix' );
 
-registerCoreBlocks();
+registerBlocks();
 
 beforeEach( () => {
 	window.indexedDB = new FDBFactory();
@@ -29,7 +28,7 @@ test.each( [
 			},
 			extractAll: true,
 		},
-		true,
+		false,
 		false,
 	],
 	[
@@ -45,13 +44,16 @@ test.each( [
 				} ),
 			},
 		},
-		true,
+		false,
 		false,
 	],
 	[
 		'easyblog.har',
 		{
 			initialState: {
+				siteMetaData: {
+					metaSiteId: 'ae5cf16f-06cb-499f-9fcd-6b08ba634e04',
+				},
 				embeddedServices: [
 					'13d7e48f-0739-6252-8018-457a75beae4b',
 				].map( ( appDefinitionId ) => {
@@ -59,7 +61,7 @@ test.each( [
 				} ),
 			},
 		},
-		true,
+		false,
 		true,
 	],
 	[
@@ -90,7 +92,8 @@ test.each( [
 		fetchFromHAR,
 		JSON.parse( input ),
 		config,
-		startExport
+		startExport,
+		( url, entry ) => entry
 	)
 		.then( ( wxrDriver ) => wxrDriver.export() )
 		.then( ( xml ) => {

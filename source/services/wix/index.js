@@ -70,7 +70,7 @@ const getExtractorConfig = ( config, appDefinitionId ) => {
  * @param {Function} statusReport A callback to show a message in the popup.
  */
 const startExport = async ( config, statusReport ) => {
-	const wxr = await getWXRDriver( '1.2', true );
+	const wxr = await getWXRDriver( '1.3', true );
 
 	const extractData = ( fallbackConfig ) => async ( extractor ) => {
 		// Grab the config data for this extractor.
