@@ -21,15 +21,15 @@ exports[`wix: easyblog.har 1`] = `
 <!--    contained in this file into your site. -->
 
 <rss version=\\"2.0\\"
-	xmlns:excerpt=\\"http://wordpress.org/export/1.2/excerpt/\\"
+	xmlns:excerpt=\\"http://wordpress.org/export/1.3/excerpt/\\"
 	xmlns:content=\\"http://purl.org/rss/1.0/modules/content/\\"
 	xmlns:wfw=\\"http://wellformedweb.org/CommentAPI/\\"
 	xmlns:dc=\\"http://purl.org/dc/elements/1.1/\\"
-	xmlns:wp=\\"http://wordpress.org/export/1.2/\\"
+	xmlns:wp=\\"http://wordpress.org/export/1.3/\\"
 >
 <channel>
 	<pubDate></pubDate>
-	<wp:wxr_version>1.2</wp:wxr_version>
+	<wp:wxr_version>1.3</wp:wxr_version>
 	<item>
 		<title><![CDATA[hello blog]]></title>
 		<pubDate><![CDATA[Thu, 18 Feb 2021 00:00:00 GMT]]></pubDate>
@@ -82,15 +82,15 @@ exports[`wix: empty.har 1`] = `
 <!--    contained in this file into your site. -->
 
 <rss version=\\"2.0\\"
-	xmlns:excerpt=\\"http://wordpress.org/export/1.2/excerpt/\\"
+	xmlns:excerpt=\\"http://wordpress.org/export/1.3/excerpt/\\"
 	xmlns:content=\\"http://purl.org/rss/1.0/modules/content/\\"
 	xmlns:wfw=\\"http://wellformedweb.org/CommentAPI/\\"
 	xmlns:dc=\\"http://purl.org/dc/elements/1.1/\\"
-	xmlns:wp=\\"http://wordpress.org/export/1.2/\\"
+	xmlns:wp=\\"http://wordpress.org/export/1.3/\\"
 >
 <channel>
 	<pubDate></pubDate>
-	<wp:wxr_version>1.2</wp:wxr_version>
+	<wp:wxr_version>1.3</wp:wxr_version>
 </channel>
 </rss>"
 `;
@@ -116,17 +116,17 @@ exports[`wix: rockfield.har 1`] = `
 <!--    contained in this file into your site. -->
 
 <rss version=\\"2.0\\"
-	xmlns:excerpt=\\"http://wordpress.org/export/1.2/excerpt/\\"
+	xmlns:excerpt=\\"http://wordpress.org/export/1.3/excerpt/\\"
 	xmlns:content=\\"http://purl.org/rss/1.0/modules/content/\\"
 	xmlns:wfw=\\"http://wellformedweb.org/CommentAPI/\\"
 	xmlns:dc=\\"http://purl.org/dc/elements/1.1/\\"
-	xmlns:wp=\\"http://wordpress.org/export/1.2/\\"
+	xmlns:wp=\\"http://wordpress.org/export/1.3/\\"
 >
 <channel>
 	<title><![CDATA[Rockfield]]></title>
 	<link><![CDATA[https://PJ2UrF0ejtah.wixsite.com/my-site-11]]></link>
 	<pubDate></pubDate>
-	<wp:wxr_version>1.2</wp:wxr_version>
+	<wp:wxr_version>1.3</wp:wxr_version>
 	<wp:base_site_url><![CDATA[https://PJ2UrF0ejtah.wixsite.com/my-site-11]]></wp:base_site_url>
 	<wp:base_blog_url><![CDATA[https://PJ2UrF0ejtah.wixsite.com/my-site-11]]></wp:base_blog_url>
 	<wp:term>
@@ -378,6 +378,14 @@ exports[`wix: rockfield.har 1`] = `
 <p>Click here to make a reservation today!</p>
 <!-- /wp:paragraph -->
 
+<!-- wp:heading -->
+<h2><strong>Published by Joan Smith</strong></h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>My name is Joan Smith. I love discovering new literature.&nbsp;<a>View more posts</a></p>
+<!-- /wp:paragraph -->
+
 <!-- wp:paragraph -->
 <p>Previous Post</p>
 <!-- /wp:paragraph -->
@@ -462,7 +470,9 @@ exports[`wix: rockfield.har 1`] = `
 
 <!-- wp:paragraph -->
 <p>Mon: closed<br>Tue – Sun: 11:30 am – 10:00 pm</p>
-<!-- /wp:paragraph -->]]></content:encoded>
+<!-- /wp:paragraph -->
+
+<!-- wp:core-import/plugin-placeholder {\\"id\\":1} /-->]]></content:encoded>
 		<wp:comment_status><![CDATA[closed]]></wp:comment_status>
 		<wp:status><![CDATA[publish]]></wp:status>
 		<wp:post_type><![CDATA[page]]></wp:post_type>
@@ -576,6 +586,8 @@ exports[`wix: rockfield.har 1`] = `
 <!-- /wp:heading --></div></div>
 <!-- /wp:cover -->
 
+<!-- wp:core-import/plugin-placeholder {\\"id\\":2} /-->
+
 <!-- wp:cover {\\"url\\":\\"https://static.wixstatic.com/media/F9OC3_zZAcXfndF5z2Of4n5SKFw2Im3kKBwHP~mv2.jpg\\",\\"id\\":14,\\"align\\":\\"full\\"} -->
 <div class=\\"wp-block-cover alignfull has-background-dim\\"><img class=\\"wp-block-cover__image-background wp-image-14\\" alt=\\"\\" src=\\"https://static.wixstatic.com/media/F9OC3_zZAcXfndF5z2Of4n5SKFw2Im3kKBwHP~mv2.jpg\\" data-object-fit=\\"cover\\"/><div class=\\"wp-block-cover__inner-container\\"><!-- wp:heading -->
 <h2><strong>Rockfield</strong></h2>
@@ -629,6 +641,14 @@ exports[`wix: rockfield.har 1`] = `
 <!-- wp:image {\\"width\\":1024,\\"height\\":682} -->
 <figure class=\\"wp-block-image is-resized\\"><img src=\\"https://static.wixstatic.com/media/7oW5n_JRVYOJnRJpeGHE1bJBAgkY2XaBqeOsl~mv2.jpg\\" alt=\\"appetizer-blurred-background-cheese-2531\\" width=\\"1024\\" height=\\"682\\"/></figure>
 <!-- /wp:image -->
+
+<!-- wp:heading -->
+<h2><strong>Published by Joan Smith</strong></h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>My name is Joan Smith. I love discovering new literature.&nbsp;<a>View more posts</a></p>
+<!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
 <p>Previous Post</p>
@@ -692,6 +712,14 @@ exports[`wix: rockfield.har 1`] = `
 
 <!-- wp:paragraph -->
 <p>From&nbsp;<a>Wikipedia</a>.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2><strong>Published by Joan Smith</strong></h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>My name is Joan Smith. I love discovering new literature.&nbsp;<a>View more posts</a></p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
@@ -974,17 +1002,17 @@ exports[`wix: wix-basic.har 1`] = `
 <!--    contained in this file into your site. -->
 
 <rss version=\\"2.0\\"
-	xmlns:excerpt=\\"http://wordpress.org/export/1.2/excerpt/\\"
+	xmlns:excerpt=\\"http://wordpress.org/export/1.3/excerpt/\\"
 	xmlns:content=\\"http://purl.org/rss/1.0/modules/content/\\"
 	xmlns:wfw=\\"http://wellformedweb.org/CommentAPI/\\"
 	xmlns:dc=\\"http://purl.org/dc/elements/1.1/\\"
-	xmlns:wp=\\"http://wordpress.org/export/1.2/\\"
+	xmlns:wp=\\"http://wordpress.org/export/1.3/\\"
 >
 <channel>
 	<title><![CDATA[mywebsite]]></title>
 	<link><![CDATA[https://12345678.wixsite.com/mywebsite]]></link>
 	<pubDate></pubDate>
-	<wp:wxr_version>1.2</wp:wxr_version>
+	<wp:wxr_version>1.3</wp:wxr_version>
 	<wp:base_site_url><![CDATA[https://12345678.wixsite.com/mywebsite]]></wp:base_site_url>
 	<wp:base_blog_url><![CDATA[https://12345678.wixsite.com/mywebsite]]></wp:base_blog_url>
 	<wp:author>

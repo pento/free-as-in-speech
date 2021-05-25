@@ -1,4 +1,16 @@
-async function getWXRFromWixHAR( fetchFromHAR, har, config, startExport ) {
+async function getWXRFromWixHAR(
+	fetchFromHAR,
+	har,
+	config,
+	startExport,
+	fallback
+) {
+	if ( typeof fallback === 'undefined' ) {
+		fallback = ( url, entry ) => {
+			console.error( 'Missing URL in HAR:', url ); // eslint-disable-line no-console
+			return entry;
+		};
+	}
 	window.fetch = fetchFromHAR( har, {
 		queryComparison: ( requestValue, harValue, key, url ) => {
 			if (
@@ -14,10 +26,7 @@ async function getWXRFromWixHAR( fetchFromHAR, har, config, startExport ) {
 			// Parameters don't need to match.
 			return true;
 		},
-		fallback: ( url, entry ) => {
-			console.error( 'Missing URL in HAR:', url ); // eslint-disable-line no-console
-			return entry;
-		},
+		fallback,
 	} );
 
 	// We're ignoring the status reports in these tests for now.
