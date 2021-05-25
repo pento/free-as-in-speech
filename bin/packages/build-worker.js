@@ -169,6 +169,21 @@ const BUILD_TASK_BY_EXTENSION = {
 			] );
 		}
 	},
+
+	async '.json'( file ) {
+		for ( const [ , buildDir ] of Object.entries(
+			JS_ENVIRONMENTS
+		) ) {
+			const destPath = getBuildPath( file, buildDir );
+
+			const [ , content ] = await Promise.all( [
+				makeDir( path.dirname( destPath ) ),
+				readFile( file, 'utf8' ),
+			] );
+
+			await writeFile( destPath, content );
+		}
+	}
 };
 
 module.exports = async ( file, callback ) => {

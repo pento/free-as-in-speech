@@ -21,8 +21,10 @@
 	"main": "src/index.js",
 	"module": "build-module/index.js",
 	"dependencies": {
+		"ajv": "8.2.0",
 		"dayjs": "^1.10.4",
 		"idb": "6.0.0",
+		"jstoxml": "2.0.5",
 		"web-streams-polyfill": "3.0.2",
 		"xml-sanitizer": "1.1.6"
 	},
