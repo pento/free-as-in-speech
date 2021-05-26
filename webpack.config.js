@@ -6,25 +6,37 @@ const CopyWebpackPlugin = require( 'copy-webpack-plugin' );
 const { DefinePlugin } = require( 'webpack' );
 const TerserPlugin = require( 'terser-webpack-plugin' );
 
-module.exports = {
+const cliConfig = {
+	stats: 'errors-only',
+	entry: {
+		'fetch-from-har': './packages/fetch-from-har',
+		'site-parsers': './packages/site-parsers',
+		'gutenberg-for-node': './packages/gutenberg-for-node',
+	},
+	output: {
+		path: path.join( __dirname, 'build' ),
+		filename: '[name].js',
+	},
+	target: 'node',
+	mode: 'development',
+	externals: {
+		canvas: 'util', // https://github.com/jsdom/jsdom/issues/2508
+	},
+};
+
+const extensionConfig = {
 	devtool: 'source-map',
 	stats: 'errors-only',
-	target: 'node',
 	entry: {
 		background: './source/background',
 		content: './source/content',
 		action: './source/action',
 		'@wordpress/wxr': './packages/wxr',
 		'site-parsers': './packages/site-parsers',
-		'gutenberg-for-node': './packages/gutenberg-for-node',
-		'fetch-from-har': './packages/fetch-from-har',
 	},
 	output: {
 		path: path.join( __dirname, 'distribution/build' ),
 		filename: '[name].js',
-	},
-	externals: {
-		canvas: 'commonjs canvas',
 	},
 	module: {
 		rules: [
@@ -38,12 +50,6 @@ module.exports = {
 	resolve: {
 		fallback: {
 			path: require.resolve( 'path-browserify' ),
-			http: require.resolve( 'stream-http' ),
-			https: require.resolve( 'https-browserify' ),
-			stream: require.resolve( 'stream-browserify' ),
-			crypto: require.resolve( 'crypto-browserify' ),
-			zlib: require.resolve( 'browserify-zlib' ),
-			os: require.resolve( 'os-browserify/browser' ),
 		},
 	},
 	plugins: [
@@ -90,3 +96,5 @@ module.exports = {
 		],
 	},
 };
+
+module.exports = [ extensionConfig, cliConfig ];
