@@ -1,4 +1,4 @@
-const IdFactory = require( '../../../../utils/idfactory.js' );
+const IdFactory = require( 'site-parsers' ).utils.IdFactory;
 
 module.exports = {
 	/**

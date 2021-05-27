@@ -2,7 +2,7 @@
  * WordPress dependencies
  */
 const FDBFactory = require( 'fake-indexeddb/lib/FDBFactory' );
-const { registerBlocks } = require( '../../../source/utils/register-blocks' );
+const { registerBlocks } = require( 'site-parsers' ).utils;
 
 /**
  * Internal dependencies

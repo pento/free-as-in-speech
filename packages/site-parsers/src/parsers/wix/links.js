@@ -1,4 +1,4 @@
-const IdFactory = require( '../../../../utils/idfactory.js' );
+const IdFactory = require( '../../utils/idfactory' );
 
 const parseWixLink = ( link, metaData ) => {
 	if ( ! link ) {

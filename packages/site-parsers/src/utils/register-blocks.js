@@ -1,10 +1,12 @@
 /**
  * WordPress dependencies
  */
-global.process.env = {
-	...global.process.env,
-	GUTENBERG_PHASE: 2, // This needs to be a integer, setting it directly would make it a string.
-};
+if ( global.process ) {
+	global.process.env = {
+		...global.process.env,
+		GUTENBERG_PHASE: 2, // This needs to be a integer, setting it directly would make it a string.
+	};
+}
 
 const {
 	registerCoreBlocks,
