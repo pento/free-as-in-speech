@@ -111,6 +111,7 @@ const addMediaAttachment = ( data, mediaUrl, component ) => {
 const addObject = ( data, objType, objData ) => {
 	const id = 1 + data.objects.length;
 	data.objects.push( {
+		id,
 		type: objType,
 		data: objData,
 	} );

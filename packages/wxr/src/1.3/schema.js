@@ -404,5 +404,18 @@ module.exports = {
 			},
 		],
 	},
-	objects: {},
+	objects: {
+		fields: [
+			{
+				name: 'id',
+				type: 'int',
+				element: 'wp:object_id',
+			},
+			{
+				name: 'type',
+				type: 'string',
+				element: 'wp:object_type',
+			},
+		],
+	},
 };

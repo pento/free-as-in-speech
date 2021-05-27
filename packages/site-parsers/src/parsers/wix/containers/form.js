@@ -24,9 +24,7 @@ module.exports = {
 						format: 'date',
 						label: component.dataQuery.label,
 						placeholder: component.dataQuery.placeholder,
-						required: component.propertyQuery.required
-							? 'true'
-							: 'false',
+						required: !! component.propertyQuery.required,
 						dateFormat: component.propertyQuery.dateFormat,
 						disabledDates: component.dataQuery.disabledDates,
 						disabledDaysOfWeek:
@@ -37,18 +35,14 @@ module.exports = {
 						type: 'textarea',
 						label: component.dataQuery.label,
 						placeholder: component.dataQuery.placeholder,
-						required: component.propertyQuery.required
-							? 'true'
-							: 'false',
+						required: !! component.propertyQuery.required,
 					};
 				case 'TextInput':
 					return {
 						type: 'text',
 						label: component.dataQuery.label,
 						placeholder: component.dataQuery.placeholder,
-						required: component.propertyQuery.required
-							? 'true'
-							: 'false',
+						required: !! component.propertyQuery.required,
 					};
 				case 'SelectableList':
 					return {
@@ -63,9 +57,7 @@ module.exports = {
 								};
 							}
 						),
-						required: component.propertyQuery.required
-							? 'true'
-							: 'false',
+						required: !! component.propertyQuery.required,
 					};
 				case 'LinkableButton':
 					return {
