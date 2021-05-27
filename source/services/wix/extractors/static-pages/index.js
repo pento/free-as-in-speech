@@ -103,7 +103,7 @@ module.exports = {
 	 */
 	save: async ( data, wxr ) => {
 		data.objects.forEach( ( obj ) => {
-			wxr.addObject( obj.type, obj.data );
+			wxr.addObject( obj.id, obj.type, obj.data );
 		} );
 		data.pages.forEach( ( post ) => {
 			const terms = post.terms || [];

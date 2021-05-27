@@ -78,7 +78,7 @@ class WXRDriver {
 		}
 
 		if ( dataType === 'objects' ) {
-			return await this.storeObject( data.type, data.data );
+			return await this.storeObject( data.id, data.type, data.data );
 		}
 
 		const validatedData = {};
@@ -124,7 +124,7 @@ class WXRDriver {
 		return await this.db.add( dataType, validatedData );
 	}
 
-	async storeObject( type, data ) {
+	async storeObject( id, type, data ) {
 		if ( ! objectSchemas.hasOwnProperty( type ) ) {
 			return;
 		}
@@ -136,11 +136,30 @@ class WXRDriver {
 		}
 
 		if ( ! validate( data ) ) {
-			// Errors can be found in this.ajv.errors, see https://ajv.js.org/faq.html#ajv-api-for-returning-validation-errors
+			// Errors can be found in validate.errors, see https://ajv.js.org/faq.html#ajv-api-for-returning-validation-errors
+			// console.error( validate.errors );
 			return false;
 		}
+		return await this.db.add( 'objects', { id, type, data } );
+	}
 
-		return await this.db.add( 'objects', { type, data } );
+	prepareForXmlConversion( json ) {
+		switch ( typeof json ) {
+			case 'array':
+				for ( let i = 0; i < json.length; i++ ) {
+					json[ i ] = this.prepareForXmlConversion( json[ i ] );
+				}
+				return json;
+			case 'object':
+				for ( const i in json ) {
+					json[ i ] = this.prepareForXmlConversion( json[ i ] );
+				}
+				return json;
+			case 'boolean':
+				return json ? 'true' : 'false';
+		}
+
+		return json;
 	}
 
 	/**
@@ -269,12 +288,13 @@ class WXRDriver {
 	/**
 	 * Add a defined data object to the schema.
 	 *
+	 * @param {number} id The internal ID of the object, potentially referenced in a placeholder.
 	 * @param {string} type The type of object to store.
 	 * @param {Object} data The object data.
 	 * @return {number} The object ID.
 	 */
-	async addObject( type, data ) {
-		return await this.storeData( 'objects', { type, data } );
+	async addObject( id, type, data ) {
+		return await this.storeData( 'objects', { id, type, data } );
 	}
 
 	/**
@@ -388,7 +408,9 @@ class WXRDriver {
 											xmlns: `http://wordpress.org/export/objects/${ objectType }/1.0/`,
 											id: datum.internalId,
 										},
-										_content: output,
+										_content: this.prepareForXmlConversion(
+											output
+										),
 									},
 									{
 										depth: 1,
