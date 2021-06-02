@@ -14,6 +14,7 @@ const containerHandlers = [
 const componentHandlers = [
 	require( './components/menu.js' ),
 	require( './components/image.js' ),
+	require( './components/image-list.js' ),
 	require( './components/button.js' ),
 ].reduce( handlerMapper( 'type' ), {} );
 
