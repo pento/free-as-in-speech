@@ -15,6 +15,7 @@ const componentHandlers = [
 	require( './components/menu.js' ),
 	require( './components/image.js' ),
 	require( './components/button.js' ),
+	require( './components/anchor.js' ),
 ].reduce( handlerMapper( 'type' ), {} );
 
 const wrapResult = ( block, component ) => {
