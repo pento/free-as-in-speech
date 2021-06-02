@@ -8,7 +8,7 @@ const { WritableStream } = require( 'web-streams-polyfill/ponyfill/es6' );
 const xmlSanitizer = require( 'xml-sanitizer' );
 const Ajv = require( 'ajv' );
 const { toXML } = require( 'jstoxml' );
-
+const { validateXml } = require( 'xsdlibrary' );
 /**
  * Internal dependencies
  */
@@ -125,6 +125,34 @@ class WXRDriver {
 	}
 
 	async storeObject( id, type, data ) {
+		const xml = toXML(
+			{
+				_name: 'wp:data',
+				_attrs: {
+					'xmlns:wp': 'https://wordpress.org/data/',
+					'xmlns:xsi': 'http://www.w3.org/2001/XMLSchema-instance',
+					'xsi:schemaLocation': `https://wordpress.org/data/ ../../../../../wxr-schema/schema/index.xsd
+https://wordpress.org/data/objects/${ type }/ ../../../../../wxr-schema/schema/objects/${ type }.xsd`,
+				},
+				_content: {
+					_name: 'wp:object',
+					_attrs: {
+						xmlns: `http://wordpress.org/data/objects/${ type }/`,
+						'xsi:type': type,
+						id,
+					},
+					_content: data,
+				},
+			},
+			{
+				depth: 1,
+				indent: '\t',
+			}
+		);
+		if ( ! validateXml( xml ) ) {
+			return;
+		}
+
 		if ( ! objectSchemas.hasOwnProperty( type ) ) {
 			return;
 		}
