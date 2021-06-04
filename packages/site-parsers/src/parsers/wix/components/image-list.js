@@ -1,4 +1,5 @@
 const { createBlock } = require( '@wordpress/blocks' );
+const { parseComponent: linkBarParseComponent } = require( './link-bar' );
 
 const parseImages = ( images, metaData ) => {
 	return images.map( ( img ) => {
@@ -46,6 +47,10 @@ module.exports = {
 
 			// Gallery: Currently unsupported
 			case 'ImpressProperties':
+				break;
+
+			case 'LinkBarProperties':
+				return linkBarParseComponent( component );
 		}
 	},
 };
