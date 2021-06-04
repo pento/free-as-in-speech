@@ -143,25 +143,6 @@ class WXRDriver {
 		return await this.db.add( 'objects', { id, type, data } );
 	}
 
-	prepareForXmlConversion( json ) {
-		switch ( typeof json ) {
-			case 'array':
-				for ( let i = 0; i < json.length; i++ ) {
-					json[ i ] = this.prepareForXmlConversion( json[ i ] );
-				}
-				return json;
-			case 'object':
-				for ( const i in json ) {
-					json[ i ] = this.prepareForXmlConversion( json[ i ] );
-				}
-				return json;
-			case 'boolean':
-				return json ? 'true' : 'false';
-		}
-
-		return json;
-	}
-
 	/**
 	 * Given a particular value, cast it to the passed type.
 	 *
@@ -367,58 +348,23 @@ class WXRDriver {
 					const datum = cursor.value;
 
 					if ( store === 'objects' ) {
-						const objectType = datum.type;
-
-						if ( objectType === 'contact-form' ) {
-							const output = [];
-
-							output.push( { email: datum.data.email } );
-							for ( const field of datum.data.fields ) {
-								const outputObject = {
-									_name: 'field',
+						this.write(
+							writer,
+							toXML(
+								{
+									_name: 'wp:object',
 									_attrs: {
-										...field,
+										type: datum.type,
+										id: datum.internalId,
 									},
-								};
-
-								if ( field.type === 'select' ) {
-									delete outputObject._attrs.options;
-
-									outputObject._content = [];
-									for ( const selectOption of field.options ) {
-										outputObject._content.push( {
-											_name: 'option',
-											_attrs: {
-												value: selectOption.value,
-											},
-											_content: selectOption.text,
-										} );
-									}
+									_content: JSON.stringify( datum.data ),
+								},
+								{
+									depth: 1,
+									indent: '\t',
 								}
-
-								output.push( outputObject );
-							}
-
-							this.write(
-								writer,
-								toXML(
-									{
-										_name: 'wp:object',
-										_attrs: {
-											xmlns: `http://wordpress.org/export/objects/${ objectType }/1.0/`,
-											id: datum.internalId,
-										},
-										_content: this.prepareForXmlConversion(
-											output
-										),
-									},
-									{
-										depth: 1,
-										indent: '\t',
-									}
-								) + '\n'
-							);
-						}
+							) + '\n'
+						);
 						continue;
 					}
 
