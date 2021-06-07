@@ -33,21 +33,25 @@ const resolveQueries = ( input, data, masterPage ) => {
 				break;
 		}
 
+		const mapItems = ( item ) => {
+			if ( ! item || typeof item.valueOf() !== 'string' ) return item;
+			if ( item.substr( 0, 1 ) !== '#' || location !== 'document_data' )
+				return item;
+			const query = item.replace( /^#/, '' );
+			return query
+				? resolveQueries(
+						data[ location ][ query ] ||
+							masterPage[ location ][ query ],
+						data,
+						masterPage
+				  )
+				: item;
+		};
+
 		if ( Array.isArray( val ) ) {
 			// Some values can be an array of things that need to get resolved
 			// Example: `input.linkList = [ '#foo', '#baz' ]`
-			input[ key ] = val.map( ( item ) => {
-				if ( ! item || typeof item.valueOf() !== 'string' ) return item;
-				if ( item.substr( 0, 1 ) !== '#' ) return item;
-				const query = item.replace( /^#/, '' );
-				return query
-					? resolveQueries(
-							data[ location ][ query ],
-							data,
-							masterPage
-					  )
-					: item;
-			} );
+			input[ key ] = val.map( mapItems );
 		} else if (
 			val &&
 			typeof val.valueOf() === 'string' &&
@@ -64,15 +68,10 @@ const resolveQueries = ( input, data, masterPage ) => {
 						masterPage
 				  )
 				: val;
+		} else if ( typeof val === 'object' ) {
+			input[ key ] = resolveQueries( val, data, masterPage );
 		}
 	} );
-
-	// Components are already objects but we need to deeply resolve their contents
-	if ( input.components ) {
-		input.components = input.components.map( ( subComp ) =>
-			resolveQueries( subComp, data, masterPage )
-		);
-	}
 
 	return input;
 };
