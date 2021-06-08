@@ -8,6 +8,24 @@ const slug = require( 'slugify' );
  */
 const { IdFactory } = require( '../../utils' );
 
+const getProperTreeLocation = ( fieldName ) => {
+	switch ( fieldName ) {
+		case 'designQuery':
+		case 'background':
+		case 'mediaRef':
+			return 'design_data';
+
+		case 'propertyQuery':
+			return 'component_properties';
+
+		case 'connectionQuery':
+			return 'connections_data';
+
+		default:
+			return 'document_data';
+	}
+};
+
 const resolveQueries = ( input, data, masterPage ) => {
 	// skip resolving for non-objects
 	if ( typeof input !== 'object' ) {
@@ -18,20 +36,7 @@ const resolveQueries = ( input, data, masterPage ) => {
 	Object.entries( input ).forEach( ( entry ) => {
 		const key = entry[ 0 ];
 		const val = entry[ 1 ];
-		let location = 'document_data';
-		switch ( key ) {
-			case 'designQuery':
-			case 'background':
-			case 'mediaRef':
-				location = 'design_data';
-				break;
-			case 'propertyQuery':
-				location = 'component_properties';
-				break;
-			case 'connectionQuery':
-				location = 'connections_data';
-				break;
-		}
+		const location = getProperTreeLocation( key );
 
 		const mapItems = ( item ) => {
 			if ( ! item || typeof item.valueOf() !== 'string' ) return item;
