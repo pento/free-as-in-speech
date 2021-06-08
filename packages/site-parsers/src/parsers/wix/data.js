@@ -26,6 +26,17 @@ const getProperTreeLocation = ( fieldName ) => {
 	}
 };
 
+const isDocumentRefValid = ( refStr, location ) => {
+	const cssColorHexReg = new RegExp( /#([a-fA-F0-9]{3}){1,2}\b/ );
+
+	if ( ! refStr || typeof refStr.valueOf() !== 'string' ) return false;
+
+	if ( refStr.substr( 0, 1 ) !== '#' || location !== 'document_data' )
+		return false;
+
+	return ! cssColorHexReg.test( refStr );
+};
+
 const resolveQueries = ( input, data, masterPage ) => {
 	// skip resolving for non-objects
 	if ( typeof input !== 'object' ) {
@@ -38,41 +49,27 @@ const resolveQueries = ( input, data, masterPage ) => {
 		const val = entry[ 1 ];
 		const location = getProperTreeLocation( key );
 
-		const mapItems = ( item ) => {
-			if ( ! item || typeof item.valueOf() !== 'string' ) return item;
-			if ( item.substr( 0, 1 ) !== '#' || location !== 'document_data' )
-				return item;
-			const query = item.replace( /^#/, '' );
-			return query
-				? resolveQueries(
-						data[ location ][ query ] ||
-							masterPage[ location ][ query ],
-						data,
-						masterPage
-				  )
-				: item;
+		const mapItem = ( item ) => {
+			if ( isDocumentRefValid( item, location ) ) {
+				const query = item.replace( /^#/, '' );
+				const itemVal =
+					data[ location ][ query ] ||
+					masterPage[ location ][ query ];
+
+				return resolveQueries( itemVal, data, masterPage );
+			}
+
+			return item;
 		};
 
 		if ( Array.isArray( val ) ) {
 			// Some values can be an array of things that need to get resolved
 			// Example: `input.linkList = [ '#foo', '#baz' ]`
-			input[ key ] = val.map( mapItems );
-		} else if (
-			val &&
-			typeof val.valueOf() === 'string' &&
-			( val.substr( 0, 1 ) === '#' || location !== 'document_data' )
-		) {
+			input[ key ] = val.map( mapItem );
+		} else if ( isDocumentRefValid( val, location ) ) {
 			// Others are just a string
 			// Example: `input.link = '#baz'`
-			const query = val.replace( /^#/, '' );
-			input[ key ] = query
-				? resolveQueries(
-						data[ location ][ query ] ||
-							masterPage[ location ][ query ],
-						data,
-						masterPage
-				  )
-				: val;
+			input[ key ] = mapItem( val );
 		} else if ( typeof val === 'object' ) {
 			input[ key ] = resolveQueries( val, data, masterPage );
 		}
