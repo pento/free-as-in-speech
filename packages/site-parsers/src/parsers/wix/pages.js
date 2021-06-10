@@ -109,12 +109,13 @@ const parsePages = ( data, metaData, masterPage ) => {
 			return componentMapper( component, meta );
 		};
 
-		page.content = page.config.structure.components
-			.map( recursiveComponentParser )
-			.flat()
-			.filter( Boolean )
-			.map( ( wpBlock ) => serialize( wpBlock ) )
-			.join( '\n\n' );
+		Promise.all(
+			page.config.structure.components.map( recursiveComponentParser )
+		)
+			.then( ( x ) => x.flat() )
+			.then( ( x ) => x.filter( Boolean ) )
+			.then( ( x ) => serialize( x ) )
+			.then( ( x ) => ( page.content = x ) );
 	} );
 };
 

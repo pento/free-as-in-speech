@@ -13,6 +13,7 @@ const containerHandlers = [
 ].reduce( handlerMapper( 'componentType' ), {} );
 
 const componentHandlers = [
+	require( './components/html.js' ),
 	require( './components/menu.js' ),
 	require( './components/image.js' ),
 	require( './components/image-list.js' ),
