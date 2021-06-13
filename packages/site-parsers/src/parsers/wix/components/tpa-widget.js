@@ -1,4 +1,5 @@
 const { parseComponent: parseSpotify } = require( './spotify' );
+const { parseComponent: parseSoundCloud } = require( './sound-cloud' );
 
 const APP_ID = {
 	SPOTIFY: '2575',
@@ -8,12 +9,14 @@ const APP_ID = {
 
 module.exports = {
 	type: 'TPAWidget',
-	parseComponent: ( component ) => {
+	// eslint-disable-next-line
+	parseComponent: function ( component ) {
 		switch ( component.dataQuery.applicationId ) {
 			case APP_ID.SPOTIFY:
-				return parseSpotify( component );
-			case APP_ID.WIX_MUSIC:
+				return parseSpotify( ...arguments );
 			case APP_ID.SOUND_CLOUD:
+				return parseSoundCloud( ...arguments );
+			case APP_ID.WIX_MUSIC:
 			default:
 				break;
 		}
