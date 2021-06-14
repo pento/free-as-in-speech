@@ -406,13 +406,15 @@ exports[`wix: rockfield.har 1`] = `
 <p>Click here to make a reservation today!</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:heading -->
+<!-- wp:group -->
+<div class=\\"wp-block-group\\"><!-- wp:heading -->
 <h2><strong>Published by Joan Smith</strong></h2>
 <!-- /wp:heading -->
 
 <!-- wp:paragraph -->
 <p>My name is Joan Smith. I love discovering new literature.&nbsp;<a>View more posts</a></p>
-<!-- /wp:paragraph -->
+<!-- /wp:paragraph --></div>
+<!-- /wp:group -->
 
 <!-- wp:paragraph -->
 <p>Previous Post</p>
@@ -670,13 +672,15 @@ exports[`wix: rockfield.har 1`] = `
 <figure class=\\"wp-block-image is-resized\\"><img src=\\"https://static.wixstatic.com/media/7oW5n_JRVYOJnRJpeGHE1bJBAgkY2XaBqeOsl~mv2.jpg\\" alt=\\"appetizer-blurred-background-cheese-2531\\" width=\\"1024\\" height=\\"682\\"/></figure>
 <!-- /wp:image -->
 
-<!-- wp:heading -->
+<!-- wp:group -->
+<div class=\\"wp-block-group\\"><!-- wp:heading -->
 <h2><strong>Published by Joan Smith</strong></h2>
 <!-- /wp:heading -->
 
 <!-- wp:paragraph -->
 <p>My name is Joan Smith. I love discovering new literature.&nbsp;<a>View more posts</a></p>
-<!-- /wp:paragraph -->
+<!-- /wp:paragraph --></div>
+<!-- /wp:group -->
 
 <!-- wp:paragraph -->
 <p>Previous Post</p>
@@ -742,13 +746,15 @@ exports[`wix: rockfield.har 1`] = `
 <p>From&nbsp;<a>Wikipedia</a>.</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:heading -->
+<!-- wp:group -->
+<div class=\\"wp-block-group\\"><!-- wp:heading -->
 <h2><strong>Published by Joan Smith</strong></h2>
 <!-- /wp:heading -->
 
 <!-- wp:paragraph -->
 <p>My name is Joan Smith. I love discovering new literature.&nbsp;<a>View more posts</a></p>
-<!-- /wp:paragraph -->
+<!-- /wp:paragraph --></div>
+<!-- /wp:group -->
 
 <!-- wp:paragraph -->
 <p>Previous Post</p>
