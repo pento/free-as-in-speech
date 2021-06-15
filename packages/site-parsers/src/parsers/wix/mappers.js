@@ -16,6 +16,7 @@ const componentHandlers = [
 	require( './components/image.js' ),
 	require( './components/image-list.js' ),
 	require( './components/button.js' ),
+	require( './components/separator.js' ),
 	require( './components/anchor.js' ),
 	require( './components/tpa-widget.js' ),
 	require( './components/twitter-follow.js' ),
@@ -28,6 +29,16 @@ const wrapResult = ( block, component ) => {
 		block.designQuery = component.designQuery;
 	}
 	return block;
+};
+
+/**
+ * @param {string} componentType (ex. wysiwyg.viewer.components.FiveGridLine)
+ * @return {string} (ex. FiveGridLine)
+ */
+const getTypeFromComponentPath = ( componentType ) => {
+	const type = componentType.split( '.' );
+
+	return type[ type.length - 1 ];
 };
 
 module.exports = {
@@ -58,22 +69,21 @@ module.exports = {
 	},
 
 	componentMapper: ( component, meta ) => {
-		if ( ! component.dataQuery ) {
-			return null;
-		}
+		const type =
+			( component.dataQuery && component.dataQuery.type ) ||
+			getTypeFromComponentPath( component.componentType );
 
-		if ( component.dataQuery.type in componentHandlers ) {
+		if ( type in componentHandlers ) {
 			return wrapResult(
-				componentHandlers[ component.dataQuery.type ].parseComponent(
-					component,
-					meta
-				),
+				componentHandlers[ type ].parseComponent( component, meta ),
 				component
 			);
 		}
 
-		if ( component.dataQuery.text ) {
+		if ( component.dataQuery && component.dataQuery.text ) {
 			return pasteHandler( { HTML: component.dataQuery.text } );
 		}
+
+		return null;
 	},
 };
