@@ -28,6 +28,11 @@ module.exports = {
 				},
 			},
 		} );
-		__experimentalRegisterExperimentalCoreBlocks();
+
+		if (
+			typeof __experimentalRegisterExperimentalCoreBlocks === 'function'
+		) {
+			__experimentalRegisterExperimentalCoreBlocks();
+		}
 	},
 };

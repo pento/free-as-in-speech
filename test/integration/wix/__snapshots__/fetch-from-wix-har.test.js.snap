@@ -798,7 +798,17 @@ exports[`wix: rockfield.har 1`] = `
 		<wp:post_id>12</wp:post_id>
 		<title><![CDATA[footer]]></title>
 		<description></description>
-		<content:encoded><![CDATA[<!-- wp:navigation {\\"orientation\\":\\"horizontal\\"} -->
+		<content:encoded><![CDATA[<!-- wp:social-links {\\"openInNewTab\\":true} -->
+<ul class=\\"wp-block-social-links\\"><!-- wp:social-link {\\"url\\":\\"https://www.facebook.com/wix\\",\\"service\\":\\"facebook\\",\\"label\\":\\"Facebook\\"} /-->
+
+<!-- wp:social-link {\\"label\\":\\"Instagram\\"} /-->
+
+<!-- wp:social-link {\\"label\\":\\"foursquare-2-xxl\\"} /-->
+
+<!-- wp:social-link {\\"label\\":\\"Yelp\\"} /--></ul>
+<!-- /wp:social-links -->
+
+<!-- wp:navigation {\\"orientation\\":\\"horizontal\\"} -->
 <!-- wp:navigation-link {\\"label\\":\\"Home\\",\\"url\\":\\"/home\\"} /-->
 
 <!-- wp:navigation-link {\\"label\\":\\"Menu\\",\\"url\\":\\"/menu\\"} -->
