@@ -14,8 +14,14 @@ const containerHandlers = [
 const componentHandlers = [
 	require( './components/menu.js' ),
 	require( './components/image.js' ),
+	require( './components/image-list.js' ),
 	require( './components/button.js' ),
 	require( './components/separator.js' ),
+	require( './components/anchor.js' ),
+	require( './components/tpa-widget.js' ),
+	require( './components/twitter-follow.js' ),
+	require( './components/audio.js' ),
+	require( './components/video.js' ),
 ].reduce( handlerMapper( 'type' ), {} );
 
 const wrapResult = ( block, component ) => {

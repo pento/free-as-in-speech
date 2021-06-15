@@ -9,7 +9,12 @@ const { serialize } = require( '@wordpress/blocks' );
 const { IdFactory } = require( '../../utils' );
 const { maybeAddCoverBlock } = require( './containers/cover.js' );
 const { containerMapper, componentMapper } = require( './mappers.js' );
-const { resolveQueries, addMediaAttachment, addObject } = require( './data' );
+const {
+	resolveQueries,
+	addMediaAttachment,
+	addObject,
+	getThemeDataRef,
+} = require( './data' );
 
 const addHeaderPage = ( data, masterPage ) => {
 	data.pages.push( {
@@ -83,6 +88,7 @@ const parsePages = ( data, metaData, masterPage ) => {
 				data,
 				metaData.serviceTopology.staticMediaUrl
 			),
+			getThemeDataRef: getThemeDataRef.bind( null, page ),
 		};
 
 		const recursiveComponentParser = ( component ) => {
