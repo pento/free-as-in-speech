@@ -16,6 +16,7 @@ const componentHandlers = [
 	require( './components/image.js' ),
 	require( './components/button.js' ),
 	require( './components/audio.js' ),
+	require( './components/video.js' ),
 ].reduce( handlerMapper( 'type' ), {} );
 
 const wrapResult = ( block, component ) => {
