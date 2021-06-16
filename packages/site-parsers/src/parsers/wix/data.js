@@ -26,13 +26,8 @@ const getProperTreeLocation = ( fieldName ) => {
 	}
 };
 
-const isDocumentRefValid = ( refStr, location ) => {
+const isDocumentRefValid = ( refStr ) => {
 	const cssColorHexReg = new RegExp( /#([a-fA-F0-9]{3}){1,2}\b/ );
-
-	if ( ! refStr || typeof refStr.valueOf() !== 'string' ) return false;
-
-	if ( refStr.substr( 0, 1 ) !== '#' || location !== 'document_data' )
-		return false;
 
 	return ! cssColorHexReg.test( refStr );
 };
@@ -50,26 +45,41 @@ const resolveQueries = ( input, data, masterPage ) => {
 		const location = getProperTreeLocation( key );
 
 		const mapItem = ( item ) => {
-			if ( isDocumentRefValid( item, location ) ) {
-				const query = item.replace( /^#/, '' );
-				const itemVal =
-					data[ location ][ query ] ||
-					masterPage[ location ][ query ];
+			if ( ! item || typeof item.valueOf() !== 'string' ) return item;
+			if ( item.substr( 0, 1 ) !== '#' || location !== 'document_data' )
+				return item;
 
-				return resolveQueries( itemVal, data, masterPage );
-			}
-
-			return item;
+			const query = item.replace( /^#/, '' );
+			return isDocumentRefValid( item )
+				? resolveQueries(
+						data[ location ][ query ] ||
+							masterPage[ location ][ query ],
+						data,
+						masterPage
+				  )
+				: item;
 		};
 
 		if ( Array.isArray( val ) ) {
 			// Some values can be an array of things that need to get resolved
 			// Example: `input.linkList = [ '#foo', '#baz' ]`
 			input[ key ] = val.map( mapItem );
-		} else if ( isDocumentRefValid( val, location ) ) {
+		} else if (
+			val &&
+			typeof val.valueOf() === 'string' &&
+			( val.substr( 0, 1 ) === '#' || location !== 'document_data' )
+		) {
 			// Others are just a string
 			// Example: `input.link = '#baz'`
-			input[ key ] = mapItem( val );
+			const query = val.replace( /^#/, '' );
+			input[ key ] = isDocumentRefValid( val )
+				? resolveQueries(
+						data[ location ][ query ] ||
+							masterPage[ location ][ query ],
+						data,
+						masterPage
+				  )
+				: val;
 		} else if ( typeof val === 'object' ) {
 			input[ key ] = resolveQueries( val, data, masterPage );
 		}
