@@ -4,7 +4,7 @@
 const { addHeaderPage, addFooterPage, parsePages } = require( './pages' );
 const { convertMenu } = require( './menu' );
 
-const staticPagesParser = ( metaData, masterPage, pages = [] ) => {
+const staticPagesParser = async ( metaData, masterPage, pages = [] ) => {
 	const data = {
 		pages,
 		menus: [],
@@ -15,7 +15,7 @@ const staticPagesParser = ( metaData, masterPage, pages = [] ) => {
 	// ↓ methods mutate data object
 	addHeaderPage( data, masterPage );
 	addFooterPage( data, masterPage );
-	parsePages( data, metaData, masterPage );
+	await parsePages( data, metaData, masterPage );
 	convertMenu( data, masterPage );
 
 	return data;

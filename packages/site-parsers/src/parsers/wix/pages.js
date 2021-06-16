@@ -6,7 +6,7 @@ const { serialize } = require( '@wordpress/blocks' );
 /**
  * Internal dependencies
  */
-const { IdFactory } = require( '../../utils' );
+const { asyncForEach, IdFactory } = require( '../../utils' );
 const { maybeAddCoverBlock } = require( './containers/cover.js' );
 const { containerMapper, componentMapper } = require( './mappers.js' );
 const {
@@ -74,8 +74,8 @@ const addFooterPage = ( data, masterPage ) => {
 	} );
 };
 
-const parsePages = ( data, metaData, masterPage ) => {
-	data.pages.forEach( ( page ) => {
+const parsePages = async ( data, metaData, masterPage ) => {
+	await asyncForEach( data.pages, ( page ) => {
 		const resolver = ( component ) =>
 			resolveQueries( component, page.config.data, masterPage.data );
 		const meta = {
