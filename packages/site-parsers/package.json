@@ -24,9 +24,9 @@
 	"@wordpress/block-library": "2.29.2",
 	"@wordpress/blocks": "8.0.2",
 	"@wordpress/format-library": "1.27.2",
+	"axios": "0.21.1",
 	"cheerio": "1.0.0-rc.6",
-	"slugify": "1.5.0",
-	"axios": "0.21.1"
+	"slugify": "1.5.0"
   },
   "devDependencies": {
   },
