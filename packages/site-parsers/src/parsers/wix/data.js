@@ -128,8 +128,19 @@ const addObject = ( data, objType, objData ) => {
 	return id;
 };
 
+const getThemeDataRef = ( page, id ) => {
+	return (
+		page &&
+		page.config &&
+		page.config.data &&
+		page.config.data.theme_data &&
+		page.config.data.theme_data[ id ]
+	);
+};
+
 module.exports = {
 	resolveQueries,
 	addMediaAttachment,
 	addObject,
+	getThemeDataRef,
 };
