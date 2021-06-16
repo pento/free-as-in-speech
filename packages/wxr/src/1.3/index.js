@@ -348,9 +348,9 @@ class WXRDriver {
 
 					if ( store === 'objects' ) {
 						const objectType = datum.type;
-
+						let output;
 						if ( objectType === 'contact-form' ) {
-							const output = [];
+							output = [];
 
 							output.push( { email: datum.data.email } );
 							for ( const field of datum.data.fields ) {
@@ -378,25 +378,27 @@ class WXRDriver {
 
 								output.push( outputObject );
 							}
-
-							this.write(
-								writer,
-								toXML(
-									{
-										_name: 'wp:object',
-										_attrs: {
-											xmlns: `http://wordpress.org/export/objects/${ objectType }/1.0/`,
-											id: datum.internalId,
-										},
-										_content: output,
-									},
-									{
-										depth: 1,
-										indent: '\t',
-									}
-								) + '\n'
-							);
+						} else {
+							output = datum.data;
 						}
+
+						this.write(
+							writer,
+							toXML(
+								{
+									_name: 'wp:object',
+									_attrs: {
+										xmlns: `http://wordpress.org/export/objects/${ objectType }/1.0/`,
+										id: datum.internalId,
+									},
+									_content: output,
+								},
+								{
+									depth: 1,
+									indent: '\t',
+								}
+							) + '\n'
+						);
 						continue;
 					}
 
