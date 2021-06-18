@@ -17,6 +17,7 @@ const componentHandlers = [
 	require( './components/menu.js' ),
 	require( './components/image.js' ),
 	require( './components/image-list.js' ),
+	require( './components/image-vector.js' ),
 	require( './components/button.js' ),
 	require( './components/button-stylable.js' ),
 	require( './components/google-map.js' ),
