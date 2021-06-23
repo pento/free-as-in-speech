@@ -12,7 +12,7 @@ module.exports = {
 			'shapes/' +
 			component.dataQuery.svgId;
 
-		await axios
+		return await axios
 			.get( svgContentUrl )
 			.then( ( response ) => response.data )
 			.then( ( svgData ) => {

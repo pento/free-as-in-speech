@@ -1,9 +1,13 @@
 const { createBlock } = require( '@wordpress/blocks' );
+const { asyncComponentsParser } = require( '../data' );
 
 module.exports = {
 	componentType: 'wysiwyg.viewer.components.StripColumnsContainer',
-	parseComponent: ( component, recursiveComponentParser ) => {
-		let innerBlocks = component.components.map( recursiveComponentParser );
+	parseComponent: async ( component, recursiveComponentParser ) => {
+		let innerBlocks = await asyncComponentsParser(
+			component.components,
+			recursiveComponentParser
+		);
 
 		if ( ! innerBlocks.length ) {
 			return null;
@@ -54,13 +58,11 @@ module.exports = {
 			return columnsBlock;
 		}
 
-		return createBlock(
-			'core/column',
-			{},
-			component.components
-				.map( recursiveComponentParser )
-				.flat()
-				.filter( Boolean )
+		const innerComponents = await asyncComponentsParser(
+			component.components,
+			recursiveComponentParser
 		);
+
+		return createBlock( 'core/column', {}, innerComponents );
 	},
 };

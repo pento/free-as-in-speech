@@ -1,4 +1,5 @@
 const { pasteHandler } = require( '@wordpress/blocks' );
+const { asyncComponentsParser } = require( './data' );
 
 const handlerMapper = ( key ) => ( accumulator, currentValue ) => {
 	accumulator[ currentValue[ key ] ] = currentValue;
@@ -47,7 +48,7 @@ const getTypeFromComponentPath = ( componentType ) => {
 };
 
 module.exports = {
-	containerMapper: (
+	containerMapper: async (
 		component,
 		recursiveComponentParser,
 		resolver,
@@ -56,7 +57,9 @@ module.exports = {
 	) => {
 		if ( component.componentType in containerHandlers ) {
 			return wrapResult(
-				containerHandlers[ component.componentType ].parseComponent(
+				await containerHandlers[
+					component.componentType
+				].parseComponent(
 					component,
 					recursiveComponentParser,
 					resolver,
@@ -67,10 +70,10 @@ module.exports = {
 			);
 		}
 
-		return component.components
-			.map( recursiveComponentParser )
-			.flat()
-			.filter( Boolean );
+		return await asyncComponentsParser(
+			component.components,
+			recursiveComponentParser
+		);
 	},
 
 	componentMapper: ( component, meta ) => {

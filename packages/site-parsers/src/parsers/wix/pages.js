@@ -14,6 +14,7 @@ const {
 	addMediaAttachment,
 	addObject,
 	getThemeDataRef,
+	asyncComponentsParser,
 } = require( './data' );
 
 const addHeaderPage = ( data, masterPage ) => {
@@ -75,7 +76,7 @@ const addFooterPage = ( data, masterPage ) => {
 };
 
 const parsePages = async ( data, metaData, masterPage ) => {
-	await asyncForEach( data.pages, ( page ) => {
+	await asyncForEach( data.pages, async ( page ) => {
 		const resolver = ( component ) =>
 			resolveQueries( component, page.config.data, masterPage.data );
 		const meta = {
@@ -91,12 +92,12 @@ const parsePages = async ( data, metaData, masterPage ) => {
 			getThemeDataRef: getThemeDataRef.bind( null, page ),
 		};
 
-		const recursiveComponentParser = ( component ) => {
+		const recursiveComponentParser = async ( component ) => {
 			component = resolver( component );
 
 			if ( component.components ) {
 				return maybeAddCoverBlock(
-					containerMapper(
+					await containerMapper(
 						component,
 						recursiveComponentParser,
 						resolver,
@@ -109,13 +110,12 @@ const parsePages = async ( data, metaData, masterPage ) => {
 			return componentMapper( component, meta );
 		};
 
-		Promise.all(
-			page.config.structure.components.map( recursiveComponentParser )
-		)
-			.then( ( x ) => x.flat() )
-			.then( ( x ) => x.filter( Boolean ) )
-			.then( ( x ) => serialize( x ) )
-			.then( ( x ) => ( page.content = x ) );
+		const parsedComponents = await asyncComponentsParser(
+			page.config.structure.components,
+			recursiveComponentParser
+		);
+
+		page.content = serialize( parsedComponents );
 	} );
 };
 

@@ -6,7 +6,7 @@ const slug = require( 'slugify' );
 /**
  * Internal dependencies
  */
-const { IdFactory } = require( '../../utils' );
+const { asyncForEach, IdFactory } = require( '../../utils' );
 
 const getProperTreeLocation = ( fieldName ) => {
 	switch ( fieldName ) {
@@ -138,9 +138,19 @@ const getThemeDataRef = ( page, id ) => {
 	);
 };
 
+const asyncComponentsParser = async ( components, parser ) => {
+	const parserComponents = [];
+	await asyncForEach( components, async ( comp ) => {
+		parserComponents.push( await parser( comp ) );
+	} );
+
+	return parserComponents.flat().filter( Boolean );
+};
+
 module.exports = {
 	resolveQueries,
 	addMediaAttachment,
 	addObject,
 	getThemeDataRef,
+	asyncComponentsParser,
 };
