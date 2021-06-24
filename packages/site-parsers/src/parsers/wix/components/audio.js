@@ -8,11 +8,11 @@ const { createBlock } = require( '@wordpress/blocks' );
 module.exports = {
 	type: 'MusicPlayerData',
 	parseComponent: ( component, { metaData } ) => {
-		if ( ! component.dataQuery.uri ) {
-			return;
+		if ( ! component.dataQuery.audioRef ) {
+			return null;
 		}
 
-		const uri = component.dataQuery.uri;
+		const uri = component.dataQuery.audioRef.uri;
 		const prefix = metaData.serviceTopology.staticAudioUrl;
 
 		const attrs = {
@@ -24,7 +24,7 @@ module.exports = {
 			component.propertyQuery.type === 'MusicPlayerProperties'
 		) {
 			Object.assign( attrs, {
-				loop: component.propertyQuery.autoplay,
+				loop: component.propertyQuery.loop,
 				autoplay: component.propertyQuery.autoplay,
 			} );
 		}
