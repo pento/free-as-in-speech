@@ -118,15 +118,15 @@ const anonymizers = {
 		replacement: randomBase62String,
 	},
 	_wixAB3: {
-		regex: /_wixAB3=([^&;]+)/g,
+		regex: /_wixAB3=([^&;",]+)/g,
 		replacement: randomBase62String,
 	},
 	googleAnalytics: {
-		regex: /_ga=([^&;]+)/g,
+		regex: /_ga=([^&;",]+)/g,
 		replacement: randomBase62String,
 	},
 	googleTagManager: {
-		regex: /_gcl_au=([^&;]+)/g,
+		regex: /_gcl_au=([^&;",]+)/g,
 		replacement: randomBase62String,
 	},
 	wixClient: {
@@ -134,19 +134,19 @@ const anonymizers = {
 		replacement: randomNumber,
 	},
 	wixSession2: {
-		regex: /wixSession2=(JWT[.][^&;]+)/g,
+		regex: /wixSession2=(JWT[.][^&;",]+)/g,
 		replacement: randomBase62String,
 	},
 	svSession: {
-		regex: /svSession=([^&;]+)/g,
+		regex: /svSession=([^&;",]+)/g,
 		replacement: randomBase62String,
 	},
 	xsrfToken: {
-		regex: /XSRF-TOKEN=([^&;]+)/g,
+		regex: /XSRF-TOKEN=([^&;",]+)/g,
 		replacement: randomBase62String,
 	},
 	tsToken: {
-		regex: /TS[0-9a-f]+=([^&;]+)/g,
+		regex: /TS[0-9a-f]+=([^&;",]+)/g,
 		replacement: randomBase62String,
 	},
 	etag: {
