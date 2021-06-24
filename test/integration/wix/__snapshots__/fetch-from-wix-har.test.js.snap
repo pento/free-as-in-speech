@@ -204,6 +204,10 @@ exports[`wix: rockfield.har 1`] = `
 <p>The menu is a mix of French regional cuisines, and the menu changes with the seasons.<br>Be sure to ask about the daily specials!</p>
 <!-- /wp:paragraph -->
 
+<!-- wp:separator -->
+<hr class=\\"wp-block-separator\\"/>
+<!-- /wp:separator -->
+
 <!-- wp:heading {\\"level\\":4} -->
 <h4><strong>Starter</strong></h4>
 <!-- /wp:heading -->
@@ -246,7 +250,11 @@ exports[`wix: rockfield.har 1`] = `
 
 <!-- wp:paragraph -->
 <p>Smoked salmon topped with crème fraîche, dill and capers<br>$15.00</p>
-<!-- /wp:paragraph --></div>
+<!-- /wp:paragraph -->
+
+<!-- wp:separator -->
+<hr class=\\"wp-block-separator\\"/>
+<!-- /wp:separator --></div>
 <!-- /wp:column -->
 
 <!-- wp:column -->
@@ -320,6 +328,10 @@ exports[`wix: rockfield.har 1`] = `
 <p><strong>With goat’s cheese, rocket and baby shoot salad<br>$22.00</strong></p>
 <!-- /wp:paragraph -->
 
+<!-- wp:separator -->
+<hr class=\\"wp-block-separator\\"/>
+<!-- /wp:separator -->
+
 <!-- wp:heading {\\"level\\":4} -->
 <h4><strong>Desserts</strong></h4>
 <!-- /wp:heading -->
@@ -372,6 +384,10 @@ exports[`wix: rockfield.har 1`] = `
 <p><strong>Blueberries, strawberries, raspberries, plums and passion fruit<br>$28.00</strong></p>
 <!-- /wp:paragraph -->
 
+<!-- wp:separator -->
+<hr class=\\"wp-block-separator\\"/>
+<!-- /wp:separator -->
+
 <!-- wp:paragraph -->
 <p><em>Our fish is responsibly caught from sustainable sources.</em></p>
 <!-- /wp:paragraph -->]]></content:encoded>
@@ -416,6 +432,10 @@ exports[`wix: rockfield.har 1`] = `
 <!-- /wp:paragraph --></div>
 <!-- /wp:group -->
 
+<!-- wp:separator -->
+<hr class=\\"wp-block-separator\\"/>
+<!-- /wp:separator -->
+
 <!-- wp:paragraph -->
 <p>Previous Post</p>
 <!-- /wp:paragraph -->
@@ -437,9 +457,17 @@ exports[`wix: rockfield.har 1`] = `
 <!-- /wp:heading -->
 
 <!-- wp:cover {\\"url\\":\\"https://static.wixstatic.com/media/ZDA5B_j5RedL9MFgZ0iaUowYVI71VO5RTpkl5~mv2.jpg\\",\\"id\\":14,\\"align\\":\\"full\\"} -->
-<div class=\\"wp-block-cover alignfull has-background-dim\\"><img class=\\"wp-block-cover__image-background wp-image-14\\" alt=\\"\\" src=\\"https://static.wixstatic.com/media/ZDA5B_j5RedL9MFgZ0iaUowYVI71VO5RTpkl5~mv2.jpg\\" data-object-fit=\\"cover\\"/><div class=\\"wp-block-cover__inner-container\\"><!-- wp:heading {\\"level\\":1} -->
+<div class=\\"wp-block-cover alignfull has-background-dim\\"><img class=\\"wp-block-cover__image-background wp-image-14\\" alt=\\"\\" src=\\"https://static.wixstatic.com/media/ZDA5B_j5RedL9MFgZ0iaUowYVI71VO5RTpkl5~mv2.jpg\\" data-object-fit=\\"cover\\"/><div class=\\"wp-block-cover__inner-container\\"><!-- wp:separator -->
+<hr class=\\"wp-block-separator\\"/>
+<!-- /wp:separator -->
+
+<!-- wp:heading {\\"level\\":1} -->
 <h1><strong>Latest Updates From Us</strong></h1>
-<!-- /wp:heading --></div></div>
+<!-- /wp:heading -->
+
+<!-- wp:separator -->
+<hr class=\\"wp-block-separator\\"/>
+<!-- /wp:separator --></div></div>
 <!-- /wp:cover -->]]></content:encoded>
 		<wp:comment_status><![CDATA[closed]]></wp:comment_status>
 		<wp:status><![CDATA[publish]]></wp:status>
@@ -469,6 +497,10 @@ exports[`wix: rockfield.har 1`] = `
 <!-- wp:image {\\"width\\":36,\\"height\\":36} -->
 <figure class=\\"wp-block-image is-resized\\"><img src=\\"https://static.wixstatic.com/media/JdmUI_yteJBoBtYToixmOFoNYXF40kUU5JdTh~mv2.png\\" alt=\\"1f44b.png\\" width=\\"36\\" height=\\"36\\"/></figure>
 <!-- /wp:image -->
+
+<!-- wp:separator -->
+<hr class=\\"wp-block-separator\\"/>
+<!-- /wp:separator -->
 
 <!-- wp:heading {\\"level\\":4} -->
 <h4><strong>Location</strong></h4>
@@ -513,9 +545,17 @@ exports[`wix: rockfield.har 1`] = `
 		<title><![CDATA[Home]]></title>
 		<description></description>
 		<content:encoded><![CDATA[<!-- wp:cover {\\"url\\":\\"https://static.wixstatic.com/media/5Dsu1_ZUNrjjTx3j1ZbikUbg2rP0eIE5gJllA~mv2.jpg\\",\\"id\\":16,\\"align\\":\\"full\\"} -->
-<div class=\\"wp-block-cover alignfull has-background-dim\\"><img class=\\"wp-block-cover__image-background wp-image-16\\" alt=\\"\\" src=\\"https://static.wixstatic.com/media/5Dsu1_ZUNrjjTx3j1ZbikUbg2rP0eIE5gJllA~mv2.jpg\\" data-object-fit=\\"cover\\"/><div class=\\"wp-block-cover__inner-container\\"><!-- wp:heading -->
+<div class=\\"wp-block-cover alignfull has-background-dim\\"><img class=\\"wp-block-cover__image-background wp-image-16\\" alt=\\"\\" src=\\"https://static.wixstatic.com/media/5Dsu1_ZUNrjjTx3j1ZbikUbg2rP0eIE5gJllA~mv2.jpg\\" data-object-fit=\\"cover\\"/><div class=\\"wp-block-cover__inner-container\\"><!-- wp:separator -->
+<hr class=\\"wp-block-separator\\"/>
+<!-- /wp:separator -->
+
+<!-- wp:heading -->
 <h2><strong>Enjoy Our Food Experience</strong></h2>
-<!-- /wp:heading --></div></div>
+<!-- /wp:heading -->
+
+<!-- wp:separator -->
+<hr class=\\"wp-block-separator\\"/>
+<!-- /wp:separator --></div></div>
 <!-- /wp:cover -->
 
 <!-- wp:heading {\\"level\\":4} -->
@@ -539,14 +579,26 @@ exports[`wix: rockfield.har 1`] = `
 <!-- /wp:paragraph -->
 
 <!-- wp:cover {\\"url\\":\\"https://static.wixstatic.com/media/e7Sgo_zJMHqoFuuTQ541QbqX7LxbqG8Yc8KJE~mv2.jpg\\",\\"id\\":17,\\"align\\":\\"full\\"} -->
-<div class=\\"wp-block-cover alignfull has-background-dim\\"><img class=\\"wp-block-cover__image-background wp-image-17\\" alt=\\"\\" src=\\"https://static.wixstatic.com/media/e7Sgo_zJMHqoFuuTQ541QbqX7LxbqG8Yc8KJE~mv2.jpg\\" data-object-fit=\\"cover\\"/><div class=\\"wp-block-cover__inner-container\\"><!-- wp:heading -->
+<div class=\\"wp-block-cover alignfull has-background-dim\\"><img class=\\"wp-block-cover__image-background wp-image-17\\" alt=\\"\\" src=\\"https://static.wixstatic.com/media/e7Sgo_zJMHqoFuuTQ541QbqX7LxbqG8Yc8KJE~mv2.jpg\\" data-object-fit=\\"cover\\"/><div class=\\"wp-block-cover__inner-container\\"><!-- wp:separator -->
+<hr class=\\"wp-block-separator\\"/>
+<!-- /wp:separator -->
+
+<!-- wp:heading -->
 <h2><strong>Discover Our Menu</strong></h2>
-<!-- /wp:heading --></div></div>
+<!-- /wp:heading -->
+
+<!-- wp:separator -->
+<hr class=\\"wp-block-separator\\"/>
+<!-- /wp:separator --></div></div>
 <!-- /wp:cover -->
 
 <!-- wp:paragraph -->
 <p>The menu is a mix of French regional cuisines, and the menu changes with the seasons.<br>Be sure to ask about the daily specials!</p>
 <!-- /wp:paragraph -->
+
+<!-- wp:separator -->
+<hr class=\\"wp-block-separator\\"/>
+<!-- /wp:separator -->
 
 <!-- wp:heading {\\"level\\":4} -->
 <h4><strong>Sample Menu</strong></h4>
@@ -611,9 +663,17 @@ exports[`wix: rockfield.har 1`] = `
 <!-- /wp:buttons -->
 
 <!-- wp:cover {\\"url\\":\\"https://static.wixstatic.com/media/sXYIH_PerVF1DoW7DmMdKJeul0lYHXnlbnWBW~mv2.jpg\\",\\"id\\":18,\\"align\\":\\"full\\"} -->
-<div class=\\"wp-block-cover alignfull has-background-dim\\"><img class=\\"wp-block-cover__image-background wp-image-18\\" alt=\\"\\" src=\\"https://static.wixstatic.com/media/sXYIH_PerVF1DoW7DmMdKJeul0lYHXnlbnWBW~mv2.jpg\\" data-object-fit=\\"cover\\"/><div class=\\"wp-block-cover__inner-container\\"><!-- wp:heading -->
+<div class=\\"wp-block-cover alignfull has-background-dim\\"><img class=\\"wp-block-cover__image-background wp-image-18\\" alt=\\"\\" src=\\"https://static.wixstatic.com/media/sXYIH_PerVF1DoW7DmMdKJeul0lYHXnlbnWBW~mv2.jpg\\" data-object-fit=\\"cover\\"/><div class=\\"wp-block-cover__inner-container\\"><!-- wp:separator -->
+<hr class=\\"wp-block-separator\\"/>
+<!-- /wp:separator -->
+
+<!-- wp:heading -->
 <h2><strong>Book Your Table</strong></h2>
-<!-- /wp:heading --></div></div>
+<!-- /wp:heading -->
+
+<!-- wp:separator -->
+<hr class=\\"wp-block-separator\\"/>
+<!-- /wp:separator --></div></div>
 <!-- /wp:cover -->
 
 <!-- wp:core-import/plugin-placeholder {\\"id\\":2} /-->
@@ -681,6 +741,10 @@ exports[`wix: rockfield.har 1`] = `
 <p>My name is Joan Smith. I love discovering new literature.&nbsp;<a>View more posts</a></p>
 <!-- /wp:paragraph --></div>
 <!-- /wp:group -->
+
+<!-- wp:separator -->
+<hr class=\\"wp-block-separator\\"/>
+<!-- /wp:separator -->
 
 <!-- wp:paragraph -->
 <p>Previous Post</p>
@@ -755,6 +819,10 @@ exports[`wix: rockfield.har 1`] = `
 <p>My name is Joan Smith. I love discovering new literature.&nbsp;<a>View more posts</a></p>
 <!-- /wp:paragraph --></div>
 <!-- /wp:group -->
+
+<!-- wp:separator -->
+<hr class=\\"wp-block-separator\\"/>
+<!-- /wp:separator -->
 
 <!-- wp:paragraph -->
 <p>Previous Post</p>
