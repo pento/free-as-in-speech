@@ -75,7 +75,7 @@ const addFooterPage = ( data, masterPage ) => {
 	} );
 };
 
-const parsePages = async ( data, metaData, masterPage ) => {
+const parsePages = async ( data, metaData, masterPage, config ) => {
 	await asyncForEach( data.pages, async ( page ) => {
 		const resolver = ( component ) =>
 			resolveQueries( component, page.config.data, masterPage.data );
@@ -83,6 +83,7 @@ const parsePages = async ( data, metaData, masterPage ) => {
 			resolver,
 			metaData,
 			page,
+			fetch: config.fetch,
 			addObject: addObject.bind( null, data ),
 			addMediaAttachment: addMediaAttachment.bind(
 				null,
