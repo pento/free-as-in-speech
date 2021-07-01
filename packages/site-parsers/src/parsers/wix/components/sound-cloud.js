@@ -10,9 +10,12 @@ module.exports = {
 			themeData.style.properties &&
 			themeData.style.properties.param_font_resolveUrl
 		) {
-			return createBlock( 'core/embed', {
-				url: themeData.style.properties.param_font_resolveUrl,
-			} );
+			const url = themeData.style.properties.param_font_resolveUrl.replace(
+				/^(")|(")$/g,
+				''
+			);
+
+			return createBlock( 'core/embed', { url } );
 		}
 	},
 };
