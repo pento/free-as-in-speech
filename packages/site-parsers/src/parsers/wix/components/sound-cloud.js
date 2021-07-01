@@ -11,7 +11,7 @@ module.exports = {
 			themeData.style.properties.param_font_resolveUrl
 		) {
 			const url = themeData.style.properties.param_font_resolveUrl.replace(
-				/^(")|(")$/g,
+				/^"|"$/g,
 				''
 			);
 
