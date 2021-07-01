@@ -1,10 +1,13 @@
 const cheerio = require( 'cheerio' );
 const fetchNode = require( 'node-fetch' );
 const { createBlock } = require( '@wordpress/blocks' );
+const { Logger } = require( '../../../utils' );
 
 module.exports = {
 	type: 'VectorImage',
 	parseComponent: async ( component, { metaData, fetch } ) => {
+		Logger( 'wix' ).log( 'VectorImage' );
+
 		const alt = component.dataQuery.alt;
 		const title = component.dataQuery.title;
 		const svgContentUrl =

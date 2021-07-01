@@ -1,8 +1,11 @@
 const { createBlock } = require( '@wordpress/blocks' );
+const { Logger } = require( '../../../utils' );
 
 module.exports = {
 	type: 'GeoMap',
 	parseComponent: ( component, { addObject } ) => {
+		Logger( 'wix' ).log( 'GeoMap' );
+
 		return createBlock( 'core-import/plugin-placeholder', {
 			id: addObject( 'map', {
 				height: component.layout.height, // int (px)

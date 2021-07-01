@@ -1,4 +1,5 @@
 const { createBlock } = require( '@wordpress/blocks' );
+const { Logger } = require( '../../../utils' );
 
 module.exports = {
 	maybeAddCoverBlock: ( component, { metaData, addMediaAttachment } ) => {
@@ -16,6 +17,8 @@ module.exports = {
 			component.designQuery.background &&
 			component.designQuery.background.mediaRef
 		) {
+			Logger( 'wix' ).log( 'CoverContainer' );
+
 			// If a background is defined, let's make this a cover block.
 			const attachment = addMediaAttachment(
 				metaData.serviceTopology.staticMediaUrl,

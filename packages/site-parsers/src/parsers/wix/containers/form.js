@@ -1,4 +1,5 @@
 const { createBlock } = require( '@wordpress/blocks' );
+const { Logger } = require( '../../../utils' );
 
 module.exports = {
 	componentType: 'wysiwyg.viewer.components.FormContainer',
@@ -9,6 +10,7 @@ module.exports = {
 		{ addObject }
 	) => {
 		const parseFormFields = ( component ) => {
+			Logger( 'wix' ).log( 'FormContainer' );
 			component = resolver( component );
 
 			if ( component.components ) {
