@@ -92,7 +92,9 @@ module.exports = {
 			)
 		);
 
-		return staticPagesParserWix( metaData, masterPage, pages );
+		return staticPagesParserWix( metaData, masterPage, pages, {
+			fetch: window.fetch,
+		} );
 	},
 
 	/**

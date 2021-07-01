@@ -1,10 +1,10 @@
-const axios = require( 'axios' );
 const cheerio = require( 'cheerio' );
+const fetchNode = require( 'node-fetch' );
 const { createBlock } = require( '@wordpress/blocks' );
 
 module.exports = {
 	type: 'VectorImage',
-	parseComponent: async ( component, { metaData } ) => {
+	parseComponent: async ( component, { metaData, fetch } ) => {
 		const alt = component.dataQuery.alt;
 		const title = component.dataQuery.title;
 		const svgContentUrl =
@@ -12,9 +12,10 @@ module.exports = {
 			'shapes/' +
 			component.dataQuery.svgId;
 
-		return await axios
-			.get( svgContentUrl )
-			.then( ( response ) => response.data )
+		return await Promise.resolve()
+			.then( () => fetch( svgContentUrl ) )
+			.catch( () => fetchNode( svgContentUrl ) )
+			.then( ( response ) => response.text() )
 			.then( ( svgData ) => {
 				const $ = cheerio.load( svgData );
 
