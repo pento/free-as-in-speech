@@ -75,7 +75,7 @@ const resolveQueries = ( input, data, masterPage ) => {
 			input[ key ] = isDocumentRefValid( val )
 				? resolveQueries(
 						data[ location ][ query ] ||
-							masterPage[ location ][ query ],
+							( masterPage && masterPage[ location ][ query ] ),
 						data,
 						masterPage
 				  )
