@@ -25,6 +25,7 @@
 	"@wordpress/blocks": "8.0.2",
 	"@wordpress/format-library": "1.27.2",
 	"cheerio": "1.0.0-rc.6",
+	"debug": "4.3.2",
 	"node-fetch": "2.6.1",
 	"slugify": "1.5.0"
   },

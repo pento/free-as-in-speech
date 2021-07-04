@@ -1,3 +1,5 @@
+const debugLog = require( 'debug' );
+
 function Logger( provider, debug ) {
 	const path = `siteParser:${ provider }:apps:staticPages`;
 
@@ -5,9 +7,7 @@ function Logger( provider, debug ) {
 		log( component ) {
 			if ( ! debug ) return;
 
-			// eslint-disable-next-line no-console
-			console.log(
-				`${ path }:${ provider }:${ component }`,
+			debugLog( `${ path }:${ component }` )(
 				arguments[ 1 ] ? arguments[ 1 ] : '',
 				arguments[ 2 ] ? arguments[ 2 ] : '',
 				arguments[ 3 ] ? arguments[ 3 ] : ''

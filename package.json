@@ -32,6 +32,7 @@
 		"@wordpress/wxr": "file:packages/wxr",
 		"cheerio": "1.0.0-rc.6",
 		"dayjs": "1.10.4",
+		"debug": "4.3.2",
 		"gutenberg-for-node": "file:packages/gutenberg-for-node",
 		"node-fetch": "2.6.1",
 		"os-browserify": "0.3.0",
