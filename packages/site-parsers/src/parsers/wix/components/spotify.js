@@ -1,5 +1,13 @@
 const { createBlock } = require( '@wordpress/blocks' );
 
+const getSpotifyUrlFromUri = ( uri ) => {
+	const uriRgx = /^spotify:(?<type>track|user|artist|album|playlist):(?<id>[a-zA-Z0-9]+)$/;
+	if ( ! uriRgx.test( uri ) ) return uri;
+
+	const uriMatch = uri.match( uriRgx );
+	return `https://open.spotify.com/${ uriMatch.groups.type }/${ uriMatch.groups.id }`;
+};
+
 module.exports = {
 	parseComponent: ( component ) => {
 		const tpaData = component.dataQuery.tpaData;
@@ -8,7 +16,7 @@ module.exports = {
 			const content = JSON.parse( tpaData.content );
 
 			return createBlock( 'core/embed', {
-				url: content.spotifyURI,
+				url: getSpotifyUrlFromUri( content.spotifyURI ),
 			} );
 		}
 	},
