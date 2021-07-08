@@ -5,16 +5,19 @@ const { createBlock } = require( '@wordpress/blocks' );
  * componentType: DocumentMedia
  */
 module.exports = {
-	parseComponent: ( component, { addMediaAttachment } ) => {
+	parseComponent: ( component, { metaData, addMediaAttachment } ) => {
 		if ( ! component.dataQuery.link ) {
 			return null;
 		}
 
-		const attachment = addMediaAttachment( {
-			uri: component.dataQuery.link.docId,
-			name: component.dataQuery.link.name,
-			alt: component.dataQuery.title,
-		} );
+		const attachment = addMediaAttachment(
+			metaData.serviceTopology.staticHTMLComponentUrl,
+			{
+				uri: component.dataQuery.link.docId,
+				name: component.dataQuery.link.name,
+				alt: component.dataQuery.link.name,
+			}
+		);
 
 		return createBlock( 'core/file', {
 			id: attachment.id,

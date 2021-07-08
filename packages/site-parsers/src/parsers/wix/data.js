@@ -94,6 +94,8 @@ const addMediaAttachment = ( data, mediaUrl, component ) => {
 	if ( existingId ) {
 		return data.attachments[ existingId ];
 	}
+
+	mediaUrl = mediaUrl.replace( /\/$/, '' );
 	component.src = mediaUrl + '/' + component.uri;
 
 	const attachment = {

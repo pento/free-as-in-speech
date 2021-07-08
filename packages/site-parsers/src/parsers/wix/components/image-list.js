@@ -1,9 +1,12 @@
 const { createBlock } = require( '@wordpress/blocks' );
 const { parseComponent: linkBarParseComponent } = require( './link-bar' );
 
-const parseImages = ( images, { addMediaAttachment } ) => {
+const parseImages = ( images, { metaData, addMediaAttachment } ) => {
 	return images.map( ( img ) => {
-		const attachment = addMediaAttachment( img );
+		const attachment = addMediaAttachment(
+			metaData.serviceTopology.staticMediaUrl,
+			img
+		);
 
 		const attrs = {
 			id: attachment.id,
