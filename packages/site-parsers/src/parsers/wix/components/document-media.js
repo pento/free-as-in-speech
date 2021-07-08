@@ -15,7 +15,7 @@ module.exports = {
 			{
 				uri: component.dataQuery.link.docId,
 				name: component.dataQuery.link.name,
-				alt: component.dataQuery.title,
+				alt: component.dataQuery.link.name,
 			}
 		);
 
