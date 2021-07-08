@@ -306,15 +306,33 @@ class WXZDriver {
 	 */
 	async stream( writableStream ) {
 		const writer = writableStream.getWriter();
-		const zip = new fflate.Zip( async ( err, data, final ) => {
+		const zip = new fflate.Zip( ( err, data, final ) => {
 			if ( err ) {
-				// console.error( err );
+				console.error( err );
 			} else {
 				if ( data ) {
-					await writer.write( data );
+					writer.ready
+						.then( () => {
+							return writer.write( data );
+						} )
+						.then( () => {
+							console.log( 'Chunk written to sink.' );
+						} )
+						.catch( ( err ) => {
+							console.log( 'Chunk error:', err );
+						} );
 				}
 				if ( final ) {
-					await writer.close();
+					writer.ready
+						.then( () => {
+							writer.close();
+						} )
+						.then( () => {
+							console.log( 'All chunks written' );
+						} )
+						.catch( ( err ) => {
+							console.log( 'Stream error:', err );
+						} );
 				}
 			}
 		} );
@@ -409,12 +427,15 @@ class WXZDriver {
 				);
 				zip.add( file );
 				file.push( fflate.strToU8( JSON.stringify( datum ) ), true );
+				console.log( store + '/' + datum.internalId + '.json' );
 			}
 		}, Promise.resolve( null ) );
+		console.log( 'zip.end' );
 
-		await zip.end();
-
-		await writer.close();
+		writer.ready.then( () => {
+			zip.end();
+		} );
+		console.log( 'zip.ended' );
 	}
 }
 
