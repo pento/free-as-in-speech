@@ -1,17 +1,17 @@
 const { createBlock } = require( '@wordpress/blocks' );
 const { parseComponent: linkBarParseComponent } = require( './link-bar' );
 
-const parseImages = ( images, metaData ) => {
+const parseImages = ( images, { addMediaAttachment } ) => {
 	return images.map( ( img ) => {
-		const prefix = metaData.serviceTopology.staticAudioUrl;
+		const attachment = addMediaAttachment( img );
 
 		const attrs = {
-			id: img.id,
+			id: attachment.id,
 			alt: img.alt,
 			title: img.title,
 			caption: img.description,
-			url: prefix + '/' + img.uri,
-			fulUrl: '/' + prefix + '/' + img.uri,
+			url: attachment.attachment_url,
+			fulUrl: attachment.attachment_url,
 		};
 
 		if ( img.link ) {
@@ -24,8 +24,8 @@ const parseImages = ( images, metaData ) => {
 
 module.exports = {
 	type: 'ImageList',
-	parseComponent: ( component, { metaData } ) => {
-		const images = parseImages( component.dataQuery.items, metaData );
+	parseComponent: ( component, meta ) => {
+		const images = parseImages( component.dataQuery.items, meta );
 		const attrs = {
 			images,
 			ids: images.map( ( img ) => img.id ),
