@@ -10,14 +10,15 @@ module.exports = {
 			return null;
 		}
 
-		const attachment = addMediaAttachment(
-			metaData.serviceTopology.staticHTMLComponentUrl,
-			{
-				uri: component.dataQuery.link.docId,
-				name: component.dataQuery.link.name,
-				alt: component.dataQuery.link.name,
-			}
+		const mediaUrl = metaData.serviceTopology.staticHTMLComponentUrl.replace(
+			/\/$/,
+			''
 		);
+		const attachment = addMediaAttachment( mediaUrl, {
+			uri: component.dataQuery.link.docId,
+			name: component.dataQuery.link.name,
+			alt: component.dataQuery.link.name,
+		} );
 
 		return createBlock( 'core/file', {
 			id: attachment.id,
