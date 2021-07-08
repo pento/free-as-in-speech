@@ -259,9 +259,9 @@ https://dai.ly/k3jznaTlT1RbXjwkuYx
 <figure class=\\"wp-block-audio\\"><audio controls src=\\"https://music.wixstatic.com/mp3/dmPSv_DPcDH86Ium3LCRu4N4jYKKCQrhgTVsy.mp3\\"></audio></figure>
 <!-- /wp:audio -->
 
-<!-- wp:embed {\\"url\\":\\"spotify:playlist:37i9dQZF1E4lCYovezyEZT\\"} -->
+<!-- wp:embed {\\"url\\":\\"https://open.spotify.com/playlist/37i9dQZF1E4lCYovezyEZT\\"} -->
 <figure class=\\"wp-block-embed\\"><div class=\\"wp-block-embed__wrapper\\">
-spotify:playlist:37i9dQZF1E4lCYovezyEZT
+https://open.spotify.com/playlist/37i9dQZF1E4lCYovezyEZT
 </div></figure>
 <!-- /wp:embed -->
 
