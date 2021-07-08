@@ -32,6 +32,7 @@ const extensionConfig = {
 		content: './source/content',
 		action: './source/action',
 		'@wordpress/wxr': './packages/wxr',
+		'@wordpress/wxz': './packages/wxz',
 		'site-parsers': './packages/site-parsers',
 	},
 	output: {

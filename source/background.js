@@ -34,7 +34,7 @@ browser.runtime.onMessage.addListener( async ( message ) => {
 			} );
 		case 'start_wix_export':
 			// Start the export.
-			const wxr = await startExport( 'wix', wixConfig, ( status ) =>
+			const wxz = await startExport( 'wix', wixConfig, ( status ) =>
 				browser.runtime.sendMessage( {
 					type: 'export_progress_update',
 					data: status,
@@ -43,12 +43,14 @@ browser.runtime.onMessage.addListener( async ( message ) => {
 
 			// Present the export as a download.
 			const url = URL.createObjectURL(
-				new Blob( [ await wxr.export() ], { type: 'text/xml+wxr' } )
+				new Blob( [ await wxz.export() ], {
+					type: 'application/vnd.wordpress.export+zip',
+				} )
 			);
 
 			const id = await browser.downloads.download( {
 				url,
-				filename: 'wix-export.wxr',
+				filename: 'wix-export.wxz',
 			} );
 
 			downloadObjects.set( id, url );

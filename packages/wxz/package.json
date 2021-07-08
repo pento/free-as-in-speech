@@ -1,0 +1,36 @@
+{
+	"name": "@wordpress/wxz",
+	"version": "1.0.0",
+	"description": "A package for generating WordPress Export (WXz) files.",
+	"author": "The WordPress Contributors",
+	"license": "GPL-2.0-or-later",
+	"keywords": [
+		"wordpress",
+		"wxz",
+		"export"
+	],
+	"homepage": "https://github.com/pento/free-as-in-speech/",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/pento/free-as-in-speech.git",
+		"directory": "packages/wxz"
+	},
+	"bugs": {
+		"url": "https://github.com/pento/free-as-in-speech/issues"
+	},
+	"main": "src/index.js",
+	"module": "build-module/index.js",
+	"dependencies": {
+		"ajv": "8.2.0",
+		"dayjs": "^1.10.4",
+		"fflate": "^0.7.1",
+		"idb": "6.0.0",
+		"web-streams-polyfill": "3.0.2"
+	},
+	"devDependencies": {
+		"fake-indexeddb": "3.1.2"
+	},
+	"publishConfig": {
+		"access": "public"
+	}
+}

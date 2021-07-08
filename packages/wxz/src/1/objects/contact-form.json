@@ -1,0 +1,70 @@
+{
+	"$schema": "http://json-schema.org/draft-07/schema",
+	"title": "Contact Form",
+	"type": "object",
+	"properties": {
+		"email": { "type": "string" },
+		"fields": {
+			"type": "array",
+			"items": {
+				"type": "object",
+				"properties": {
+					"type": {
+						"type": "string",
+						"enum": [ "text", "select", "textarea", "submit" ]
+					},
+					"label": { "type": "string" },
+					"placeholder": { "type": "string" },
+					"required": { "type": "boolean" }
+				},
+				"required": [ "type" ],
+				"allOf": [
+					{
+						"if": {
+							"properties": { "type": { "const": "text" } }
+						},
+						"then": {
+							"properties": {
+								"format": {
+									"type": "string",
+									"enum": [ "date", "email", "phone-number" ]
+								}
+							}
+						}
+					},
+					{
+						"if": {
+							"properties": {
+								"type": { "const": "text" },
+								"format": { "const": "date" }
+							}
+						},
+						"then": {
+							"properties": { "dateFormat": { "type": "string" } }
+						}
+					},
+					{
+						"if": {
+							"properties": { "type": { "const": "select" } }
+						},
+						"then": {
+							"properties": {
+								"options": {
+									"type": "array",
+									"items": {
+										"type": "object",
+										"properties": {
+											"text": { "type": "string" },
+											"value": { "type": "string" }
+										}
+									}
+								}
+							}
+						}
+					}
+
+				]
+			}
+		}
+	}
+}
