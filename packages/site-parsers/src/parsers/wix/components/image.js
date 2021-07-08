@@ -1,12 +1,15 @@
 const { createBlock } = require( '@wordpress/blocks' );
 const { parseComponent: parseDocumentMedia } = require( './document-media' );
 
-const parseImage = ( component, { addMediaAttachment } ) => {
+const parseImage = ( component, { metaData, addMediaAttachment } ) => {
 	if ( ! component.dataQuery || ! component.dataQuery.uri ) {
 		return null;
 	}
 
-	const attachment = addMediaAttachment( component.dataQuery );
+	const attachment = addMediaAttachment(
+		metaData.serviceTopology.staticMediaUrl,
+		component.dataQuery
+	);
 
 	return createBlock( 'core/image', {
 		url: attachment.guid,

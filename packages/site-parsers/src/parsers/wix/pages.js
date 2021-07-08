@@ -85,11 +85,7 @@ const parsePages = async ( data, metaData, masterPage, config ) => {
 			page,
 			fetch: config.fetch,
 			addObject: addObject.bind( null, data ),
-			addMediaAttachment: addMediaAttachment.bind(
-				null,
-				data,
-				metaData.serviceTopology.staticMediaUrl
-			),
+			addMediaAttachment: addMediaAttachment.bind( null, data ),
 			getThemeDataRef: getThemeDataRef.bind( null, page ),
 		};
 

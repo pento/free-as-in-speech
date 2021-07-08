@@ -1,7 +1,7 @@
 const { createBlock } = require( '@wordpress/blocks' );
 
 module.exports = {
-	maybeAddCoverBlock: ( component, { addMediaAttachment } ) => {
+	maybeAddCoverBlock: ( component, { metaData, addMediaAttachment } ) => {
 		if ( ! component || ! component.innerBlocks ) {
 			return component;
 		}
@@ -18,6 +18,7 @@ module.exports = {
 		) {
 			// If a background is defined, let's make this a cover block.
 			const attachment = addMediaAttachment(
+				metaData.serviceTopology.staticMediaUrl,
 				component.designQuery.background.mediaRef
 			);
 
