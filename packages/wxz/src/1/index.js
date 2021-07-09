@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 /**
  * External dependencies
  */
@@ -279,17 +280,15 @@ class WXZDriver {
 	/**
 	 * Generates the entire WXZ file, and returns it as a string.
 	 *
-	 * @return {string} The WXZ file content.
+	 * @return {Uint8Array} The WXZ file content.
 	 */
 	async export() {
-		let buffer = '';
-
-		const decoder = new TextDecoder();
+		let buffer = new Uint8Array( 0 );
 
 		const writableStream = new WritableStream( {
 			write: ( chunk ) =>
 				new Promise( ( resolve ) => {
-					buffer += decoder.decode( chunk );
+					buffer = new Uint8Array( [ ...buffer, ...chunk ] );
 					resolve();
 				} ),
 		} );
@@ -309,31 +308,29 @@ class WXZDriver {
 		const zip = new fflate.Zip( ( err, data, final ) => {
 			if ( err ) {
 				console.error( err );
-			} else {
-				if ( data ) {
-					writer.ready
-						.then( () => {
-							return writer.write( data );
-						} )
-						.then( () => {
-							console.log( 'Chunk written to sink.' );
-						} )
-						.catch( ( err ) => {
-							console.log( 'Chunk error:', err );
-						} );
-				}
-				if ( final ) {
-					writer.ready
-						.then( () => {
-							writer.close();
-						} )
-						.then( () => {
-							console.log( 'All chunks written' );
-						} )
-						.catch( ( err ) => {
-							console.log( 'Stream error:', err );
-						} );
-				}
+			} else if ( data ) {
+				writer.ready
+					.then( () => {
+						return writer.write( data );
+					} )
+					.then( () => {
+						console.log( 'Chunk written to sink.' );
+						if ( final ) {
+							writer.ready
+								.then( () => {
+									writer.close();
+								} )
+								.then( () => {
+									console.log( 'All chunks written' );
+								} )
+								.catch( ( finalErr ) => {
+									console.log( 'Stream error:', finalErr );
+								} );
+						}
+					} )
+					.catch( ( dataErr ) => {
+						console.log( 'Chunk error:', dataErr );
+					} );
 			}
 		} );
 
@@ -412,7 +409,7 @@ class WXZDriver {
 						output = datum.data;
 					}
 
-					file = new fflate.AsyncZipDeflate(
+					file = new fflate.ZipDeflate(
 						'objects/' + datum.internalId + '.json'
 					);
 					zip.add( file );
@@ -422,7 +419,7 @@ class WXZDriver {
 					);
 					continue;
 				}
-				file = new fflate.AsyncZipDeflate(
+				file = new fflate.ZipDeflate(
 					store + '/' + datum.internalId + '.json'
 				);
 				zip.add( file );
@@ -435,6 +432,8 @@ class WXZDriver {
 		writer.ready.then( () => {
 			zip.end();
 		} );
+
+		await writer.closed;
 		console.log( 'zip.ended' );
 	}
 }
