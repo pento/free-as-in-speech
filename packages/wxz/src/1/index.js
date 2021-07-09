@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 /**
  * External dependencies
  */
@@ -7,7 +6,7 @@ const utc = require( 'dayjs/plugin/utc' );
 const { openDB, deleteDB } = require( 'idb/with-async-ittr-cjs' );
 const { WritableStream } = require( 'web-streams-polyfill/ponyfill/es6' );
 const Ajv = require( 'ajv' );
-// const archiver = require( 'Archiver' );
+const debug = require( 'debug' )( 'wxz' );
 const fflate = require( 'fflate' );
 /**
  * Internal dependencies
@@ -307,29 +306,29 @@ class WXZDriver {
 		const writer = writableStream.getWriter();
 		const zip = new fflate.Zip( ( err, data, final ) => {
 			if ( err ) {
-				console.error( err );
+				debug( 'Error:', err );
 			} else if ( data ) {
 				writer.ready
 					.then( () => {
 						return writer.write( data );
 					} )
 					.then( () => {
-						console.log( 'Chunk written to sink.' );
+						debug( 'Chunk written to sink.' );
 						if ( final ) {
 							writer.ready
 								.then( () => {
 									writer.close();
 								} )
 								.then( () => {
-									console.log( 'All chunks written' );
+									debug( 'All chunks written' );
 								} )
 								.catch( ( finalErr ) => {
-									console.log( 'Stream error:', finalErr );
+									debug( 'Stream error:', finalErr );
 								} );
 						}
 					} )
 					.catch( ( dataErr ) => {
-						console.log( 'Chunk error:', dataErr );
+						debug( 'Chunk error:', dataErr );
 					} );
 			}
 		} );
@@ -340,6 +339,23 @@ class WXZDriver {
 			fflate.strToU8( 'application/vnd.wordpress.export+zip' ),
 			true
 		);
+
+		const rename = ( item, from, to ) => {
+			if ( from in item ) {
+				item[ to ] = item[ from ];
+				delete item[ from ];
+			}
+			return item;
+		};
+
+		const filterObject = ( obj, cb ) =>
+			Object.fromEntries(
+				Object.entries( obj ).filter( ( [ key, val ] ) =>
+					cb( val, key )
+				)
+			);
+		const removeEmptyFields = ( item ) =>
+			filterObject( item, ( val ) => !! val );
 
 		// We want to process each part of the schema in sequence. However, since the
 		// processing function is asynchronous, we can't just use forEach(), as that will
@@ -367,11 +383,29 @@ class WXZDriver {
 
 			// Start a transaction against the database.
 			const tx = this.db.transaction( txStores );
-			let file;
+			let file, filename;
 
 			// Loop over every item in the current data store.
 			for await ( const cursor of tx.objectStore( store ) ) {
-				const datum = cursor.value;
+				let datum = removeEmptyFields( cursor.value );
+				datum.version = 1;
+				datum.id = datum.id || datum.internalId;
+
+				switch ( store ) {
+					case 'siteMeta':
+						filename = 'site/config.json';
+						break;
+					case 'authors':
+						filename = 'users/' + datum.id + '.json';
+						break;
+					default:
+						filename = store + '/' + datum.id + '.json';
+				}
+
+				delete datum.internalId;
+
+				file = new fflate.ZipDeflate( filename );
+				zip.add( file );
 
 				if ( store === 'objects' ) {
 					const objectType = datum.type;
@@ -405,36 +439,51 @@ class WXZDriver {
 
 							output.push( outputObject );
 						}
+						datum = output;
 					} else {
-						output = datum.data;
+						datum = datum.data;
 					}
-
-					file = new fflate.ZipDeflate(
-						'objects/' + datum.internalId + '.json'
-					);
-					zip.add( file );
-					file.push(
-						fflate.strToU8( JSON.stringify( output ) ),
-						true
-					);
-					continue;
+				} else if ( 'posts' === store ) {
+					datum.sticky = !! datum.sticky;
+					delete datum.link;
+					delete datum.guid;
+					datum.commentsOpen = 'open' === datum.comment_status;
+					delete datum.comment_status;
+					delete datum.date;
+					datum = rename( datum, 'attachment_url', 'attachmentUrl' );
+					datum = rename( datum, 'menu_order', 'menuOrder' );
+					datum = rename( datum, 'status', 'postStatus' );
+					datum = rename( datum, 'postDate', 'published' );
+					if ( datum.published ) {
+						datum.published = new Date( datum.published ).toJSON();
+					}
+					if ( datum.terms ) {
+						datum.terms = datum.terms.map( ( term ) => term.id );
+					}
+					if ( datum.meta ) {
+						datum.meta = datum.meta.map( ( meta ) => {
+							return {
+								key: String( meta.key ),
+								value: String( meta.value ),
+							};
+						} );
+					}
 				}
-				file = new fflate.ZipDeflate(
-					store + '/' + datum.internalId + '.json'
-				);
-				zip.add( file );
+
 				file.push( fflate.strToU8( JSON.stringify( datum ) ), true );
-				console.log( store + '/' + datum.internalId + '.json' );
+				debug( filename );
 			}
 		}, Promise.resolve( null ) );
-		console.log( 'zip.end' );
+
+		debug( 'zip.end' );
 
 		writer.ready.then( () => {
 			zip.end();
 		} );
 
 		await writer.closed;
-		console.log( 'zip.ended' );
+
+		debug( 'zip.ended' );
 	}
 }
 
