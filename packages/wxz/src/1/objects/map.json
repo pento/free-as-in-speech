@@ -1,108 +1,106 @@
 {
-    "$schema": "http://json-schema.org/draft-07/schema",
-    "$id": "http://example.com/example.json",
-    "type": "object",
-    "title": "The root schema",
-    "description": "The root schema comprises the entire JSON document.",
-    "default":
-    {},
-    "required":
-    [
-        "height",
-        "width",
-        "zoom",
-        "showZoom",
-        "showPosition",
-        "showStreetView",
-        "showDirectionsLink",
-        "mapDragging",
-        "mapType",
-        "showMapType",
-        "locations"
-    ],
-    "properties":
-    {
-        "height":
-        {
-            "$id": "#/properties/height",
-            "type": "integer",
-            "title": "The height schema",
-            "description": "An explanation about the purpose of this instance.",
-            "default": 0
-        },
-        "width":
-        {
-            "$id": "#/properties/width",
-            "type": "integer",
-            "title": "The width schema",
-            "description": "An explanation about the purpose of this instance.",
-            "default": 0
-        },
-        "zoom":
-        {
-            "$id": "#/properties/zoom",
-            "type": "integer",
-            "title": "The zoom schema",
-            "description": "An explanation about the purpose of this instance.",
-            "default": 0
-        },
-        "showZoom":
-        {
-            "$id": "#/properties/showZoom",
-            "type": "boolean",
-            "title": "The showZoom schema",
-            "description": "An explanation about the purpose of this instance.",
-            "default": false
-        },
-        "showPosition":
-        {
-            "$id": "#/properties/showPosition",
-            "type": "boolean",
-            "title": "The showPosition schema",
-            "description": "An explanation about the purpose of this instance.",
-            "default": false
-        },
-        "showStreetView":
-        {
-            "$id": "#/properties/showStreetView",
-            "type": "boolean",
-            "title": "The showStreetView schema",
-            "description": "An explanation about the purpose of this instance.",
-            "default": false
-        },
-        "showDirectionsLink":
-        {
-            "$id": "#/properties/showDirectionsLink",
-            "type": "boolean",
-            "title": "The showDirectionsLink schema",
-            "description": "An explanation about the purpose of this instance.",
-            "default": false
-        },
-        "mapDragging":
-        {
-            "$id": "#/properties/mapDragging",
-            "type": "boolean",
-            "title": "The mapDragging schema",
-            "description": "An explanation about the purpose of this instance.",
-            "default": false
-        },
-        "mapType":
-        {
-            "$id": "#/properties/mapType",
-            "type": "string",
-            "title": "The mapType schema",
-            "description": "An explanation about the purpose of this instance.",
-            "default": ""
-        },
-        "showMapType":
-        {
-            "$id": "#/properties/showMapType",
-            "type": "boolean",
-            "title": "The showMapType schema",
-            "description": "An explanation about the purpose of this instance.",
-            "default": false
-        },
-	    "pinColor":
+	"$schema": "http://json-schema.org/draft-07/schema",
+	"type": "object",
+	"title": "Map",
+	"default":
+	{},
+	"required":
+	[
+		"height",
+		"width",
+		"zoom",
+		"showZoom",
+		"showPosition",
+		"showStreetView",
+		"showDirectionsLink",
+		"mapDragging",
+		"mapType",
+		"showMapType",
+		"locations"
+	],
+	"properties":
+	{
+		"height":
+		{
+			"$id": "#/properties/height",
+			"type": "integer",
+			"title": "The height schema",
+			"description": "An explanation about the purpose of this instance.",
+			"default": 0
+		},
+		"width":
+		{
+			"$id": "#/properties/width",
+			"type": "integer",
+			"title": "The width schema",
+			"description": "An explanation about the purpose of this instance.",
+			"default": 0
+		},
+		"zoom":
+		{
+			"$id": "#/properties/zoom",
+			"type": "integer",
+			"title": "The zoom schema",
+			"description": "An explanation about the purpose of this instance.",
+			"default": 0
+		},
+		"showZoom":
+		{
+			"$id": "#/properties/showZoom",
+			"type": "boolean",
+			"title": "The showZoom schema",
+			"description": "An explanation about the purpose of this instance.",
+			"default": false
+		},
+		"showPosition":
+		{
+			"$id": "#/properties/showPosition",
+			"type": "boolean",
+			"title": "The showPosition schema",
+			"description": "An explanation about the purpose of this instance.",
+			"default": false
+		},
+		"showStreetView":
+		{
+			"$id": "#/properties/showStreetView",
+			"type": "boolean",
+			"title": "The showStreetView schema",
+			"description": "An explanation about the purpose of this instance.",
+			"default": false
+		},
+		"showDirectionsLink":
+		{
+			"$id": "#/properties/showDirectionsLink",
+			"type": "boolean",
+			"title": "The showDirectionsLink schema",
+			"description": "An explanation about the purpose of this instance.",
+			"default": false
+		},
+		"mapDragging":
+		{
+			"$id": "#/properties/mapDragging",
+			"type": "boolean",
+			"title": "The mapDragging schema",
+			"description": "An explanation about the purpose of this instance.",
+			"default": false
+		},
+		"mapType":
+		{
+			"$id": "#/properties/mapType",
+			"type": "string",
+			"title": "The mapType schema",
+			"description": "An explanation about the purpose of this instance.",
+			"default": ""
+		},
+		"showMapType":
+		{
+			"$id": "#/properties/showMapType",
+			"type": "boolean",
+			"title": "The showMapType schema",
+			"description": "An explanation about the purpose of this instance.",
+			"default": false
+		},
+		"pinColor":
 		{
 			"$id": "#/properties/pinColor",
 			"type": "string",
@@ -110,62 +108,62 @@
 			"description": "An explanation about the purpose of this instance.",
 			"default": ""
 		},
-        "locations":
-        {
-            "$id": "#/properties/locations",
-            "type": "array",
-            "title": "The locations schema",
-            "description": "An explanation about the purpose of this instance.",
-            "default":
-            [],
-            "items":
-            {
-                "$id": "#/properties/locations/items",
-                "anyOf":
-                [
-                    {
-                        "$id": "#/properties/locations/items/anyOf/0",
-                        "type": "object",
-                        "title": "The first anyOf schema",
-                        "description": "An explanation about the purpose of this instance.",
-                        "default":
-                        {},
-                        "required":
-                        [
-                            "latitude",
-                            "longitude",
-                            "address"
-                        ],
-                        "properties":
-                        {
-                            "latitude":
-                            {
-                                "$id": "#/properties/locations/items/anyOf/0/properties/latitude",
-                                "type": "number",
-                                "title": "The latitude schema",
-                                "description": "An explanation about the purpose of this instance.",
-                                "default": 0.0
-                            },
-                            "longitude":
-                            {
-                                "$id": "#/properties/locations/items/anyOf/0/properties/longitude",
-                                "type": "number",
-                                "title": "The longitude schema",
-                                "description": "An explanation about the purpose of this instance.",
-                                "default": 0.0
-                            },
-                            "address":
-                            {
-                                "$id": "#/properties/locations/items/anyOf/0/properties/address",
-                                "type": "string",
-                                "title": "The address schema",
-                                "description": "An explanation about the purpose of this instance.",
-                                "default": ""
-                            }
-                        }
-                    }
-                ]
-            }
-        }
-    }
+		"locations":
+		{
+			"$id": "#/properties/locations",
+			"type": "array",
+			"title": "The locations schema",
+			"description": "An explanation about the purpose of this instance.",
+			"default":
+			[],
+			"items":
+			{
+				"$id": "#/properties/locations/items",
+				"anyOf":
+				[
+					{
+						"$id": "#/properties/locations/items/anyOf/0",
+						"type": "object",
+						"title": "The first anyOf schema",
+						"description": "An explanation about the purpose of this instance.",
+						"default":
+						{},
+						"required":
+						[
+							"latitude",
+							"longitude",
+							"address"
+						],
+						"properties":
+						{
+							"latitude":
+							{
+								"$id": "#/properties/locations/items/anyOf/0/properties/latitude",
+								"type": "number",
+								"title": "The latitude schema",
+								"description": "An explanation about the purpose of this instance.",
+								"default": 0.0
+							},
+							"longitude":
+							{
+								"$id": "#/properties/locations/items/anyOf/0/properties/longitude",
+								"type": "number",
+								"title": "The longitude schema",
+								"description": "An explanation about the purpose of this instance.",
+								"default": 0.0
+							},
+							"address":
+							{
+								"$id": "#/properties/locations/items/anyOf/0/properties/address",
+								"type": "string",
+								"title": "The address schema",
+								"description": "An explanation about the purpose of this instance.",
+								"default": ""
+							}
+						}
+					}
+				]
+			}
+		}
+	}
 }

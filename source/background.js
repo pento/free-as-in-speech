@@ -50,7 +50,7 @@ browser.runtime.onMessage.addListener( async ( message ) => {
 
 			const id = await browser.downloads.download( {
 				url,
-				filename: 'wix-export.wxz',
+				filename: 'wix-export.zip',
 			} );
 
 			downloadObjects.set( id, url );

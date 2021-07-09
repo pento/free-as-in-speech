@@ -1,4 +1,5 @@
 module.exports = {
-	'contact-form': require( './contact-form.json' ),
-	map: require( './map.json' ),
+	// Always reference the source file, even inside build-module.
+	'contact-form': require( '../../../src/1/objects/contact-form.json' ),
+	map: require( '../../../src/1/objects/map.json' ),
 };
