@@ -44,3 +44,40 @@ We recommend configuring your editor to automatically check for syntax and lint 
 ### ESLint
 
 [ESLint](https://eslint.org/) statically analyzes the code to find problems. The lint rules are integrated in the continuous integration process and must pass to be able to commit.
+
+## Debugging
+
+### Using debug
+
+Site Parser uses the [debug](https://github.com/visionmedia/debug) module to handle debug messaging. To view debug messages for all modules, prefix your `npm` call with the `DEBUG` environment variable:
+
+```bash
+DEBUG=siteParser:* node bin/export-from-har.js <exporter> [options] <harfile>
+```
+
+Add the `DEBUG_COLORS` variable for better rendering:
+
+```bash
+DEBUG=siteParser:* DEBUG_COLORS=true node bin/export-from-har.js <exporter> [options] <harfile>
+```
+
+You can filter for certain modules by changing the value of `DEBUG`. `DEBUG=siteParser:wix:*` will enable debug logging for the Wix importer only.
+
+Example debug strings:
+
+```text
+siteParser:wix:*
+siteParser:wix:apps:staticPages:*
+siteParser:wix:apps:staticPages:ImageVector
+siteParser:wix:apps:staticPages:LinkableButton
+siteParser:wix:apps:staticPages:SoundCloud
+siteParser:wix:apps:staticPages:MusicPlayerData
+```
+
+### Browser development
+
+In the browser development tools you can turn the `DEBUG` on by setting the localStorage:
+
+```text
+localStorage.debug = 'siteParser:image*'
+```

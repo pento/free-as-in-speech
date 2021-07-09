@@ -1,7 +1,10 @@
 const { createBlock } = require( '@wordpress/blocks' );
+const { Logger } = require( '../../../utils' );
 
 module.exports = {
 	parseComponent: ( component, { getThemeDataRef } ) => {
+		Logger( 'wix' ).log( 'SoundCloud' );
+
 		const themeData = getThemeDataRef( component.styleId );
 
 		if (

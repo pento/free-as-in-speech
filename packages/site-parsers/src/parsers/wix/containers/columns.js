@@ -1,9 +1,12 @@
 const { createBlock } = require( '@wordpress/blocks' );
 const { asyncComponentsParser } = require( '../data' );
+const { Logger } = require( '../../../utils' );
 
 module.exports = {
 	componentType: 'wysiwyg.viewer.components.StripColumnsContainer',
 	parseComponent: async ( component, recursiveComponentParser ) => {
+		Logger( 'wix' ).log( 'StripColumnsContainer' );
+
 		let innerBlocks = await asyncComponentsParser(
 			component.components,
 			recursiveComponentParser

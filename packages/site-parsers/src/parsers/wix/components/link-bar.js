@@ -1,4 +1,5 @@
 const { createBlock } = require( '@wordpress/blocks' );
+const { Logger } = require( '../../../utils' );
 
 const getServiceNameFromUrl = ( url ) => {
 	return new URL( url ).hostname.replace( 'www.', '' ).split( '.' )[ 0 ];
@@ -6,6 +7,8 @@ const getServiceNameFromUrl = ( url ) => {
 
 module.exports = {
 	parseComponent: ( component ) => {
+		Logger( 'wix' ).log( 'LinkBar' );
+
 		const socialLinkAttrs = component.dataQuery.items.map( ( item ) => {
 			const url = item.link && item.link.url;
 

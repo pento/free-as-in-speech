@@ -6,6 +6,7 @@ const asyncForEach = async ( array, callback ) => {
 
 module.exports = {
 	asyncForEach,
+	Logger: require( './logger' ),
 	IdFactory: require( './idfactory' ),
 	...require( './register-blocks' ),
 };

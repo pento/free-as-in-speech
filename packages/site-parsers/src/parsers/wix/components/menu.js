@@ -1,5 +1,6 @@
 const { createBlock } = require( '@wordpress/blocks' );
 const { parseWixLink } = require( '../links.js' );
+const { Logger } = require( '../../../utils' );
 
 const parseMenuRecursively = ( menuItem, resolver ) => {
 	menuItem = resolver( menuItem );
@@ -37,6 +38,8 @@ const parseMenuRecursively = ( menuItem, resolver ) => {
 module.exports = {
 	type: 'CustomMenuDataRef',
 	parseComponent: ( component, { resolver } ) => {
+		Logger( 'wix' ).log( 'CustomMenuDataRef' );
+
 		try {
 			let menuItems = [];
 			if (

@@ -1,4 +1,5 @@
 const { createBlock } = require( '@wordpress/blocks' );
+const { Logger } = require( '../../../utils' );
 
 /**
  * The parent component handler is ./image.js
@@ -6,6 +7,8 @@ const { createBlock } = require( '@wordpress/blocks' );
  */
 module.exports = {
 	parseComponent: ( component, { metaData, addMediaAttachment } ) => {
+		Logger( 'wix' ).log( 'DocumentMedia' );
+
 		if ( ! component.dataQuery.link ) {
 			return null;
 		}

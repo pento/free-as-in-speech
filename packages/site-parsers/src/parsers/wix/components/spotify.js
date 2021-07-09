@@ -1,4 +1,5 @@
 const { createBlock } = require( '@wordpress/blocks' );
+const { Logger } = require( '../../../utils' );
 
 const getSpotifyUrlFromUri = ( uri ) => {
 	const uriRgx = /^spotify:(?<type>track|user|artist|album|playlist):(?<id>[a-zA-Z0-9]+)$/;
@@ -10,6 +11,8 @@ const getSpotifyUrlFromUri = ( uri ) => {
 
 module.exports = {
 	parseComponent: ( component ) => {
+		Logger( 'wix' ).log( 'Spotify' );
+
 		const tpaData = component.dataQuery.tpaData;
 
 		if ( typeof tpaData === 'object' && tpaData !== null ) {
