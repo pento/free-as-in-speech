@@ -1,7 +1,7 @@
 /**
  * WordPress dependencies
  */
-const { getWXRDriver } = require( '@wordpress/wxr' );
+const { getWXZDriver } = require( '@wordpress/wxz' );
 
 /**
  * Internal dependencies
@@ -70,7 +70,7 @@ const getExtractorConfig = ( config, appDefinitionId ) => {
  * @param {Function} statusReport A callback to show a message in the popup.
  */
 const startExport = async ( config, statusReport ) => {
-	const wxr = await getWXRDriver( '1.3', true );
+	const wxz = await getWXZDriver( 1, true );
 
 	const extractData = ( fallbackConfig ) => async ( extractor ) => {
 		// Grab the config data for this extractor.
@@ -94,8 +94,8 @@ const startExport = async ( config, statusReport ) => {
 		// Run the extractor.
 		const extractedData = await extractor.extract( extractorConfig );
 
-		// Convert the extracted data to WXR.
-		await extractor.save( extractedData, wxr );
+		// Convert the extracted data to WXZ.
+		await extractor.save( extractedData, wxz );
 		statusReport( {
 			id: extractor.appDefinitionId,
 			state: 'done',
@@ -126,7 +126,7 @@ const startExport = async ( config, statusReport ) => {
 		extractors.map( extractData( config.extractAll ? {} : null ) )
 	);
 
-	return wxr;
+	return wxz;
 };
 
 module.exports = {
