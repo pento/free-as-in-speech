@@ -1,12 +1,10 @@
 const debugLog = require( 'debug' );
 
-function Logger( provider, debug ) {
+function Logger( provider ) {
 	const path = `siteParser:${ provider }:apps:staticPages`;
 
 	return {
 		log( component ) {
-			if ( ! debug ) return;
-
 			debugLog( `${ path }:${ component }` )(
 				arguments[ 1 ] ? arguments[ 1 ] : '',
 				arguments[ 2 ] ? arguments[ 2 ] : '',
@@ -20,9 +18,9 @@ function Logger( provider, debug ) {
 module.exports = ( () => {
 	const instance = {};
 
-	return ( provider, debug ) => {
+	return ( provider ) => {
 		if ( ! instance[ provider ] ) {
-			instance[ provider ] = Logger( provider, debug );
+			instance[ provider ] = Logger( provider );
 		}
 		return instance[ provider ];
 	};
