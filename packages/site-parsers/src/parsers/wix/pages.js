@@ -112,6 +112,8 @@ const parsePages = async ( data, metaData, masterPage, config ) => {
 			recursiveComponentParser
 		);
 
+		page.guid = page.url;
+		page.link = page.url;
 		page.content = serialize( parsedComponents );
 	} );
 };
