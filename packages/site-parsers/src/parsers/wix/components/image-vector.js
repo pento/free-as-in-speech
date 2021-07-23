@@ -1,5 +1,5 @@
 const cheerio = require( 'cheerio' );
-const fetchNode = require( 'node-fetch' );
+const fetchNode = require( 'node-fetch' ).default;
 const { createBlock } = require( '@wordpress/blocks' );
 
 module.exports = {

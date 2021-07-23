@@ -1,4 +1,4 @@
-const fetchNode = require( 'node-fetch' );
+const fetchNode = require( 'node-fetch' ).default;
 const { createBlock } = require( '@wordpress/blocks' );
 
 const SUPPORTED_SOURCE = [ 'htmlEmbedded' ];
