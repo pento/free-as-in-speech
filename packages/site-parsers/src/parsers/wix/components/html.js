@@ -4,7 +4,7 @@ const SUPPORTED_SOURCE = [ 'htmlEmbedded' ];
 
 module.exports = {
 	type: 'HtmlComponent',
-	parseComponent: async ( component, { metaData, fetch } ) => {
+	parseComponent: async ( component, { metaData } ) => {
 		if ( SUPPORTED_SOURCE.indexOf( component.dataQuery.sourceType ) === -1 )
 			return null;
 		const htmlContentUrl =
@@ -12,7 +12,7 @@ module.exports = {
 			component.dataQuery.url;
 
 		return await Promise.resolve()
-			.then( () => fetch( htmlContentUrl ) )
+			.then( () => window.fetch( htmlContentUrl ) )
 			.then( ( response ) => response.text() )
 			.then( ( content ) => createBlock( 'core/html', { content } ) );
 	},

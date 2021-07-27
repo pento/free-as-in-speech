@@ -3,7 +3,7 @@ const { createBlock } = require( '@wordpress/blocks' );
 
 module.exports = {
 	type: 'VectorImage',
-	parseComponent: async ( component, { metaData, fetch } ) => {
+	parseComponent: async ( component, { metaData } ) => {
 		const alt = component.dataQuery.alt;
 		const title = component.dataQuery.title;
 		const svgContentUrl =
@@ -12,7 +12,7 @@ module.exports = {
 			component.dataQuery.svgId;
 
 		return await Promise.resolve()
-			.then( () => fetch( svgContentUrl ) )
+			.then( () => window.fetch( svgContentUrl ) )
 			.then( ( response ) => response.text() )
 			.then( ( svgData ) => {
 				const $ = cheerio.load( svgData );
