@@ -1,4 +1,3 @@
-const fetchNode = require( 'node-fetch' );
 const { createBlock } = require( '@wordpress/blocks' );
 
 const SUPPORTED_SOURCE = [ 'htmlEmbedded' ];
@@ -14,7 +13,6 @@ module.exports = {
 
 		return await Promise.resolve()
 			.then( () => fetch( htmlContentUrl ) )
-			.catch( () => fetchNode( htmlContentUrl ) )
 			.then( ( response ) => response.text() )
 			.then( ( content ) => createBlock( 'core/html', { content } ) );
 	},

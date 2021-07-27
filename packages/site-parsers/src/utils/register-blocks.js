@@ -8,6 +8,13 @@ if ( global.process ) {
 	};
 }
 
+if ( typeof global.CSS === 'undefined' ) {
+	global.CSS = {
+		supports() {},
+		escape() {},
+	};
+}
+
 const {
 	registerCoreBlocks,
 	__experimentalRegisterExperimentalCoreBlocks,

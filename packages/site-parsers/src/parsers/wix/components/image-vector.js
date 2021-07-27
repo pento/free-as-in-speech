@@ -1,5 +1,4 @@
 const cheerio = require( 'cheerio' );
-const fetchNode = require( 'node-fetch' );
 const { createBlock } = require( '@wordpress/blocks' );
 
 module.exports = {
@@ -14,7 +13,6 @@ module.exports = {
 
 		return await Promise.resolve()
 			.then( () => fetch( svgContentUrl ) )
-			.catch( () => fetchNode( svgContentUrl ) )
 			.then( ( response ) => response.text() )
 			.then( ( svgData ) => {
 				const $ = cheerio.load( svgData );
