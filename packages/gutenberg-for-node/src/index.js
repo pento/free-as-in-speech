@@ -1,24 +1,24 @@
-const { JSDOM, ResourceLoader } = require( 'jsdom' );
+const { JSDOM, ResourceLoader } = require('jsdom');
 const noop = function () {};
 
 class Window {
-	constructor( jsdomConfig = {} ) {
+	constructor(jsdomConfig = {}) {
 		const { proxy, strictSSL, userAgent } = jsdomConfig;
-		const resources = new ResourceLoader( {
+		const resources = new ResourceLoader({
 			proxy,
 			strictSSL,
 			userAgent,
-		} );
+		});
 		return new JSDOM(
 			'',
-			Object.assign( jsdomConfig, {
+			Object.assign(jsdomConfig, {
 				resources,
-			} )
+			})
 		).window;
 	}
 }
 
-global.window = new Window( { url: 'http://localhost' } );
+global.window = new Window({ url: 'http://localhost' });
 global.document = window.document;
 global.requestAnimationFrame = global.cancelAnimationFrame = noop;
 global.navigator = window.navigator;
@@ -26,5 +26,9 @@ global.Mousetrap = {
 	init: noop,
 	prototype: { stopCallback: noop },
 };
-window.matchMedia = global.matchMedia = () => ( { addListener: noop } );
+window.matchMedia = global.matchMedia = () => ({ addListener: noop });
 global.Node = window.Node;
+global.CSS = {
+	supports: noop,
+	escape: noop,
+};
