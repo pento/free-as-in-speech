@@ -5,27 +5,27 @@
  "author": "The WordPress Contributors",
  "license": "GPL-2.0-or-later",
  "keywords": [
-  "wordpress",
-  "parser",
-  "export"
+	"wordpress",
+	"parser",
+	"export"
  ],
  "homepage": "https://github.com/pento/free-as-in-speech/",
  "repository": {
-  "type": "git",
-  "url": "https://github.com/pento/free-as-in-speech.git",
-  "directory": "packages/gutenberg-for-node"
+	"type": "git",
+	"url": "https://github.com/pento/free-as-in-speech.git",
+	"directory": "packages/gutenberg-for-node"
  },
  "bugs": {
-  "url": "https://github.com/pento/free-as-in-speech/issues"
+	"url": "https://github.com/pento/free-as-in-speech/issues"
  },
  "main": "src/index.js",
  "module": "build-module/index.js",
  "dependencies": {
-  "node-fetch": "2.6.1",
-  "jsdom": "16.5.3"
+	"jsdom": "16.5.3",
+	"node-fetch": "2.6.1"
  },
  "devDependencies": {},
  "publishConfig": {
-  "access": "public"
+	"access": "public"
  }
 }
