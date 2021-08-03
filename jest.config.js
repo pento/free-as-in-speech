@@ -14,6 +14,9 @@ module.exports = {
 		[ `@wordpress\\/(${ transpiledPackageNames.join(
 			'|'
 		) })$` ]: 'packages/$1/src',
+		'site-parsers': 'packages/site-parsers/src',
+		'gutenberg-for-node': 'packages/gutenberg-for-node/src',
+		'@wordpress/block(s|-library)': 'node_modules/$0/build',
 	},
 	preset: '@wordpress/jest-preset-default',
 	setupFiles: [ 'fake-indexeddb/auto', './test/setup-env.js' ],

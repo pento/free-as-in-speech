@@ -22,11 +22,11 @@
 		"npm": ">= 7.0.0"
 	},
 	"dependencies": {
-		"@wordpress/block-library": "2.29.2",
-		"@wordpress/blocks": "8.0.2",
+		"@wordpress/block-library": "^4.0.0",
+		"@wordpress/blocks": "^10.0.0",
 		"@wordpress/components": "13.0.2",
 		"@wordpress/element": "2.20.2",
-		"@wordpress/format-library": "1.27.2",
+		"@wordpress/format-library": "^2.2.0",
 		"@wordpress/i18n": "3.19.2",
 		"@wordpress/rich-text": "3.25.2",
 		"@wordpress/wxr": "file:packages/wxr",

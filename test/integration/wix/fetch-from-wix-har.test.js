@@ -3,7 +3,6 @@
  */
 const FDBFactory = require( 'fake-indexeddb/lib/FDBFactory' );
 const { registerBlocks } = require( 'site-parsers' ).utils;
-
 /**
  * Internal dependencies
  */
@@ -13,10 +12,10 @@ const fetchFromHAR = require( 'fetch-from-har' );
 const getWXRFromWixHAR = require( '../../../bin/lib/get-wxr-from-wix-har' );
 const { startExport } = require( '../../../source/services/wix' );
 
-registerBlocks();
-
 beforeEach( () => {
 	window.indexedDB = new FDBFactory();
+	require( '../../../packages/gutenberg-for-node/src/index' );
+	registerBlocks();
 } );
 
 test.each( [
