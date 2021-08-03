@@ -21,9 +21,14 @@ const {
 } = require( '@wordpress/block-library' );
 const { registerBlockType } = require( '@wordpress/blocks' );
 require( '@wordpress/format-library' );
+let registered = false;
 
 module.exports = {
 	registerBlocks: () => {
+		if ( registered ) {
+			return;
+		}
+		registered = true;
 		registerCoreBlocks();
 
 		registerBlockType( 'core-import/plugin-placeholder', {
