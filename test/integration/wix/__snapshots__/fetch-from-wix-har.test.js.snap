@@ -35,19 +35,19 @@ exports[`wix: easyblog.har 1`] = `
 		<pubDate><![CDATA[Thu, 18 Feb 2021 00:00:00 GMT]]></pubDate>
 		<description></description>
 		<content:encoded><![CDATA[<!-- wp:paragraph -->
-<p>easyblog test</p>
+<p class=\\"\\"><div>easyblog test</div></p>
 <!-- /wp:paragraph -->
 
 <!-- wp:heading {\\"level\\":3} -->
-<h3>Heading 3</h3>
+<h3 class=\\"\\"><div>Heading 3</div></h3>
 <!-- /wp:heading -->
 
 <!-- wp:quote -->
-<blockquote class=\\"wp-block-quote\\"><p>This is a quote</p></blockquote>
+<blockquote class=\\"\\"><div><p>This is a quote</p></div></blockquote>
 <!-- /wp:quote -->
 
 <!-- wp:paragraph -->
-<p><small>Here we've got some small text.</small></p>
+<p class=\\"\\"><div><small>Here we've got some small text.</small></div></p>
 <!-- /wp:paragraph -->]]></content:encoded>
 		<wp:post_date><![CDATA[2021-02-18 00:00:00]]></wp:post_date>
 		<wp:comment_status><![CDATA[closed]]></wp:comment_status>
@@ -190,19 +190,19 @@ exports[`wix: personal-website.har 1`] = `
 		<title><![CDATA[Home Page]]></title>
 		<description></description>
 		<content:encoded><![CDATA[<!-- wp:paragraph -->
-<p></p>
+<p class=\\"\\"><div></div></p>
 <!-- /wp:paragraph -->
 
 <!-- wp:heading -->
-<h2>SocialBar, WTwitterFollow, WRichText, FiveGridLine</h2>
+<h2 class=\\"\\"><div>SocialBar, WTwitterFollow, WRichText, FiveGridLine</div></h2>
 <!-- /wp:heading -->
 
 <!-- wp:separator -->
-<hr class=\\"wp-block-separator\\"/>
+<hr class=\\"\\"/>
 <!-- /wp:separator -->
 
 <!-- wp:social-links {\\"openInNewTab\\":true} -->
-<ul class=\\"wp-block-social-links\\"><!-- wp:social-link {\\"url\\":\\"https://www.facebook.com/wix\\",\\"service\\":\\"facebook\\",\\"label\\":\\"Facebook\\"} /-->
+<ul class=\\"\\"><!-- wp:social-link {\\"url\\":\\"https://www.facebook.com/wix\\",\\"service\\":\\"facebook\\",\\"label\\":\\"Facebook\\"} /-->
 
 <!-- wp:social-link {\\"url\\":\\"https://twitter.com/Wix\\",\\"service\\":\\"twitter\\",\\"label\\":\\"Twitter\\"} /-->
 
@@ -210,19 +210,19 @@ exports[`wix: personal-website.har 1`] = `
 <!-- /wp:social-links -->
 
 <!-- wp:file {\\"id\\":41,\\"href\\":\\"https://006852ac-032b-4153-bc06-0df0e4601f93.filesusr.com/archives/5Ol1G_VEb0f9Q4TK3HuLndMIfNdLwH1G3Cwp6.zip\\"} -->
-<div class=\\"wp-block-file\\"><a href=\\"Screenshot 2021-06-08 at 10.15.34.zip\\">Screenshot-2021-06-08-at-10.15.34.zip</a><a href=\\"https://006852ac-032b-4153-bc06-0df0e4601f93.filesusr.com/archives/5Ol1G_VEb0f9Q4TK3HuLndMIfNdLwH1G3Cwp6.zip\\" class=\\"wp-block-file__button\\" download>Screenshot-2021-06-08-at-10.15.34.zip</a></div>
+<div><a href=\\"Screenshot 2021-06-08 at 10.15.34.zip\\"><div>Screenshot-2021-06-08-at-10.15.34.zip</div></a><a href=\\"https://006852ac-032b-4153-bc06-0df0e4601f93.filesusr.com/archives/5Ol1G_VEb0f9Q4TK3HuLndMIfNdLwH1G3Cwp6.zip\\" class=\\"wp-block-file__button\\" download><div>Screenshot-2021-06-08-at-10.15.34.zip</div></a></div>
 <!-- /wp:file -->
 
 <!-- wp:social-links {\\"openInNewTab\\":true} -->
-<ul class=\\"wp-block-social-links\\"><!-- wp:social-link {\\"url\\":\\"//twitter.com/wix\\",\\"service\\":\\"twitter\\"} /--></ul>
+<ul class=\\"\\"><!-- wp:social-link {\\"url\\":\\"//twitter.com/wix\\",\\"service\\":\\"twitter\\"} /--></ul>
 <!-- /wp:social-links -->
 
 <!-- wp:paragraph -->
-<p><strong>Lorem Ipsum</strong>&nbsp;is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been <em>the industry's standard</em> dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the <a>1960s</a> with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
+<p class=\\"\\"><div><strong>Lorem Ipsum</strong>&nbsp;is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been <em>the industry's standard</em> dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the <a>1960s</a> with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</div></p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
-<p></p>
+<p class=\\"\\"><div></div></p>
 <!-- /wp:paragraph -->]]></content:encoded>
 		<wp:comment_status><![CDATA[closed]]></wp:comment_status>
 		<wp:status><![CDATA[publish]]></wp:status>
@@ -234,7 +234,7 @@ exports[`wix: personal-website.har 1`] = `
 		<title><![CDATA[Gallery Page]]></title>
 		<description></description>
 		<content:encoded><![CDATA[<!-- wp:gallery {\\"ids\\":[42,43,44,45]} -->
-<figure class=\\"wp-block-gallery columns-3 is-cropped\\"><ul class=\\"blocks-gallery-grid\\"><li class=\\"blocks-gallery-item\\"><figure><img src=\\"https://static.wixstatic.com/media/v2RHz_ZlMU0yd1JEYcA5J4uvA2zA9rbrjsKoc~mv2_d_3000_2930_s_4_2.jpg\\" alt=\\"\\" data-id=\\"42\\" class=\\"wp-image-42\\"/></figure></li><li class=\\"blocks-gallery-item\\"><figure><img src=\\"https://static.wixstatic.com/media/XZKol_LAhGy0RqaBgitZJJLW6RnMHlSiKXUEn~mv2_d_3000_1946_s_2.jpg\\" alt=\\"\\" data-id=\\"43\\" class=\\"wp-image-43\\"/></figure></li><li class=\\"blocks-gallery-item\\"><figure><img src=\\"https://static.wixstatic.com/media/X84P2_eLeeOFhl0dTWnhLv81eFGp4oulwfpSf~mv2_d_3000_1965_s_2.jpg\\" alt=\\"\\" data-id=\\"44\\" class=\\"wp-image-44\\"/></figure></li><li class=\\"blocks-gallery-item\\"><figure><img src=\\"https://static.wixstatic.com/media/i1QDX_dWMHQcXZv2CwUmAgmWWSJ9LOSAovE0b~mv2_d_3000_1995_s_2.jpg\\" alt=\\"\\" data-id=\\"45\\" class=\\"wp-image-45\\"/></figure></li></ul></figure>
+<figure class=\\"columns-3 is-cropped\\"><ul class=\\"blocks-gallery-grid\\"><li class=\\"blocks-gallery-item\\"><figure><img src=\\"https://static.wixstatic.com/media/v2RHz_ZlMU0yd1JEYcA5J4uvA2zA9rbrjsKoc~mv2_d_3000_2930_s_4_2.jpg\\" alt=\\"\\" data-id=\\"42\\" class=\\"wp-image-42\\"/></figure></li><li class=\\"blocks-gallery-item\\"><figure><img src=\\"https://static.wixstatic.com/media/XZKol_LAhGy0RqaBgitZJJLW6RnMHlSiKXUEn~mv2_d_3000_1946_s_2.jpg\\" alt=\\"\\" data-id=\\"43\\" class=\\"wp-image-43\\"/></figure></li><li class=\\"blocks-gallery-item\\"><figure><img src=\\"https://static.wixstatic.com/media/X84P2_eLeeOFhl0dTWnhLv81eFGp4oulwfpSf~mv2_d_3000_1965_s_2.jpg\\" alt=\\"\\" data-id=\\"44\\" class=\\"wp-image-44\\"/></figure></li><li class=\\"blocks-gallery-item\\"><figure><img src=\\"https://static.wixstatic.com/media/i1QDX_dWMHQcXZv2CwUmAgmWWSJ9LOSAovE0b~mv2_d_3000_1995_s_2.jpg\\" alt=\\"\\" data-id=\\"45\\" class=\\"wp-image-45\\"/></figure></li></ul></figure>
 <!-- /wp:gallery -->]]></content:encoded>
 		<wp:comment_status><![CDATA[closed]]></wp:comment_status>
 		<wp:status><![CDATA[publish]]></wp:status>
@@ -246,7 +246,7 @@ exports[`wix: personal-website.har 1`] = `
 		<title><![CDATA[Media Page]]></title>
 		<description></description>
 		<content:encoded><![CDATA[<!-- wp:heading -->
-<h2>Video, Audio, Spotify, Sound Cloud</h2>
+<h2 class=\\"\\"><div>Video, Audio, Spotify, Sound Cloud</div></h2>
 <!-- /wp:heading -->
 
 <!-- wp:embed {\\"url\\":\\"https://dai.ly/k3jznaTlT1RbXjwkuYx\\",\\"providerNameSlug\\":\\"dailymotion\\"} -->
@@ -256,7 +256,7 @@ https://dai.ly/k3jznaTlT1RbXjwkuYx
 <!-- /wp:embed -->
 
 <!-- wp:audio -->
-<figure class=\\"wp-block-audio\\"><audio controls src=\\"https://music.wixstatic.com/mp3/dmPSv_DPcDH86Ium3LCRu4N4jYKKCQrhgTVsy.mp3\\"></audio></figure>
+<figure><audio controls src=\\"https://music.wixstatic.com/mp3/dmPSv_DPcDH86Ium3LCRu4N4jYKKCQrhgTVsy.mp3\\"></audio></figure>
 <!-- /wp:audio -->
 
 <!-- wp:embed {\\"url\\":\\"https://open.spotify.com/playlist/37i9dQZF1E4lCYovezyEZT\\"} -->
@@ -280,18 +280,18 @@ https://soundcloud.com/samiran-saharia/tales-from-the-other-sideoriginal-mix
 		<title><![CDATA[Additional components]]></title>
 		<description></description>
 		<content:encoded><![CDATA[<!-- wp:image {\\"width\\":2590,\\"height\\":1574} -->
-<figure class=\\"wp-block-image is-resized\\"><img src=\\"https://static.wixstatic.com/media/62xMl_5qDOShg8nxX0fEzuSb1e0wDcmBWdfiA~mv2.png\\" alt=\\"Screenshot 2021-06-20 at 17.14.01.png\\" width=\\"2590\\" height=\\"1574\\"/></figure>
+<figure class=\\"is-resized\\"><img src=\\"https://static.wixstatic.com/media/62xMl_5qDOShg8nxX0fEzuSb1e0wDcmBWdfiA~mv2.png\\" alt=\\"Screenshot 2021-06-20 at 17.14.01.png\\" width=\\"2590\\" height=\\"1574\\"/></figure>
 <!-- /wp:image -->
 
 <!-- wp:group -->
-<div class=\\"wp-block-group\\"><!-- wp:html -->
-<p>This is a custom HTML block placed inside of the Mobile container component.</p>
-<a href=\\"https://lorem-ipsum.com/\\">Lorem ipsum link</a>
+<div><!-- wp:html -->
+<div><p>This is a custom HTML block placed inside of the Mobile container component.</p>
+<a href=\\"https://lorem-ipsum.com/\\">Lorem ipsum link</a></div>
 <!-- /wp:html --></div>
 <!-- /wp:group -->
 
 <!-- wp:html -->
-<svg data-bbox=\\"10 29.5 180 141\\" viewBox=\\"0 0 200 200\\" height=\\"200\\" width=\\"200\\" xmlns=\\"http://www.w3.org/2000/svg\\" data-type=\\"color\\" role=\\"img\\" aria-label=\\"Plant \\"><title>Plant%20</title>
+<div><svg data-bbox=\\"10 29.5 180 141\\" viewBox=\\"0 0 200 200\\" height=\\"200\\" width=\\"200\\" xmlns=\\"http://www.w3.org/2000/svg\\" data-type=\\"color\\" role=\\"img\\" aria-label=\\"Plant \\"><title>Plant%20</title>
     <g>
         <path opacity=\\".3\\" d=\\"M128.735 165.647c0 2.68-12.03 4.853-26.868 4.853-14.839 0-26.868-2.173-26.868-4.853 0-2.68 12.03-4.853 26.868-4.853 14.839 0 26.868 2.173 26.868 4.853z\\"></path>
         <path fill=\\"#E89394\\" d=\\"M153.736 125.519c0 22.634-18.319 40.982-40.916 40.982-22.597 0-40.916-18.348-40.916-40.982s18.319-40.982 40.916-40.982c22.597 0 40.916 18.348 40.916 40.982z\\" data-color=\\"1\\"></path>
@@ -352,11 +352,11 @@ https://soundcloud.com/samiran-saharia/tales-from-the-other-sideoriginal-mix
         <path d=\\"M134.178 82.244l-3.276 4.881c-.21.313.295.605.503.295l3.276-4.881c.21-.313-.294-.606-.503-.295z\\" fill=\\"#B5DAE1\\" data-color=\\"4\\"></path>
         <path d=\\"M132.498 80.453a19.156 19.156 0 0 0-2.259 3.319c-.177.331.326.626.503.295a18.4 18.4 0 0 1 2.168-3.201c.241-.286-.169-.701-.412-.413z\\" fill=\\"#B5DAE1\\" data-color=\\"4\\"></path>
     </g>
-</svg>
+</svg></div>
 <!-- /wp:html -->
 
 <!-- wp:html -->
-<svg data-bbox=\\"34 48 131.999 104\\" viewBox=\\"0 0 200 200\\" height=\\"200\\" width=\\"200\\" xmlns=\\"http://www.w3.org/2000/svg\\" data-type=\\"color\\" role=\\"img\\" aria-label=\\"media-85-03\\"><title>media-85-03</title>
+<div><svg data-bbox=\\"34 48 131.999 104\\" viewBox=\\"0 0 200 200\\" height=\\"200\\" width=\\"200\\" xmlns=\\"http://www.w3.org/2000/svg\\" data-type=\\"color\\" role=\\"img\\" aria-label=\\"media-85-03\\"><title>media-85-03</title>
     <g>
         <path d=\\"M76.175 140.048l-.735 2.026c-1.587.323-3.761.029-4.731-.294-4.113-1.497-1.851-5.725 5.466-1.732z\\" fill=\\"#4854C7\\" data-color=\\"1\\"></path>
         <path d=\\"M76.175 140.048l-.735 2.026c-1.587.323-3.761.029-4.731-.294-4.113-1.497-1.851-5.725 5.466-1.732z\\" opacity=\\".3\\"></path>
@@ -392,11 +392,11 @@ https://soundcloud.com/samiran-saharia/tales-from-the-other-sideoriginal-mix
         <path d=\\"M65.567 151.998c2.439.118 1.322-5.549.411-8.838-1.41-3.318-2.409-4.815-3.085-7.076-.882-3.112-1.293-9.66-4.76-8.926-3.409.793-2.233 2.965-.793 7.164.852 2.555 1.322 4.169 2.057 7.663 1.116 3.612 2.174 9.103 6.17 10.013z\\" fill=\\"#DED9C4\\" data-color=\\"6\\"></path>
         <path d=\\"M74.412 149.503c-.588-3.112.646-5.491 3.144-8.133 1.851-1.967 2.556-3.582 2.968-5.696.647-3.23 1.969-7.164 4.496-5.52 1.91 1.292.47 3.846-.676 7.487-1.263 4.786-3.967 12.567-7.669 13.359-1.382.294-1.499-.44-2.263-1.497z\\" fill=\\"#DED9C4\\" data-color=\\"6\\"></path>
     </g>
-</svg>
+</svg></div>
 <!-- /wp:html -->
 
 <!-- wp:html -->
-<svg data-bbox=\\"22 18.983 146 162.001\\" viewBox=\\"0 0 200 200\\" height=\\"200\\" width=\\"200\\" xmlns=\\"http://www.w3.org/2000/svg\\" data-type=\\"color\\" role=\\"img\\" aria-label=\\"media-40-07\\"><title>media-40-07</title>
+<div><svg data-bbox=\\"22 18.983 146 162.001\\" viewBox=\\"0 0 200 200\\" height=\\"200\\" width=\\"200\\" xmlns=\\"http://www.w3.org/2000/svg\\" data-type=\\"color\\" role=\\"img\\" aria-label=\\"media-40-07\\"><title>media-40-07</title>
     <g>
         <path fill=\\"#F6C9E0\\" d=\\"M90.139 83.198V19.581l77.02 44.551v63.596l-77.02-44.53z\\" data-color=\\"1\\"></path>
         <path d=\\"M90.389 82.878V20.52l76.538 43.911v62.379L90.389 82.878zm-1.072-63.297v63.915c26.227 15.056 51.898 29.823 78.126 44.858L168 63.832c-26.227-15.056-51.919-29.793-78.146-44.849l-.537.598z\\" fill=\\"#2A3786\\" data-color=\\"2\\"></path>
@@ -441,7 +441,7 @@ https://soundcloud.com/samiran-saharia/tales-from-the-other-sideoriginal-mix
         <path fill=\\"#F4E8CA\\" d=\\"M97.059 153.703l-4.633-2.645 2.596-1.493 4.589 2.645-2.552 1.493z\\" data-color=\\"4\\"></path>
         <path d=\\"M97.059 153.084l-3.56-2.026 1.523-.875 3.517 2.027-1.48.874zm-4.911-1.577l4.911 2.814 3.624-2.111-5.64-3.263-3.688 2.111.793.449z\\" fill=\\"#2A3786\\" data-color=\\"2\\"></path>
     </g>
-</svg>
+</svg></div>
 <!-- /wp:html -->
 
 <!-- wp:core-import/plugin-placeholder {\\"id\\":1} /-->]]></content:encoded>
@@ -455,11 +455,11 @@ https://soundcloud.com/samiran-saharia/tales-from-the-other-sideoriginal-mix
 		<title><![CDATA[header]]></title>
 		<description></description>
 		<content:encoded><![CDATA[<!-- wp:paragraph -->
-<p><a>PERSONAL BLOG DEMO</a></p>
+<p class=\\"\\"><div><a>PERSONAL BLOG DEMO</a></div></p>
 <!-- /wp:paragraph -->
 
 <!-- wp:separator -->
-<hr class=\\"wp-block-separator\\"/>
+<hr class=\\"\\"/>
 <!-- /wp:separator -->
 
 <!-- wp:navigation {\\"orientation\\":\\"horizontal\\"} -->
@@ -483,7 +483,7 @@ https://soundcloud.com/samiran-saharia/tales-from-the-other-sideoriginal-mix
 		<title><![CDATA[footer]]></title>
 		<description></description>
 		<content:encoded><![CDATA[<!-- wp:social-links {\\"openInNewTab\\":true} -->
-<ul class=\\"wp-block-social-links\\"><!-- wp:social-link {\\"url\\":\\"https://amazon.com\\",\\"service\\":\\"amazon\\",\\"label\\":\\"Amazon Title\\"} /-->
+<ul class=\\"\\"><!-- wp:social-link {\\"url\\":\\"https://amazon.com\\",\\"service\\":\\"amazon\\",\\"label\\":\\"Amazon Title\\"} /-->
 
 <!-- wp:social-link {\\"url\\":\\"https://www.facebook.com/wix\\",\\"service\\":\\"facebook\\",\\"label\\":\\"Facebook\\"} /-->
 
@@ -493,7 +493,7 @@ https://soundcloud.com/samiran-saharia/tales-from-the-other-sideoriginal-mix
 <!-- /wp:social-links -->
 
 <!-- wp:paragraph -->
-<p>©2021 by Personal Blog Demo. Proudly created with Wix.com</p>
+<p class=\\"\\"><div>©2021 by Personal Blog Demo. Proudly created with Wix.com</div></p>
 <!-- /wp:paragraph -->]]></content:encoded>
 		<wp:comment_status><![CDATA[closed]]></wp:comment_status>
 		<wp:status><![CDATA[publish]]></wp:status>
@@ -876,199 +876,199 @@ exports[`wix: rockfield.har 1`] = `
 		<title><![CDATA[Menu]]></title>
 		<description></description>
 		<content:encoded><![CDATA[<!-- wp:heading -->
-<h2><strong>Menu</strong></h2>
+<h2 class=\\"\\"><div><strong>Menu</strong></div></h2>
 <!-- /wp:heading -->
 
 <!-- wp:paragraph -->
-<p>The menu is a mix of French regional cuisines, and the menu changes with the seasons.<br>Be sure to ask about the daily specials!</p>
+<p class=\\"\\"><div>The menu is a mix of French regional cuisines, and the menu changes with the seasons.<br>Be sure to ask about the daily specials!</div></p>
 <!-- /wp:paragraph -->
 
 <!-- wp:separator -->
-<hr class=\\"wp-block-separator\\"/>
+<hr class=\\"\\"/>
 <!-- /wp:separator -->
 
 <!-- wp:heading {\\"level\\":4} -->
-<h4><strong>Starter</strong></h4>
+<h4 class=\\"\\"><div><strong>Starter</strong></div></h4>
 <!-- /wp:heading -->
 
 <!-- wp:columns -->
-<div class=\\"wp-block-columns\\"><!-- wp:column -->
-<div class=\\"wp-block-column\\"><!-- wp:paragraph -->
-<p><strong>Pork Rillettes</strong></p>
+<div class=\\"\\"><!-- wp:column -->
+<div class=\\"\\"><!-- wp:paragraph -->
+<p class=\\"\\"><div><strong>Pork Rillettes</strong></div></p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
-<p>With quick pickle of dried apricots and pistachio crumble<br>$14.00</p>
+<p class=\\"\\"><div>With quick pickle of dried apricots and pistachio crumble<br>$14.00</div></p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
-<p>​</p>
+<p class=\\"\\"><div>​</div></p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
-<p><strong>Mini Tartes Flambées</strong></p>
+<p class=\\"\\"><div><strong>Mini Tartes Flambées</strong></div></p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
-<p>Served warm with honey and croûtons<br>$12.50$15.00</p>
+<p class=\\"\\"><div>Served warm with honey and croûtons<br>$12.50$15.00</div></p>
 <!-- /wp:paragraph --></div>
 <!-- /wp:column -->
 
 <!-- wp:column -->
-<div class=\\"wp-block-column\\"><!-- wp:paragraph -->
-<p><strong>Salmon Canapés</strong></p>
+<div class=\\"\\"><!-- wp:paragraph -->
+<p class=\\"\\"><div><strong>Salmon Canapés</strong></div></p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
-<p>Smoked salmon topped with crème fraîche, dill and capers<br>$15.00</p>
+<p class=\\"\\"><div>Smoked salmon topped with crème fraîche, dill and capers<br>$15.00</div></p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
-<p><strong>Mini Tartes Flambées</strong></p>
+<p class=\\"\\"><div><strong>Mini Tartes Flambées</strong></div></p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
-<p>Smoked salmon topped with crème fraîche, dill and capers<br>$15.00</p>
+<p class=\\"\\"><div>Smoked salmon topped with crème fraîche, dill and capers<br>$15.00</div></p>
 <!-- /wp:paragraph -->
 
 <!-- wp:separator -->
-<hr class=\\"wp-block-separator\\"/>
+<hr class=\\"\\"/>
 <!-- /wp:separator --></div>
 <!-- /wp:column -->
 
 <!-- wp:column -->
-<div class=\\"wp-block-column\\"><!-- wp:paragraph -->
-<p><strong>Provençal Vegetable Tart</strong></p>
+<div class=\\"\\"><!-- wp:paragraph -->
+<p class=\\"\\"><div><strong>Provençal Vegetable Tart</strong></div></p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
-<p>With seasonal vegetables<br>$12.50</p>
+<p class=\\"\\"><div>With seasonal vegetables<br>$12.50</div></p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
-<p><strong>Mini Tartes Flambées</strong></p>
+<p class=\\"\\"><div><strong>Mini Tartes Flambées</strong></div></p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
-<p>Braised wild mushrooms served with seaweed and liquid nitrogen<br>$14.50</p>
+<p class=\\"\\"><div>Braised wild mushrooms served with seaweed and liquid nitrogen<br>$14.50</div></p>
 <!-- /wp:paragraph --></div>
 <!-- /wp:column --></div>
 <!-- /wp:columns -->
 
 <!-- wp:heading {\\"level\\":4} -->
-<h4><strong>Mains</strong></h4>
+<h4 class=\\"\\"><div><strong>Mains</strong></div></h4>
 <!-- /wp:heading -->
 
 <!-- wp:paragraph -->
-<p><strong>​Coq au Vin d’Alsace</strong></p>
+<p class=\\"\\"><div><strong>​Coq au Vin d’Alsace</strong></div></p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
-<p><strong>Chicken cooked in Riesling with onions, mushrooms and herbs<br>$25.50</strong></p>
+<p class=\\"\\"><div><strong>Chicken cooked in Riesling with onions, mushrooms and herbs<br>$25.50</strong></div></p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
-<p><strong>​Bouillabaisse</strong></p>
+<p class=\\"\\"><div><strong>​Bouillabaisse</strong></div></p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
-<p><strong>Traditional Provençal fish stew, with shrimp, mussels, clams and monkfish<br>$26.00</strong></p>
+<p class=\\"\\"><div><strong>Traditional Provençal fish stew, with shrimp, mussels, clams and monkfish<br>$26.00</strong></div></p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
-<p><strong>Côte de Boeuf</strong></p>
+<p class=\\"\\"><div><strong>Côte de Boeuf</strong></div></p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
-<p><strong>60 days aged rib steak, pepper sauce, fondant potatoes<br>$31.00</strong></p>
+<p class=\\"\\"><div><strong>60 days aged rib steak, pepper sauce, fondant potatoes<br>$31.00</strong></div></p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
-<p><strong>Duck à l’Orange</strong></p>
+<p class=\\"\\"><div><strong>Duck à l’Orange</strong></div></p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
-<p><strong>Roasted duck breast with crispy skin and velvety citrus sauce<br>$26.50</strong></p>
+<p class=\\"\\"><div><strong>Roasted duck breast with crispy skin and velvety citrus sauce<br>$26.50</strong></div></p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
-<p><strong>Sole Meunière</strong></p>
+<p class=\\"\\"><div><strong>Sole Meunière</strong></div></p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
-<p><strong>Pan-fried sole in butter and served with brown butter sauce, parsley and lemon<br>$28.00</strong></p>
+<p class=\\"\\"><div><strong>Pan-fried sole in butter and served with brown butter sauce, parsley and lemon<br>$28.00</strong></div></p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
-<p><strong>​Pea and Asparagus Risotto</strong></p>
+<p class=\\"\\"><div><strong>​Pea and Asparagus Risotto</strong></div></p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
-<p><strong>With goat’s cheese, rocket and baby shoot salad<br>$22.00</strong></p>
+<p class=\\"\\"><div><strong>With goat’s cheese, rocket and baby shoot salad<br>$22.00</strong></div></p>
 <!-- /wp:paragraph -->
 
 <!-- wp:separator -->
-<hr class=\\"wp-block-separator\\"/>
+<hr class=\\"\\"/>
 <!-- /wp:separator -->
 
 <!-- wp:heading {\\"level\\":4} -->
-<h4><strong>Desserts</strong></h4>
+<h4 class=\\"\\"><div><strong>Desserts</strong></div></h4>
 <!-- /wp:heading -->
 
 <!-- wp:paragraph -->
-<p><strong>Chocolate Macarons</strong></p>
+<p class=\\"\\"><div><strong>Chocolate Macarons</strong></div></p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
-<p><strong>A classic French delicacy, filled with rich chocolate ganache<br>$12.00</strong></p>
+<p class=\\"\\"><div><strong>A classic French delicacy, filled with rich chocolate ganache<br>$12.00</strong></div></p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
-<p><strong>Crêpe Suzette</strong></p>
+<p class=\\"\\"><div><strong>Crêpe Suzette</strong></div></p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
-<p><strong>Delicate crêpe in buttery, orange sauce; served flambé<br>$13.00</strong></p>
+<p class=\\"\\"><div><strong>Delicate crêpe in buttery, orange sauce; served flambé<br>$13.00</strong></div></p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
-<p><strong>​Tarte Tatin</strong></p>
+<p class=\\"\\"><div><strong>​Tarte Tatin</strong></div></p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
-<p><strong>Sticky caramel sauce with apples, served with whipped cream<br>$12.00</strong></p>
+<p class=\\"\\"><div><strong>Sticky caramel sauce with apples, served with whipped cream<br>$12.00</strong></div></p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
-<p><strong>Lemon Tart</strong></p>
+<p class=\\"\\"><div><strong>Lemon Tart</strong></div></p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
-<p><strong>zesty lemon tang, creamy custard and topped with meringue<br>$12.00</strong></p>
+<p class=\\"\\"><div><strong>zesty lemon tang, creamy custard and topped with meringue<br>$12.00</strong></div></p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
-<p><strong>Praline Cake</strong></p>
+<p class=\\"\\"><div><strong>Praline Cake</strong></div></p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
-<p><strong>Multi-layer praline and chocolate cake with caramel cream cheese<br>$12.00</strong></p>
+<p class=\\"\\"><div><strong>Multi-layer praline and chocolate cake with caramel cream cheese<br>$12.00</strong></div></p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
-<p><strong>Trio of Fruit</strong></p>
+<p class=\\"\\"><div><strong>Trio of Fruit</strong></div></p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
-<p><strong>Blueberries, strawberries, raspberries, plums and passion fruit<br>$28.00</strong></p>
+<p class=\\"\\"><div><strong>Blueberries, strawberries, raspberries, plums and passion fruit<br>$28.00</strong></div></p>
 <!-- /wp:paragraph -->
 
 <!-- wp:separator -->
-<hr class=\\"wp-block-separator\\"/>
+<hr class=\\"\\"/>
 <!-- /wp:separator -->
 
 <!-- wp:paragraph -->
-<p><em>Our fish is responsibly caught from sustainable sources.</em></p>
+<p class=\\"\\"><div><em>Our fish is responsibly caught from sustainable sources.</em></div></p>
 <!-- /wp:paragraph -->]]></content:encoded>
 		<wp:comment_status><![CDATA[closed]]></wp:comment_status>
 		<wp:status><![CDATA[publish]]></wp:status>
@@ -1090,37 +1090,37 @@ exports[`wix: rockfield.har 1`] = `
 		<title><![CDATA[Christmas Party at Rockfield’s]]></title>
 		<description></description>
 		<content:encoded><![CDATA[<!-- wp:heading {\\"level\\":1} -->
-<h1><strong>Christmas Party at Rockfield’s</strong></h1>
+<h1 class=\\"\\"><div><strong>Christmas Party at Rockfield’s</strong></div></h1>
 <!-- /wp:heading -->
 
 <!-- wp:paragraph -->
-<p>Rockfield is available for Christmas parties of all sizes, so it’s high time to start planning your Christmas lunch or dinner.</p>
+<p class=\\"\\"><div>Rockfield is available for Christmas parties of all sizes, so it’s high time to start planning your Christmas lunch or dinner.</div></p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
-<p>Click here to make a reservation today!</p>
+<p class=\\"\\"><div>Click here to make a reservation today!</div></p>
 <!-- /wp:paragraph -->
 
 <!-- wp:group -->
-<div class=\\"wp-block-group\\"><!-- wp:heading -->
-<h2><strong>Published by Joan Smith</strong></h2>
+<div><!-- wp:heading -->
+<h2 class=\\"\\"><div><strong>Published by Joan Smith</strong></div></h2>
 <!-- /wp:heading -->
 
 <!-- wp:paragraph -->
-<p>My name is Joan Smith. I love discovering new literature.&nbsp;<a>View more posts</a></p>
+<p class=\\"\\"><div>My name is Joan Smith. I love discovering new literature.&nbsp;<a>View more posts</a></div></p>
 <!-- /wp:paragraph --></div>
 <!-- /wp:group -->
 
 <!-- wp:separator -->
-<hr class=\\"wp-block-separator\\"/>
+<hr class=\\"\\"/>
 <!-- /wp:separator -->
 
 <!-- wp:paragraph -->
-<p>Previous Post</p>
+<p class=\\"\\"><div>Previous Post</div></p>
 <!-- /wp:paragraph -->
 
 <!-- wp:heading {\\"level\\":3} -->
-<h3><a>Winter Menu</a></h3>
+<h3 class=\\"\\"><div><a>Winter Menu</a></div></h3>
 <!-- /wp:heading -->]]></content:encoded>
 		<wp:comment_status><![CDATA[closed]]></wp:comment_status>
 		<wp:status><![CDATA[publish]]></wp:status>
@@ -1132,20 +1132,20 @@ exports[`wix: rockfield.har 1`] = `
 		<title><![CDATA[What's On]]></title>
 		<description></description>
 		<content:encoded><![CDATA[<!-- wp:heading {\\"level\\":1} -->
-<h1><strong>What’s On</strong></h1>
+<h1 class=\\"\\"><div><strong>What’s On</strong></div></h1>
 <!-- /wp:heading -->
 
-<!-- wp:cover {\\"url\\":\\"https://static.wixstatic.com/media/ZDA5B_j5RedL9MFgZ0iaUowYVI71VO5RTpkl5~mv2.jpg\\",\\"id\\":14,\\"align\\":\\"full\\"} -->
-<div class=\\"wp-block-cover alignfull has-background-dim\\"><img class=\\"wp-block-cover__image-background wp-image-14\\" alt=\\"\\" src=\\"https://static.wixstatic.com/media/ZDA5B_j5RedL9MFgZ0iaUowYVI71VO5RTpkl5~mv2.jpg\\" data-object-fit=\\"cover\\"/><div class=\\"wp-block-cover__inner-container\\"><!-- wp:separator -->
-<hr class=\\"wp-block-separator\\"/>
+<!-- wp:cover {\\"url\\":\\"https://static.wixstatic.com/media/ZDA5B_j5RedL9MFgZ0iaUowYVI71VO5RTpkl5~mv2.jpg\\",\\"id\\":14} -->
+<div class=\\"has-background-dim\\"><img class=\\"wp-block-cover__image-background wp-image-14\\" alt=\\"\\" src=\\"https://static.wixstatic.com/media/ZDA5B_j5RedL9MFgZ0iaUowYVI71VO5RTpkl5~mv2.jpg\\" data-object-fit=\\"cover\\"/><div class=\\"wp-block-cover__inner-container\\"><!-- wp:separator -->
+<hr class=\\"\\"/>
 <!-- /wp:separator -->
 
 <!-- wp:heading {\\"level\\":1} -->
-<h1><strong>Latest Updates From Us</strong></h1>
+<h1 class=\\"\\"><div><strong>Latest Updates From Us</strong></div></h1>
 <!-- /wp:heading -->
 
 <!-- wp:separator -->
-<hr class=\\"wp-block-separator\\"/>
+<hr class=\\"\\"/>
 <!-- /wp:separator --></div></div>
 <!-- /wp:cover -->]]></content:encoded>
 		<wp:comment_status><![CDATA[closed]]></wp:comment_status>
@@ -1158,59 +1158,59 @@ exports[`wix: rockfield.har 1`] = `
 		<title><![CDATA[Reservations]]></title>
 		<description></description>
 		<content:encoded><![CDATA[<!-- wp:heading {\\"level\\":1} -->
-<h1><strong>Reservations</strong></h1>
+<h1 class=\\"\\"><div><strong>Reservations</strong></div></h1>
 <!-- /wp:heading -->
 
 <!-- wp:paragraph -->
-<p>Let’s talk&nbsp; &nbsp; &nbsp; Don’t hesitate to reach out with the contact information below, or send a message using the form.</p>
+<p class=\\"\\"><div>Let’s talk&nbsp; &nbsp; &nbsp; Don’t hesitate to reach out with the contact information below, or send a message using the form.</div></p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
-<p>​</p>
+<p class=\\"\\"><div>​</div></p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
-<p>To book a table, call us or use the form below.</p>
+<p class=\\"\\"><div>To book a table, call us or use the form below.</div></p>
 <!-- /wp:paragraph -->
 
 <!-- wp:image {\\"width\\":36,\\"height\\":36} -->
-<figure class=\\"wp-block-image is-resized\\"><img src=\\"https://static.wixstatic.com/media/JdmUI_yteJBoBtYToixmOFoNYXF40kUU5JdTh~mv2.png\\" alt=\\"1f44b.png\\" width=\\"36\\" height=\\"36\\"/></figure>
+<figure class=\\"is-resized\\"><img src=\\"https://static.wixstatic.com/media/JdmUI_yteJBoBtYToixmOFoNYXF40kUU5JdTh~mv2.png\\" alt=\\"1f44b.png\\" width=\\"36\\" height=\\"36\\"/></figure>
 <!-- /wp:image -->
 
 <!-- wp:separator -->
-<hr class=\\"wp-block-separator\\"/>
+<hr class=\\"\\"/>
 <!-- /wp:separator -->
 
 <!-- wp:heading {\\"level\\":4} -->
-<h4><strong>Location</strong></h4>
+<h4 class=\\"\\"><div><strong>Location</strong></div></h4>
 <!-- /wp:heading -->
 
 <!-- wp:paragraph -->
-<p>​</p>
+<p class=\\"\\"><div>​</div></p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
-<p>1 Example Street</p>
+<p class=\\"\\"><div>1 Example Street</div></p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
-<p>Anytown, NY 10100</p>
+<p class=\\"\\"><div>Anytown, NY 10100</div></p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
-<p><a>example4@example.com</a></p>
+<p class=\\"\\"><div><a>example4@example.com</a></div></p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
-<p>(555) 555 1234</p>
+<p class=\\"\\"><div>(555) 555 1234</div></p>
 <!-- /wp:paragraph -->
 
 <!-- wp:heading {\\"level\\":4} -->
-<h4><strong>Open Hours</strong></h4>
+<h4 class=\\"\\"><div><strong>Open Hours</strong></div></h4>
 <!-- /wp:heading -->
 
 <!-- wp:paragraph -->
-<p>Mon: closed<br>Tue – Sun: 11:30 am – 10:00 pm</p>
+<p class=\\"\\"><div>Mon: closed<br>Tue – Sun: 11:30 am – 10:00 pm</div></p>
 <!-- /wp:paragraph -->
 
 <!-- wp:core-import/plugin-placeholder {\\"id\\":1} /-->]]></content:encoded>
@@ -1223,171 +1223,171 @@ exports[`wix: rockfield.har 1`] = `
 		<wp:post_id>6</wp:post_id>
 		<title><![CDATA[Home]]></title>
 		<description></description>
-		<content:encoded><![CDATA[<!-- wp:cover {\\"url\\":\\"https://static.wixstatic.com/media/5Dsu1_ZUNrjjTx3j1ZbikUbg2rP0eIE5gJllA~mv2.jpg\\",\\"id\\":16,\\"align\\":\\"full\\"} -->
-<div class=\\"wp-block-cover alignfull has-background-dim\\"><img class=\\"wp-block-cover__image-background wp-image-16\\" alt=\\"\\" src=\\"https://static.wixstatic.com/media/5Dsu1_ZUNrjjTx3j1ZbikUbg2rP0eIE5gJllA~mv2.jpg\\" data-object-fit=\\"cover\\"/><div class=\\"wp-block-cover__inner-container\\"><!-- wp:separator -->
-<hr class=\\"wp-block-separator\\"/>
+		<content:encoded><![CDATA[<!-- wp:cover {\\"url\\":\\"https://static.wixstatic.com/media/5Dsu1_ZUNrjjTx3j1ZbikUbg2rP0eIE5gJllA~mv2.jpg\\",\\"id\\":16} -->
+<div class=\\"has-background-dim\\"><img class=\\"wp-block-cover__image-background wp-image-16\\" alt=\\"\\" src=\\"https://static.wixstatic.com/media/5Dsu1_ZUNrjjTx3j1ZbikUbg2rP0eIE5gJllA~mv2.jpg\\" data-object-fit=\\"cover\\"/><div class=\\"wp-block-cover__inner-container\\"><!-- wp:separator -->
+<hr class=\\"\\"/>
 <!-- /wp:separator -->
 
 <!-- wp:heading -->
-<h2><strong>Enjoy Our Food Experience</strong></h2>
+<h2 class=\\"\\"><div><strong>Enjoy Our Food Experience</strong></div></h2>
 <!-- /wp:heading -->
 
 <!-- wp:separator -->
-<hr class=\\"wp-block-separator\\"/>
+<hr class=\\"\\"/>
 <!-- /wp:separator --></div></div>
 <!-- /wp:cover -->
 
 <!-- wp:heading {\\"level\\":4} -->
-<h4><strong>Welcome to Rockfield</strong></h4>
+<h4 class=\\"\\"><div><strong>Welcome to Rockfield</strong></div></h4>
 <!-- /wp:heading -->
 
 <!-- wp:heading {\\"level\\":5} -->
-<h5>​</h5>
+<h5 class=\\"\\"><div>​</div></h5>
 <!-- /wp:heading -->
 
 <!-- wp:paragraph -->
-<p>Chef Patron Joan Smith and Executive Chef François Lemoine have teamed up to open one of the most exciting restaurants in Anytown.</p>
+<p class=\\"\\"><div>Chef Patron Joan Smith and Executive Chef François Lemoine have teamed up to open one of the most exciting restaurants in Anytown.</div></p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
-<p>​</p>
+<p class=\\"\\"><div>​</div></p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
-<p>Our specialty is delicious cuisine created with the ingenuity and passion inspired by the fantastic flavors of France itself. We take great pride in improving upon your favorite French dishes in new and creative ways.</p>
+<p class=\\"\\"><div>Our specialty is delicious cuisine created with the ingenuity and passion inspired by the fantastic flavors of France itself. We take great pride in improving upon your favorite French dishes in new and creative ways.</div></p>
 <!-- /wp:paragraph -->
 
-<!-- wp:cover {\\"url\\":\\"https://static.wixstatic.com/media/e7Sgo_zJMHqoFuuTQ541QbqX7LxbqG8Yc8KJE~mv2.jpg\\",\\"id\\":17,\\"align\\":\\"full\\"} -->
-<div class=\\"wp-block-cover alignfull has-background-dim\\"><img class=\\"wp-block-cover__image-background wp-image-17\\" alt=\\"\\" src=\\"https://static.wixstatic.com/media/e7Sgo_zJMHqoFuuTQ541QbqX7LxbqG8Yc8KJE~mv2.jpg\\" data-object-fit=\\"cover\\"/><div class=\\"wp-block-cover__inner-container\\"><!-- wp:separator -->
-<hr class=\\"wp-block-separator\\"/>
+<!-- wp:cover {\\"url\\":\\"https://static.wixstatic.com/media/e7Sgo_zJMHqoFuuTQ541QbqX7LxbqG8Yc8KJE~mv2.jpg\\",\\"id\\":17} -->
+<div class=\\"has-background-dim\\"><img class=\\"wp-block-cover__image-background wp-image-17\\" alt=\\"\\" src=\\"https://static.wixstatic.com/media/e7Sgo_zJMHqoFuuTQ541QbqX7LxbqG8Yc8KJE~mv2.jpg\\" data-object-fit=\\"cover\\"/><div class=\\"wp-block-cover__inner-container\\"><!-- wp:separator -->
+<hr class=\\"\\"/>
 <!-- /wp:separator -->
 
 <!-- wp:heading -->
-<h2><strong>Discover Our Menu</strong></h2>
+<h2 class=\\"\\"><div><strong>Discover Our Menu</strong></div></h2>
 <!-- /wp:heading -->
 
 <!-- wp:separator -->
-<hr class=\\"wp-block-separator\\"/>
+<hr class=\\"\\"/>
 <!-- /wp:separator --></div></div>
 <!-- /wp:cover -->
 
 <!-- wp:paragraph -->
-<p>The menu is a mix of French regional cuisines, and the menu changes with the seasons.<br>Be sure to ask about the daily specials!</p>
+<p class=\\"\\"><div>The menu is a mix of French regional cuisines, and the menu changes with the seasons.<br>Be sure to ask about the daily specials!</div></p>
 <!-- /wp:paragraph -->
 
 <!-- wp:separator -->
-<hr class=\\"wp-block-separator\\"/>
+<hr class=\\"\\"/>
 <!-- /wp:separator -->
 
 <!-- wp:heading {\\"level\\":4} -->
-<h4><strong>Sample Menu</strong></h4>
+<h4 class=\\"\\"><div><strong>Sample Menu</strong></div></h4>
 <!-- /wp:heading -->
 
 <!-- wp:paragraph -->
-<p><strong>Starter</strong></p>
+<p class=\\"\\"><div><strong>Starter</strong></div></p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
-<p><strong>Fricassée of Wild Mushrooms</strong></p>
+<p class=\\"\\"><div><strong>Fricassée of Wild Mushrooms</strong></div></p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
-<p><strong>Braised wild mushrooms served with seaweed and liquid nitrogen<br>$14.50</strong></p>
+<p class=\\"\\"><div><strong>Braised wild mushrooms served with seaweed and liquid nitrogen<br>$14.50</strong></div></p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
-<p><strong>​Main</strong></p>
+<p class=\\"\\"><div><strong>​Main</strong></div></p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
-<p><strong>Coq au Vin d’Alsace</strong></p>
+<p class=\\"\\"><div><strong>Coq au Vin d’Alsace</strong></div></p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
-<p><strong>Chicken cooked in Riesling with onions, mushrooms and herbs<br>$25.50</strong></p>
+<p class=\\"\\"><div><strong>Chicken cooked in Riesling with onions, mushrooms and herbs<br>$25.50</strong></div></p>
 <!-- /wp:paragraph -->
 
 <!-- wp:heading {\\"level\\":6} -->
-<h6><strong>​</strong></h6>
+<h6 class=\\"\\"><div><strong>​</strong></div></h6>
 <!-- /wp:heading -->
 
 <!-- wp:paragraph -->
-<p><strong>​</strong></p>
+<p class=\\"\\"><div><strong>​</strong></div></p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
-<p><strong>Dessert</strong></p>
+<p class=\\"\\"><div><strong>Dessert</strong></div></p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
-<p><strong>Pumpkin Soufflé</strong></p>
+<p class=\\"\\"><div><strong>Pumpkin Soufflé</strong></div></p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
-<p><strong>With bourbon, cinnamon and molasses sauce<br>$9.00</strong></p>
+<p class=\\"\\"><div><strong>With bourbon, cinnamon and molasses sauce<br>$9.00</strong></div></p>
 <!-- /wp:paragraph -->
 
 <!-- wp:heading {\\"level\\":6} -->
-<h6><strong>​</strong></h6>
+<h6 class=\\"\\"><div><strong>​</strong></div></h6>
 <!-- /wp:heading -->
 
 <!-- wp:paragraph -->
-<p><strong>​</strong></p>
+<p class=\\"\\"><div><strong>​</strong></div></p>
 <!-- /wp:paragraph -->
 
 <!-- wp:buttons -->
-<div class=\\"wp-block-buttons\\"><!-- wp:button -->
-<div class=\\"wp-block-button\\"><a class=\\"wp-block-button__link\\" href=\\"/menu\\">View Menu</a></div>
+<div class=\\"\\"><!-- wp:button -->
+<div class=\\"\\"><a class=\\"wp-block-button__link\\" href=\\"/menu\\"><div>View Menu</div></a></div>
 <!-- /wp:button --></div>
 <!-- /wp:buttons -->
 
-<!-- wp:cover {\\"url\\":\\"https://static.wixstatic.com/media/sXYIH_PerVF1DoW7DmMdKJeul0lYHXnlbnWBW~mv2.jpg\\",\\"id\\":18,\\"align\\":\\"full\\"} -->
-<div class=\\"wp-block-cover alignfull has-background-dim\\"><img class=\\"wp-block-cover__image-background wp-image-18\\" alt=\\"\\" src=\\"https://static.wixstatic.com/media/sXYIH_PerVF1DoW7DmMdKJeul0lYHXnlbnWBW~mv2.jpg\\" data-object-fit=\\"cover\\"/><div class=\\"wp-block-cover__inner-container\\"><!-- wp:separator -->
-<hr class=\\"wp-block-separator\\"/>
+<!-- wp:cover {\\"url\\":\\"https://static.wixstatic.com/media/sXYIH_PerVF1DoW7DmMdKJeul0lYHXnlbnWBW~mv2.jpg\\",\\"id\\":18} -->
+<div class=\\"has-background-dim\\"><img class=\\"wp-block-cover__image-background wp-image-18\\" alt=\\"\\" src=\\"https://static.wixstatic.com/media/sXYIH_PerVF1DoW7DmMdKJeul0lYHXnlbnWBW~mv2.jpg\\" data-object-fit=\\"cover\\"/><div class=\\"wp-block-cover__inner-container\\"><!-- wp:separator -->
+<hr class=\\"\\"/>
 <!-- /wp:separator -->
 
 <!-- wp:heading -->
-<h2><strong>Book Your Table</strong></h2>
+<h2 class=\\"\\"><div><strong>Book Your Table</strong></div></h2>
 <!-- /wp:heading -->
 
 <!-- wp:separator -->
-<hr class=\\"wp-block-separator\\"/>
+<hr class=\\"\\"/>
 <!-- /wp:separator --></div></div>
 <!-- /wp:cover -->
 
 <!-- wp:core-import/plugin-placeholder {\\"id\\":2} /-->
 
-<!-- wp:cover {\\"url\\":\\"https://static.wixstatic.com/media/F9OC3_zZAcXfndF5z2Of4n5SKFw2Im3kKBwHP~mv2.jpg\\",\\"id\\":19,\\"align\\":\\"full\\"} -->
-<div class=\\"wp-block-cover alignfull has-background-dim\\"><img class=\\"wp-block-cover__image-background wp-image-19\\" alt=\\"\\" src=\\"https://static.wixstatic.com/media/F9OC3_zZAcXfndF5z2Of4n5SKFw2Im3kKBwHP~mv2.jpg\\" data-object-fit=\\"cover\\"/><div class=\\"wp-block-cover__inner-container\\"><!-- wp:heading -->
-<h2><strong>Rockfield</strong></h2>
+<!-- wp:cover {\\"url\\":\\"https://static.wixstatic.com/media/F9OC3_zZAcXfndF5z2Of4n5SKFw2Im3kKBwHP~mv2.jpg\\",\\"id\\":19} -->
+<div class=\\"has-background-dim\\"><img class=\\"wp-block-cover__image-background wp-image-19\\" alt=\\"\\" src=\\"https://static.wixstatic.com/media/F9OC3_zZAcXfndF5z2Of4n5SKFw2Im3kKBwHP~mv2.jpg\\" data-object-fit=\\"cover\\"/><div class=\\"wp-block-cover__inner-container\\"><!-- wp:heading -->
+<h2 class=\\"\\"><div><strong>Rockfield</strong></div></h2>
 <!-- /wp:heading -->
 
 <!-- wp:paragraph -->
-<p>Visitors will want to know who is on the other side of the page. Use this space to write about your business.</p>
+<p class=\\"\\"><div>Visitors will want to know who is on the other side of the page. Use this space to write about your business.</div></p>
 <!-- /wp:paragraph -->
 
 <!-- wp:heading -->
-<h2><strong>Open Hours</strong></h2>
+<h2 class=\\"\\"><div><strong>Open Hours</strong></div></h2>
 <!-- /wp:heading -->
 
 <!-- wp:paragraph -->
-<p><strong>Mon:</strong>&nbsp;closed<br>Tue – Sun: 11:30 am – 10:00 pm</p>
+<p class=\\"\\"><div><strong>Mon:</strong>&nbsp;closed<br>Tue – Sun: 11:30 am – 10:00 pm</div></p>
 <!-- /wp:paragraph -->
 
 <!-- wp:heading -->
-<h2><strong>Location</strong></h2>
+<h2 class=\\"\\"><div><strong>Location</strong></div></h2>
 <!-- /wp:heading -->
 
 <!-- wp:paragraph -->
-<p>Example Street,<br>Anytown, NY 10100</p>
+<p class=\\"\\"><div>Example Street,<br>Anytown, NY 10100</div></p>
 <!-- /wp:paragraph -->
 
 <!-- wp:heading -->
-<h2><strong>Reservation</strong></h2>
+<h2 class=\\"\\"><div><strong>Reservation</strong></div></h2>
 <!-- /wp:heading -->
 
 <!-- wp:paragraph -->
-<p>(555) 555 1234<br>example4@example.com</p>
+<p class=\\"\\"><div>(555) 555 1234<br>example4@example.com</div></p>
 <!-- /wp:paragraph --></div></div>
 <!-- /wp:cover -->]]></content:encoded>
 		<wp:comment_status><![CDATA[closed]]></wp:comment_status>
@@ -1400,45 +1400,45 @@ exports[`wix: rockfield.har 1`] = `
 		<title><![CDATA[Winter Menu]]></title>
 		<description></description>
 		<content:encoded><![CDATA[<!-- wp:heading {\\"level\\":1} -->
-<h1><strong>Winter Menu</strong></h1>
+<h1 class=\\"\\"><div><strong>Winter Menu</strong></div></h1>
 <!-- /wp:heading -->
 
 <!-- wp:paragraph -->
-<p>This winter season come and join us for hearty soups and stews, cheesy gratins and casseroles. These delicious items can be found on our seasonal menu, with specials changing daily.</p>
+<p class=\\"\\"><div>This winter season come and join us for hearty soups and stews, cheesy gratins and casseroles. These delicious items can be found on our seasonal menu, with specials changing daily.</div></p>
 <!-- /wp:paragraph -->
 
 <!-- wp:image {\\"width\\":1024,\\"height\\":682} -->
-<figure class=\\"wp-block-image is-resized\\"><img src=\\"https://static.wixstatic.com/media/7oW5n_JRVYOJnRJpeGHE1bJBAgkY2XaBqeOsl~mv2.jpg\\" alt=\\"appetizer-blurred-background-cheese-2531\\" width=\\"1024\\" height=\\"682\\"/></figure>
+<figure class=\\"is-resized\\"><img src=\\"https://static.wixstatic.com/media/7oW5n_JRVYOJnRJpeGHE1bJBAgkY2XaBqeOsl~mv2.jpg\\" alt=\\"appetizer-blurred-background-cheese-2531\\" width=\\"1024\\" height=\\"682\\"/></figure>
 <!-- /wp:image -->
 
 <!-- wp:group -->
-<div class=\\"wp-block-group\\"><!-- wp:heading -->
-<h2><strong>Published by Joan Smith</strong></h2>
+<div><!-- wp:heading -->
+<h2 class=\\"\\"><div><strong>Published by Joan Smith</strong></div></h2>
 <!-- /wp:heading -->
 
 <!-- wp:paragraph -->
-<p>My name is Joan Smith. I love discovering new literature.&nbsp;<a>View more posts</a></p>
+<p class=\\"\\"><div>My name is Joan Smith. I love discovering new literature.&nbsp;<a>View more posts</a></div></p>
 <!-- /wp:paragraph --></div>
 <!-- /wp:group -->
 
 <!-- wp:separator -->
-<hr class=\\"wp-block-separator\\"/>
+<hr class=\\"\\"/>
 <!-- /wp:separator -->
 
 <!-- wp:paragraph -->
-<p>Previous Post</p>
+<p class=\\"\\"><div>Previous Post</div></p>
 <!-- /wp:paragraph -->
 
 <!-- wp:heading {\\"level\\":3} -->
-<h3><a>Christmas Party at Rockfield’s</a></h3>
+<h3 class=\\"\\"><div><a>Christmas Party at Rockfield’s</a></div></h3>
 <!-- /wp:heading -->
 
 <!-- wp:paragraph -->
-<p>Next Post</p>
+<p class=\\"\\"><div>Next Post</div></p>
 <!-- /wp:paragraph -->
 
 <!-- wp:heading {\\"level\\":3} -->
-<h3><a>Tricks to Plating Like a Pro</a></h3>
+<h3 class=\\"\\"><div><a>Tricks to Plating Like a Pro</a></div></h3>
 <!-- /wp:heading -->]]></content:encoded>
 		<wp:comment_status><![CDATA[closed]]></wp:comment_status>
 		<wp:status><![CDATA[publish]]></wp:status>
@@ -1450,65 +1450,65 @@ exports[`wix: rockfield.har 1`] = `
 		<title><![CDATA[Tricks to Plating Like a Pro]]></title>
 		<description></description>
 		<content:encoded><![CDATA[<!-- wp:heading {\\"level\\":1} -->
-<h1><strong>Tricks to Plating Like a Pro</strong></h1>
+<h1 class=\\"\\"><div><strong>Tricks to Plating Like a Pro</strong></div></h1>
 <!-- /wp:heading -->
 
 <!-- wp:paragraph -->
-<p>Food presentation is the art of modifying, processing, arranging, or decorating food to enhance its aesthetic appeal.</p>
+<p class=\\"\\"><div>Food presentation is the art of modifying, processing, arranging, or decorating food to enhance its aesthetic appeal.</div></p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
-<p>​</p>
+<p class=\\"\\"><div>​</div></p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
-<p>The visual presentation of foods is often considered by chefs at many different stages of food preparation, from the manner of tying or sewing meats, to the type of cut used in chopping and slicing meats or vegetables, to the style of mold used in a poured dish. The food itself may be decorated as in elaborately iced cakes, topped with ornamental sometimes sculptural consumables, drizzled with sauces, sprinkled with seeds, powders, or other toppings, or it may be accompanied by edible or inedible garnishes.</p>
+<p class=\\"\\"><div>The visual presentation of foods is often considered by chefs at many different stages of food preparation, from the manner of tying or sewing meats, to the type of cut used in chopping and slicing meats or vegetables, to the style of mold used in a poured dish. The food itself may be decorated as in elaborately iced cakes, topped with ornamental sometimes sculptural consumables, drizzled with sauces, sprinkled with seeds, powders, or other toppings, or it may be accompanied by edible or inedible garnishes.</div></p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
-<p>​</p>
+<p class=\\"\\"><div>​</div></p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
-<p>The arrangement and overall styling of food upon bringing it to the plate is termed plating. Some common styles of plating include a ‘classic’ arrangement of the main item in the front of the plate with vegetables or starches in the back, a ‘stacked’ arrangement of the various items, or the main item leaning or ‘shingled’ upon a vegetable bed or side item. Item location on the plate is often referenced as for the face of a clock, with six o’clock the position closest to the diner.</p>
+<p class=\\"\\"><div>The arrangement and overall styling of food upon bringing it to the plate is termed plating. Some common styles of plating include a ‘classic’ arrangement of the main item in the front of the plate with vegetables or starches in the back, a ‘stacked’ arrangement of the various items, or the main item leaning or ‘shingled’ upon a vegetable bed or side item. Item location on the plate is often referenced as for the face of a clock, with six o’clock the position closest to the diner.</div></p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
-<p>​</p>
+<p class=\\"\\"><div>​</div></p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
-<p>A basic rule of thumb upon plating, and even in some cases prepping, is to make sure you have the 5 components to a dish; protein, traditionally at a 6 o’clock position, vegetable, at a 2 o’clock position, starch at an 11 o’clock position, sauce and garnish.</p>
+<p class=\\"\\"><div>A basic rule of thumb upon plating, and even in some cases prepping, is to make sure you have the 5 components to a dish; protein, traditionally at a 6 o’clock position, vegetable, at a 2 o’clock position, starch at an 11 o’clock position, sauce and garnish.</div></p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
-<p>​</p>
+<p class=\\"\\"><div>​</div></p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
-<p>From&nbsp;<a>Wikipedia</a>.</p>
+<p class=\\"\\"><div>From&nbsp;<a>Wikipedia</a>.</div></p>
 <!-- /wp:paragraph -->
 
 <!-- wp:group -->
-<div class=\\"wp-block-group\\"><!-- wp:heading -->
-<h2><strong>Published by Joan Smith</strong></h2>
+<div><!-- wp:heading -->
+<h2 class=\\"\\"><div><strong>Published by Joan Smith</strong></div></h2>
 <!-- /wp:heading -->
 
 <!-- wp:paragraph -->
-<p>My name is Joan Smith. I love discovering new literature.&nbsp;<a>View more posts</a></p>
+<p class=\\"\\"><div>My name is Joan Smith. I love discovering new literature.&nbsp;<a>View more posts</a></div></p>
 <!-- /wp:paragraph --></div>
 <!-- /wp:group -->
 
 <!-- wp:separator -->
-<hr class=\\"wp-block-separator\\"/>
+<hr class=\\"\\"/>
 <!-- /wp:separator -->
 
 <!-- wp:paragraph -->
-<p>Previous Post</p>
+<p class=\\"\\"><div>Previous Post</div></p>
 <!-- /wp:paragraph -->
 
 <!-- wp:heading {\\"level\\":3} -->
-<h3><a>Winter Menu</a></h3>
+<h3 class=\\"\\"><div><a>Winter Menu</a></div></h3>
 <!-- /wp:heading -->]]></content:encoded>
 		<wp:comment_status><![CDATA[closed]]></wp:comment_status>
 		<wp:status><![CDATA[publish]]></wp:status>
@@ -1520,14 +1520,14 @@ exports[`wix: rockfield.har 1`] = `
 		<title><![CDATA[header]]></title>
 		<description></description>
 		<content:encoded><![CDATA[<!-- wp:columns -->
-<div class=\\"wp-block-columns\\"><!-- wp:column -->
-<div class=\\"wp-block-column\\"><!-- wp:paragraph -->
-<p><strong><a>Rockfield</a></strong>&nbsp; Award-winning Restaurant in Anytown</p>
+<div class=\\"\\"><!-- wp:column -->
+<div class=\\"\\"><!-- wp:paragraph -->
+<p class=\\"\\"><div><strong><a>Rockfield</a></strong>&nbsp; Award-winning Restaurant in Anytown</div></p>
 <!-- /wp:paragraph --></div>
 <!-- /wp:column -->
 
 <!-- wp:column -->
-<div class=\\"wp-block-column\\"><!-- wp:navigation {\\"orientation\\":\\"horizontal\\"} -->
+<div class=\\"\\"><!-- wp:navigation {\\"orientation\\":\\"horizontal\\"} -->
 <!-- wp:navigation-link {\\"label\\":\\"Home\\",\\"url\\":\\"/home\\"} /-->
 
 <!-- wp:navigation-link {\\"label\\":\\"Menu\\",\\"url\\":\\"/menu\\"} -->
@@ -1552,7 +1552,7 @@ exports[`wix: rockfield.har 1`] = `
 		<title><![CDATA[footer]]></title>
 		<description></description>
 		<content:encoded><![CDATA[<!-- wp:social-links {\\"openInNewTab\\":true} -->
-<ul class=\\"wp-block-social-links\\"><!-- wp:social-link {\\"url\\":\\"https://www.facebook.com/wix\\",\\"service\\":\\"facebook\\",\\"label\\":\\"Facebook\\"} /-->
+<ul class=\\"\\"><!-- wp:social-link {\\"url\\":\\"https://www.facebook.com/wix\\",\\"service\\":\\"facebook\\",\\"label\\":\\"Facebook\\"} /-->
 
 <!-- wp:social-link {\\"label\\":\\"Instagram\\"} /-->
 
@@ -1923,7 +1923,7 @@ exports[`wix: wix-basic.har 1`] = `
 		<guid isPermaLink=\\"false\\"><![CDATA[6676d9d6-0318-4dcc-881f-ba6482cff48d]]></guid>
 		<description></description>
 		<content:encoded><![CDATA[<!-- wp:paragraph -->
-<p>This is my first entry.</p>
+<p class=\\"\\"><div>This is my first entry.</div></p>
 <!-- /wp:paragraph -->]]></content:encoded>
 		<wp:post_date><![CDATA[2021-01-27 08:20:41]]></wp:post_date>
 		<wp:comment_status><![CDATA[open]]></wp:comment_status>

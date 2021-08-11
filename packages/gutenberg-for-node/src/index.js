@@ -1,4 +1,5 @@
 const { JSDOM, ResourceLoader } = require( 'jsdom' );
+const fetchNode = require( 'node-fetch' ).default;
 const noop = function () {};
 
 class Window {
@@ -28,3 +29,8 @@ global.Mousetrap = {
 };
 window.matchMedia = global.matchMedia = () => ( { addListener: noop } );
 global.Node = window.Node;
+window.fetch = window.fetch || fetchNode;
+global.CSS = {
+	supports: noop,
+	escape: noop,
+};

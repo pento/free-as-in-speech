@@ -1,13 +1,11 @@
 const cheerio = require( 'cheerio' );
-const fetchNode = require( 'node-fetch' );
 const { createBlock } = require( '@wordpress/blocks' );
 const { Logger } = require( '../../../utils' );
 
 module.exports = {
 	type: 'VectorImage',
-	parseComponent: async ( component, { metaData, fetch } ) => {
+	parseComponent: async ( component, { metaData } ) => {
 		Logger( 'wix' ).log( 'VectorImage' );
-
 		const alt = component.dataQuery.alt;
 		const title = component.dataQuery.title;
 		const svgContentUrl =
@@ -16,8 +14,7 @@ module.exports = {
 			component.dataQuery.svgId;
 
 		return await Promise.resolve()
-			.then( () => fetch( svgContentUrl ) )
-			.catch( () => fetchNode( svgContentUrl ) )
+			.then( () => window.fetch( svgContentUrl ) )
 			.then( ( response ) => response.text() )
 			.then( ( svgData ) => {
 				const $ = cheerio.load( svgData );

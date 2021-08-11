@@ -1,31 +1,31 @@
 {
-  "name": "gutenberg-for-node",
-  "version": "0.0.1",
-  "description": "A package for supporting Gutenberg library for node.",
-  "author": "The WordPress Contributors",
-  "license": "GPL-2.0-or-later",
-  "keywords": [
+ "name": "gutenberg-for-node",
+ "version": "0.0.1",
+ "description": "A package for supporting Gutenberg library for node.",
+ "author": "The WordPress Contributors",
+ "license": "GPL-2.0-or-later",
+ "keywords": [
 	"wordpress",
 	"parser",
 	"export"
-  ],
-  "homepage": "https://github.com/pento/free-as-in-speech/",
-  "repository": {
+ ],
+ "homepage": "https://github.com/pento/free-as-in-speech/",
+ "repository": {
 	"type": "git",
 	"url": "https://github.com/pento/free-as-in-speech.git",
 	"directory": "packages/gutenberg-for-node"
-  },
-  "bugs": {
+ },
+ "bugs": {
 	"url": "https://github.com/pento/free-as-in-speech/issues"
-  },
-  "main": "src/index.js",
-  "module": "build-module/index.js",
-  "dependencies": {
-	"jsdom": "16.5.3"
-  },
-  "devDependencies": {
-  },
-  "publishConfig": {
+ },
+ "main": "src/index.js",
+ "module": "build-module/index.js",
+ "dependencies": {
+	"jsdom": "16.5.3",
+	"node-fetch": "2.6.1"
+ },
+ "devDependencies": {},
+ "publishConfig": {
 	"access": "public"
-  }
+ }
 }
