@@ -1,5 +1,6 @@
 const { createBlock } = require( '@wordpress/blocks' );
 const { parseComponent: linkBarParseComponent } = require( './link-bar' );
+const { Logger } = require( '../../../utils' );
 
 const parseImages = ( images, { metaData, addMediaAttachment } ) => {
 	return images.map( ( img ) => {
@@ -28,6 +29,8 @@ const parseImages = ( images, { metaData, addMediaAttachment } ) => {
 module.exports = {
 	type: 'ImageList',
 	parseComponent: ( component, meta ) => {
+		Logger( 'wix' ).log( 'ImageList' );
+
 		const images = parseImages( component.dataQuery.items, meta );
 		const attrs = {
 			images,

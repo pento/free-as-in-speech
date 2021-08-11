@@ -1,5 +1,6 @@
 const { pasteHandler } = require( '@wordpress/blocks' );
 const { asyncComponentsParser } = require( './data' );
+const { Logger } = require( '../../utils' );
 
 const handlerMapper = ( key ) => ( accumulator, currentValue ) => {
 	accumulator[ currentValue[ key ] ] = currentValue;
@@ -89,6 +90,7 @@ module.exports = {
 		}
 
 		if ( component.dataQuery && component.dataQuery.text ) {
+			Logger( 'wix' ).log( 'Text' );
 			return pasteHandler( { HTML: component.dataQuery.text } );
 		}
 

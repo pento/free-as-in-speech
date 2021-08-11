@@ -3,6 +3,15 @@
  */
 const { addHeaderPage, addFooterPage, parsePages } = require( './pages' );
 const { convertMenu } = require( './menu' );
+const { Logger } = require( '../../utils' );
+
+const defaultConfig = {
+	debug: true,
+};
+
+const setupLoggerInstance = ( debug ) => {
+	Logger( 'wix', debug );
+};
 
 const staticPagesParser = async (
 	metaData,
@@ -16,6 +25,9 @@ const staticPagesParser = async (
 		attachments: {},
 		objects: [],
 	};
+	config = Object.assign( defaultConfig, config );
+
+	setupLoggerInstance( config.debug );
 
 	// ↓ methods mutate data object
 	addHeaderPage( data, masterPage );

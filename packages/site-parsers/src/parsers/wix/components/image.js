@@ -1,7 +1,10 @@
 const { createBlock } = require( '@wordpress/blocks' );
 const { parseComponent: parseDocumentMedia } = require( './document-media' );
+const { Logger } = require( '../../../utils' );
 
 const parseImage = ( component, { metaData, addMediaAttachment } ) => {
+	Logger( 'wix' ).log( 'Image' );
+
 	if ( ! component.dataQuery || ! component.dataQuery.uri ) {
 		return null;
 	}

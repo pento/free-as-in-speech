@@ -84,6 +84,7 @@ const parsePages = async ( data, metaData, masterPage, config ) => {
 			metaData,
 			page,
 			fetch: config.fetch,
+			debug: config.debug,
 			addObject: addObject.bind( null, data ),
 			addMediaAttachment: addMediaAttachment.bind( null, data ),
 			getThemeDataRef: getThemeDataRef.bind( null, page ),

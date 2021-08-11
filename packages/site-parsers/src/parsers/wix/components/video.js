@@ -1,8 +1,11 @@
 const { createBlock } = require( '@wordpress/blocks' );
+const { Logger } = require( '../../../utils' );
 
 module.exports = {
 	type: 'VideoPlayer',
 	parseComponent: ( component ) => {
+		Logger( 'wix' ).log( 'VideoPlayer' );
+
 		if ( ! component.dataQuery.videoUrl ) {
 			return null;
 		}

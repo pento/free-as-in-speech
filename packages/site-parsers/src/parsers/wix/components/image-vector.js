@@ -1,9 +1,11 @@
 const cheerio = require( 'cheerio' );
 const { createBlock } = require( '@wordpress/blocks' );
+const { Logger } = require( '../../../utils' );
 
 module.exports = {
 	type: 'VectorImage',
 	parseComponent: async ( component, { metaData } ) => {
+		Logger( 'wix' ).log( 'VectorImage' );
 		const alt = component.dataQuery.alt;
 		const title = component.dataQuery.title;
 		const svgContentUrl =
