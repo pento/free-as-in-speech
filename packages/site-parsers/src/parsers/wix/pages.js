@@ -108,6 +108,10 @@ const parsePages = async ( data, metaData, masterPage, config ) => {
 			return componentMapper( component, meta );
 		};
 
+		if ( typeof page.config.structure === 'undefined' ) {
+			return;
+		}
+
 		const parsedComponents = await asyncComponentsParser(
 			page.config.structure.components,
 			recursiveComponentParser

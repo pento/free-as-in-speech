@@ -106,7 +106,7 @@ const addMediaAttachment = ( data, mediaUrl, component ) => {
 		link: component.src,
 		guid: component.src,
 		commentStatus: 'closed',
-		name: slug( component.name || component.uri ),
+		name: slug( component.name || component.uri || key ),
 		type: 'attachment',
 		attachment_url: component.src,
 		meta: [

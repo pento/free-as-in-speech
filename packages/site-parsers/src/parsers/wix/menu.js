@@ -23,7 +23,7 @@ const handleMenuItemsRecursively = ( menu, items, parent = 0 ) => {
 			postId: id,
 			title: item.title || '',
 			date: Date.now(),
-			name: item.title ? slug( item.title, { lower: true } ) : '',
+			name: item.title ? slug( item.title || id, { lower: true } ) : '',
 			type: 'nav_menu_item',
 			parent,
 			status: item.status || 'publish',
