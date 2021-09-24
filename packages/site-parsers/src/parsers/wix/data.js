@@ -34,7 +34,7 @@ const isDocumentRefValid = ( refStr ) => {
 
 const resolveQueries = ( input, data, masterPage ) => {
 	// skip resolving for non-objects
-	if ( typeof input !== 'object' ) {
+	if ( ! input || typeof input !== 'object' ) {
 		return input;
 	}
 
